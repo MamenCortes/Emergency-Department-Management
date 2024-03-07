@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+We intended to draft the E-R diagram of our database, and then generate a relational database table from it, along with creating the DDL for the relational database.
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We completed the relational database table and started to draft the E-R diagram. Also, we started writting the DDL for the relational database. 
+
+Reasons why
+-----------
+To know the entities relationships between them. 
+
+Next weeks we will do...
+========================
+We intend to finish the E-R diagram of our database, revise the Use Cases with our new understanding of the system and, if we have time, start drafting a mockup of the user interface. 
+
+Reasons why
+-----------
+To continue with the system design and apply the iterative process. 
