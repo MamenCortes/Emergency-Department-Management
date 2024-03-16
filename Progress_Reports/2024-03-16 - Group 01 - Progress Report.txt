@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+We intended to finish the E-R diagram of our database, to revise the Use Cases with our new understanding of the system,and to start drafting a mockup of the user interface. 
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We finished the E-R diagram and DDL of our database, and started drafting a mockup of the user interface.
+
+Reasons why
+-----------
+We wanted to see our system from a different point of view. After drafting the mockup we realized we had to add and change some Use Cases, as well as add some more atributes to our entities. 
+
+Next weeks we will do...
+========================
+We intend to revise the Use Cases with our new understanding of the system and continue with the mockup drawing. Also we should be able to start writing the DML queries for the UI's actions. 
+
+Reasons why
+-----------
+To continue with the system design and apply the iterative process. 
