@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+We intend to revise the Use Cases with our new understanding of the system and continue with the UI mockup drawing. Also we should be able to start writing the DML queries for the UI's actions. 
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We revised the Use Cases and the traceability matrix, and ended up with the UI mockup. 
+
+Reasons why
+-----------
+After drafting the mockup we realized we had to add and change some Use Cases, as well as add some more atributes to our entities. 
+
+Next weeks we will do...
+========================
+Start writing the DML queries for our UI's actions. 
+
+Reasons why
+-----------
+To continue with the system design. 
