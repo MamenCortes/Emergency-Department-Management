@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+Start writing the DML queries for our UI's actions. 
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We finished the DDLs and started with the DML queries. 
+
+Reasons why
+------------
+We decided to write the queries before starting to program. 
+
+Next weeks we will do...
+========================
+Continue writing the DML queries for our UI's actions. 
+
+Reasons why
+-----------
+To continue with the system design. 
