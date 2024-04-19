@@ -1,0 +1,24 @@
+This week we expected to be able to do...
+=========================================
+Continue writing the DML queries for our UI's actions. 
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We finished writing the DML queries. We also decided the proyect's structure and divided the programming workload.
+Also we started with the user interface.  
+
+Reasons why
+------------
+Once the queries are written, we decided to start programming. 
+
+Next weeks we will do...
+========================
+Finish programming the pojos and start with the JDBCManagers. Advance with the user interface. 
+
+Reasons why
+-----------
+To continue with the system development.  
