@@ -1,9 +1,11 @@
 package urgency.db.jdbc;
 
-import urgency.db.interfaces.Box;
+import urgency.db.pojos.*;
+
+import java.util.List;
+
 import urgency.db.interfaces.BoxManager;
-import urgency.db.interfaces.List;
-import urgency.db.interfaces.Patient;
+
 
 public class JDBCBoxManager implements BoxManager {
 
@@ -36,5 +38,6 @@ public class JDBCBoxManager implements BoxManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

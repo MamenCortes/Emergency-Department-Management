@@ -1,8 +1,10 @@
 package urgency.db.jdbc;
 
-import urgency.db.interfaces.List;
-import urgency.db.interfaces.Patient;
-import urgency.db.interfaces.Triage;
+
+import urgency.db.pojos.*;
+
+import java.util.List;
+
 import urgency.db.interfaces.TriageManager;
 
 public class JDBCTriageManager implements TriageManager {
@@ -36,5 +38,7 @@ public class JDBCTriageManager implements TriageManager {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 }

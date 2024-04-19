@@ -1,5 +1,9 @@
 package urgency.db.interfaces;
 
+import java.util.List;
+
+import urgency.db.pojos.*;
+
 public interface DoctorManager {
 	public void addDoctor(Doctor doctor);
 	public List<Doctor> searchDoctorsBySurname(String surname); 

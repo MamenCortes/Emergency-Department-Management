@@ -1,7 +1,10 @@
 package urgency.db.jdbc;
 
+import java.util.List;
+
 import urgency.db.*;
 import urgency.db.interfaces.PatientManager;
+import urgency.db.pojos.Patient;
 
 public class JDBCPatientManager implements PatientManager {
 
@@ -58,5 +61,7 @@ public class JDBCPatientManager implements PatientManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

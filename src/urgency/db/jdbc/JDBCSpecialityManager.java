@@ -1,7 +1,10 @@
 package urgency.db.jdbc;
 
+import java.util.List;
+
 import urgency.db.interfaces.*;
 import urgency.db.interfaces.SpecialityManager;
+import urgency.db.pojos.Speciality;
 
 public class JDBCSpecialityManager implements SpecialityManager {
 
@@ -34,5 +37,6 @@ public class JDBCSpecialityManager implements SpecialityManager {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
