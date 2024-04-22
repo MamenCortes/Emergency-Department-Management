@@ -9,7 +9,7 @@ public class Doctor implements Serializable{
 
 
 	private static final long serialVersionUID = 5306355128952164035L;
-	private Integer ID;
+	private Integer id;
 	private String name;
 	private String speciality_type;
 	private Boolean in_box;
@@ -21,8 +21,8 @@ public class Doctor implements Serializable{
 		super();
 	}
 
-	public Doctor(Integer ID, String name, String speciality_type, Boolean in_box) {
-		this.ID=ID;
+	public Doctor(Integer id, String name, String speciality_type, Boolean in_box) {
+		this.id=id;
 		this.name=name;
 		this.speciality_type=speciality_type;
 		this.in_box=in_box;
@@ -39,7 +39,7 @@ public class Doctor implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ID);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -51,15 +51,15 @@ public class Doctor implements Serializable{
 			return false;
 		}
 		Doctor other = (Doctor) obj;
-		return Objects.equals(ID, other.ID);
+		return Objects.equals(id, other.id);
 	}
 
-	public Integer getID() {
-		return ID;
+	public Integer getid() {
+		return id;
 	}
 
-	public void setID(Integer iD) {
-		ID = iD;
+	public void setid(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -104,7 +104,7 @@ public class Doctor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Doctor [ID=" + ID + ", name=" + name + ", speciality_type=" + speciality_type + ", in_box=" + in_box
+		return "Doctor [ID=" + id + ", name=" + name + ", speciality_type=" + speciality_type + ", in_box=" + in_box
 				+ ", patients=" + patients + ", boxes=" + boxes + "]";
 	}
 

@@ -64,6 +64,14 @@ public class ConnectionManager {
 		return docMan;
 	}
 
+	public PatientManager getPatientMan() {
+		return patientMan;
+	}
+
+	public void setPatientMan(PatientManager patientMan) {
+		this.patientMan = patientMan;
+	}
+
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager(); 
 		conMan.createConnection();
