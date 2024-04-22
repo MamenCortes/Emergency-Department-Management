@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Triage implements Serializable {
 
-	private static final long serialVersionUID = -8137774737702387628L;
+	private static final long serialVersionUID = 4337661194552554031L;
 	private Integer id;
 	private boolean available;
 	
