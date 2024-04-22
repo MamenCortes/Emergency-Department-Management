@@ -11,41 +11,64 @@ import urgency.db.interfaces.DoctorManager;
 
 public class JDBCDoctorManager implements DoctorManager {
 	
-	private Connection c;
+	private Connection connection;
 	private ConnectionManager conMan;
 	
 	public JDBCDoctorManager(ConnectionManager conMan) {
 		this.conMan = conMan;
-		this.c = conMan.getConnection();
+		this.connection = conMan.getConnection();
 	}
 
 	@Override
 	public void assignBox(int Doctor_id, int Box_id) {
 		// TODO Auto-generated method stub
+		//insertar en la tabla box-doctor
         
 	}
 
 	@Override
 	public void deleteDoctor(int id) {
 		// TODO Auto-generated method stub
-		String template = "DELETE Doctor WHERE id = ? ";
+		Doctor d = conMan.getDocMan().getDoctor(id);
+		try {
+		String template = "DELETE FROM doctors WHERE id = ? ";
+		PreparedStatement pstmt;
+		pstmt = connection.prepareStatement(template);
+		pstmt.setInt(1, d.getid());
+		pstmt.executeUpdate();
+		pstmt.close();
+	} catch (SQLException e) {
+		System.out.println("Error in the database");
+		e.printStackTrace();
+	}
 
 	}
 
 	@Override
 	public void changeStatus(boolean in_box) {
 		// TODO Auto-generated method stub
+		try{
 		String template = "UPDATE doctors SET InBox = ? WHERE id = ? AND name = ?";
+		PreparedStatement pstmt;
+		pstmt = connection.prepareStatement(template);
+		pstmt.setString(1, b.getName());
+		pstmt.setString(2, b.getSurname());
+		pstmt.executeUpdate();
+		pstmt.close();
+	} catch (SQLException e) {
+		System.out.println("Error in the database");
+		e.printStackTrace();
+	}
 
 	}
 
 	@Override
 	public void addDoctor(Doctor doctor) {
-		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??
+		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
 		try {
 			String template = "INSERT INTO doctors (name) VALUES (?)";
 			PreparedStatement pstmt;
-			pstmt = c.prepareStatement(template);
+			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, doctor.getName());
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -62,17 +85,13 @@ public class JDBCDoctorManager implements DoctorManager {
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
 			String sql = "SELECT * FROM doctors WHERE surname LIKE ?";
-			PreparedStatement search = c.prepareStatement(sql);
+			PreparedStatement search = connection.prepareStatement(sql);
 			search.setString(1, "%" + surname + "%");
 			ResultSet rs = search.executeQuery();
 			while(rs.next()) {
 				Integer id = rs.getInt("ID");
-				String name = rs.getString("name");
-				String speciality = rs.getString("speciality_type");
-				Boolean in_box = rs.getBoolean("In_Box");
-				Doctor d = conMan.getDocMan().getDoctor(id);
-				Doctor newDoctor = new Doctor(id, name, speciality, in_box);
-				doctors.add(newDoctor);
+				Doctor d = getDoctor(id);
+				doctors.add(d);
 			}
 			return doctors;
 		} catch (SQLException e) {
@@ -88,7 +107,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		try {
 			String sql = "SELECT * FROM doctors WHERE ID = " + id;
 			Statement st;
-			st=c.createStatement();
+			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("speciality"), 
@@ -103,18 +122,18 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void updateDoctor(Doctor doctor) {
-		// TODO Auto-generated method stub, WHAT WE UPDATE HERE??
+		// TODO Auto-generated method stub, WHAT WE UPDATE HERE??, coge el id, busca el doctor con el mismo id
 		
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String name, String speciality_type) {
+	public List<Doctor> getDoctorsBySpeciality(String name, String speciality_type) { //no necesario el nombre
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
 			String sql = "SELECT * FROM doctors WHERE name LIKE ? AND speciality LIKE ?";
 			PreparedStatement p;
-			p = c.prepareStatement(sql);
+			p = connection.prepareStatement(sql);
 			p.setString(1, "%" + name + "%");
 			p.setString(2, "%" + speciality_type + "%");
 			ResultSet rs = p.executeQuery();
