@@ -50,7 +50,7 @@ public class Triage implements Serializable {
 		this.id = id;
 	}
 
-	public boolean isAvailable() {
+	public boolean getAvailable() {
 		return available;
 	}
 

@@ -9,5 +9,6 @@ public interface TriageManager {
 	public void deleteTriage(int id); 
 	public List<Triage> getTriages();
 	public Patient getPatientInTriage(int Triage_id); 
-	public Triage getTriage(int id); 
+	public Triage getTriage(int id);
+	public void changeAvailability (boolean available); //pensar
 }
