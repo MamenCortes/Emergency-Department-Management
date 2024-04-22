@@ -2,17 +2,20 @@ package urgency.db.jdbc;
 
 import urgency.db.pojos.*;
 
+import java.sql.*;
 import java.util.List;
 
 import urgency.db.interfaces.DoctorManager;
 
 
 public class JDBCDoctorManager implements DoctorManager {
+	
+	private Connection c;
 
 	@Override
 	public void assignBox(int Doctor_id, int Box_id) {
 		// TODO Auto-generated method stub
-
+        
 	}
 
 	@Override
@@ -42,7 +45,17 @@ public class JDBCDoctorManager implements DoctorManager {
 	@Override
 	public Doctor getDoctor(int id) {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+			String sql = "SELECT * FROM doctors WHERE ID = " + id;
+			Statement st;
+			st=c.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			
+			
+		}catch(SQLException e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
