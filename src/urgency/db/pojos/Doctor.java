@@ -32,7 +32,7 @@ public class Doctor implements Serializable{
 	
 	public Doctor(Integer iD, String name, String speciality_type) {
 		super();
-		ID = iD;
+		this.id = iD;
 		this.name = name;
 		this.speciality_type = speciality_type;
 	}
