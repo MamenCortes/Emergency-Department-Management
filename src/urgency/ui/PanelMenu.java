@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 public class PanelMenu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private List<JButton> buttons; 
+	private ArrayList<JButton> buttons; 
 	private Integer numButtons; 
 	private String stringRows = "[][]"; 
 	private Integer numRows = 2; 
@@ -32,7 +32,21 @@ public class PanelMenu extends JPanel {
 		initComponents(); 
 		
 	}
+	public PanelMenu() {
+		this.buttons = new ArrayList<JButton>(); 
+		this.numButtons = buttons.size(); 
+		
+	}
 	
+	public ArrayList<JButton> getButtons() {
+		return buttons;
+	}
+	public void setButtons(ArrayList<JButton> buttons) {
+		this.buttons = buttons;
+		setLayout(); 
+		System.out.println(this.buttons);
+		initComponents(); 
+	}
 	private void setLayout() {
 		
 		

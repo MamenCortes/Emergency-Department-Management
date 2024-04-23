@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 public class UserLogIn extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	private PanelCover panelCover; 
+	private PanelCoverLogIn panelCoverLogIn; 
 	private PanelLoginAndRegister panelLogIn; 
 	private final double addSize = 30;
 	private final double coverSize = 30;
@@ -31,20 +31,20 @@ public class UserLogIn extends JPanel implements ActionListener{
 	}
 	
 	private void init() {
-		panelCover = new PanelCover(); 
+		panelCoverLogIn = new PanelCoverLogIn(); 
 		panelLogIn = new PanelLoginAndRegister(); 
 		//Dimensiones del panel.
 		
-		this.add(panelCover, "grow"); 
+		this.add(panelCoverLogIn, "grow"); 
 		this.add(panelLogIn, "grow"); 
 		
 		panelLogIn.setActionListener(this);
-		panelLogIn.setPanelCover(panelCover);
-		panelCover.setActionListener(this);
-		panelCover.setLogInRegister(panelLogIn);
+		panelLogIn.setPanelCover(panelCoverLogIn);
+		panelCoverLogIn.setActionListener(this);
+		panelCoverLogIn.setLogInRegister(panelLogIn);
 		
 		
-		buttons.addAll(panelCover.getButtons());
+		buttons.addAll(panelCoverLogIn.getButtons());
 		buttons.addAll(panelLogIn.getButtons());
 		//System.out.println(buttons);
 	}

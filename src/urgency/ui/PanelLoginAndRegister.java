@@ -29,7 +29,7 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
     private JButton signUpButton; 
     private JButton signInButton; 
     private ActionListener actionListener; 
-    private PanelCover panelCover; 
+    private PanelCoverLogIn panelCoverLogIn; 
 
 
 	public PanelLoginAndRegister() {
@@ -46,8 +46,8 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
 		//setRegisterVisible(true); 
 
 	}
-	public void setPanelCover(PanelCover cover) {
-		this.panelCover = cover; 
+	public void setPanelCover(PanelCoverLogIn cover) {
+		this.panelCoverLogIn = cover; 
 	}
 
 	public void setLoginVisible(Boolean bool) {

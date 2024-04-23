@@ -10,7 +10,8 @@ public class Application extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private UserLogIn logInPanel;
-	private Menu menuPanel;
+	private RecepcionistMenu recepcionistMenu; 
+	private ManagerMenu managerMenu; 
 
 
 	/**
@@ -21,10 +22,10 @@ public class Application extends JFrame {
 		setBounds(100, 100, 602, 436);
 		logInPanel = new UserLogIn(); 
 		logInPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		menuPanel = new Menu(); 
-		
+		recepcionistMenu = new RecepcionistMenu(); 
+		managerMenu = new ManagerMenu(); 
 
-		setContentPane(menuPanel);
+		setContentPane(managerMenu);
 	}
 
 }

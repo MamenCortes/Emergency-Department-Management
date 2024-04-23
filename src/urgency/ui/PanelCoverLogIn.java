@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PanelCover extends JPanel{
+public class PanelCoverLogIn extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,17 +31,16 @@ public class PanelCover extends JPanel{
     private JLabel description;
     private JLabel description1;
     private JButton button;
+    JLabel picLabel; 
     private ActionListener actionListener;
     private PanelLoginAndRegister logInRegister; 
 
 	
-	public PanelCover() {
+	public PanelCoverLogIn() {
         setOpaque(false);
-        //layout = new MigLayout("wrap, fill", "[center]", "push[]25[]10[]25[]push");
         layout = new MigLayout("wrap, fill", "[center]", "push[]10[]10[]push"); 
         setLayout(layout);
         init();
-        //button.addActionListener(this); 
 
 	}
 
@@ -72,12 +71,9 @@ public class PanelCover extends JPanel{
 	
 	
 	private void init() {	
-		
-        
-        //TODO Upload an Image
-        ImageIcon image = new ImageIcon("/urgency/ui/icon/pass.png"); 
-        JLabel picLabel = new JLabel(); 
-        picLabel.setIcon(new ImageIcon("C:\\Users\\mamen\\Downloads\\wardiere_3.png"));
+
+        picLabel = new JLabel(); 
+        picLabel.setIcon(new ImageIcon(PanelCoverLogIn.class.getResource("/urgency/ui/icon/wardiere_3.png")));
         add(picLabel); 
         
         title = new JLabel("Welcome Back!");
