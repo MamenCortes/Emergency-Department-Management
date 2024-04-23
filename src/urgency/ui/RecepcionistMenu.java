@@ -1,8 +1,10 @@
 package urgency.ui;
 
-import java.util.ArrayList;
 
 import javax.swing.JButton;
+
+import urgency.ui.components.Menu;
+import urgency.ui.components.MyButton;
 
 public class RecepcionistMenu extends Menu {
 
@@ -19,9 +21,9 @@ public class RecepcionistMenu extends Menu {
 	}
 	
 	private void addButtons() {
-		addPatientButton = new JButton("Add Patient"); 
-		searchPatientButton = new JButton("Search Patient"); 
-		logOutButton = new JButton("Log Out");
+		addPatientButton = new MyButton("Add Patient"); 
+		searchPatientButton = new MyButton("Search Patient"); 
+		logOutButton = new MyButton("Log Out");
 		
 		buttons.add(addPatientButton); 
 		buttons.add(searchPatientButton);

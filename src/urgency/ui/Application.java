@@ -25,7 +25,7 @@ public class Application extends JFrame {
 		recepcionistMenu = new RecepcionistMenu(); 
 		managerMenu = new ManagerMenu(); 
 
-		setContentPane(managerMenu);
+		setContentPane(recepcionistMenu);
 	}
 
 }

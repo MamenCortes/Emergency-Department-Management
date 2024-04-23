@@ -1,7 +1,8 @@
-package urgency.ui;
+package urgency.ui.components;
 
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -89,6 +90,7 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         signUpButton.setBackground(new Color(7, 164, 121));
         signUpButton.setForeground(new Color(250, 250, 250));
         signUpButton.setText("SIGN UP");
+        signUpButton.setUI(new StyledButtonUI());
 		signUpButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -121,12 +123,13 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         cmdForget.setForeground(new Color(100, 100, 100));
         cmdForget.setFont(new Font("sansserif", 1, 12));
         cmdForget.setContentAreaFilled(false);
-        //cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         login.add(cmdForget);
         signInButton = new JButton();
         signInButton.setBackground(new Color(7, 164, 121));
         signInButton.setForeground(new Color(250, 250, 250));
         signInButton.setText("SIGN IN");
+        signInButton.setUI(new StyledButtonUI());
         signInButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -139,7 +142,7 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         login.add(signInButton, "w 40%, h 40");
     }
     
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 

@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.ui.components.PanelCoverLogIn;
+import urgency.ui.components.PanelLoginAndRegister;
 
 public class UserLogIn extends JPanel implements ActionListener{
 

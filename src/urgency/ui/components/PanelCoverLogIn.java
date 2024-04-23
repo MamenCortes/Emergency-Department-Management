@@ -1,4 +1,4 @@
-package urgency.ui;
+package urgency.ui.components;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -93,6 +93,7 @@ public class PanelCoverLogIn extends JPanel{
         button.setBackground(new Color(255, 255, 255));
         button.setForeground(new Color(35, 166, 97));
         button.setText("SIGN IN");
+        button.setUI(new StyledButtonUI());
         button.addActionListener(new ActionListener() {
 
 			@Override

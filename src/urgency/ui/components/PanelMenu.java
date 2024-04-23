@@ -1,4 +1,4 @@
-package urgency.ui;
+package urgency.ui.components;
 
 import javax.swing.JPanel;
 
@@ -20,10 +20,6 @@ public class PanelMenu extends JPanel {
 	private String stringColumns = "[][][]"; 
 	private Integer numColumns = 3; 
 
-	/**
-	 * Create the panel.
-	 * Queda mal si son 5 botones
-	 */
 	public PanelMenu(ArrayList<JButton> buttons) {
 		//this.buttons = buttons; 
 		this.numButtons = buttons.size(); 
@@ -86,7 +82,7 @@ public class PanelMenu extends JPanel {
 				numColumns++; 
 			}
 		}
-		this.setLayout(new MigLayout("fill, inset 0, debug, gap 0, wrap", stringColumns, stringRows));
+		this.setLayout(new MigLayout("fill, inset 0, gap 5, wrap", stringColumns, stringRows));
 
 	}
 	
