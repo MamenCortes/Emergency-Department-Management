@@ -12,6 +12,7 @@ public class Application extends JFrame {
 	private UserLogIn logInPanel;
 	private RecepcionistMenu recepcionistMenu; 
 	private ManagerMenu managerMenu; 
+	private AddPatient addPatient; 
 
 
 	/**
@@ -24,8 +25,9 @@ public class Application extends JFrame {
 		logInPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		recepcionistMenu = new RecepcionistMenu(); 
 		managerMenu = new ManagerMenu(); 
+		addPatient = new AddPatient(); 
 
-		setContentPane(recepcionistMenu);
+		setContentPane(addPatient);
 	}
 
 }
