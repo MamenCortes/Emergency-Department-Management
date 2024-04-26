@@ -1,6 +1,8 @@
 package urgency.db.pojos;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +22,7 @@ public class Patient implements Serializable{
 	private String status; 
 	private Integer urgency; 
 	private String sex; 
-	private Integer age; 
+	private Date birthDate; 
 	
 	private List<Speciality> specialities; 
 	private List<Box> boxes; 
@@ -35,7 +37,7 @@ public class Patient implements Serializable{
 	
 	
 	public Patient(Integer id, String name, String surname, float weight, float height, String status, Integer urgency,
-			String sex, Integer age) {
+			String sex, Date birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,19 +47,28 @@ public class Patient implements Serializable{
 		this.status = status;
 		this.urgency = urgency;
 		this.sex = sex;
-		this.age = age;
+		Date date = birthDate;
+		this.birthDate = date;
 	}
 
 
-
-	public Patient(String name, String surname, String status, Integer urgency, String sex, Integer age) {
+	/**
+	 * @param name = name of the patient
+	 * @param surname = surname of the patient
+	 * @param status = Accepted values: waiting, assisted, emergency room, discharged or hospitalized
+	 * @param urgency = a number from 1-5 indicating the urgency based on patient's physical state
+	 * @param sex = sex of the patient. Accepted values:  Man or Woman
+	 * @param birthDate = the Birth Date of the patient, type LocalDate: YYYY-MM-DD
+	 */
+	public Patient(String name, String surname, String status, Integer urgency, String sex, LocalDate birthDate) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.status = status;
 		this.urgency = urgency;
 		this.sex = sex;
-		this.age = age;
+		Date date = Date.valueOf(birthDate);
+		this.birthDate = date;
 		
 		this.specialities = new ArrayList<Speciality>(); 
 		this.boxes = new ArrayList<Box>(); 
@@ -88,7 +99,7 @@ public class Patient implements Serializable{
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", surname=" + surname + ", weight=" + weight + ", height="
-				+ height + ", status=" + status + ", urgency=" + urgency + ", sex=" + sex + ", age=" + age
+				+ height + ", status=" + status + ", urgency=" + urgency + ", sex=" + sex + ", birthDate=" + birthDate
 				+ ", specialities=" + specialities + ", boxes=" + boxes + ", triages=" + triages + "]";
 	}
 
@@ -142,11 +153,11 @@ public class Patient implements Serializable{
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public Integer getAge() {
-		return age;
+	public Date getBirthDate() {
+		return birthDate;
 	}
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setAge(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 	public List<Speciality> getSpecialities() {
 		return specialities;

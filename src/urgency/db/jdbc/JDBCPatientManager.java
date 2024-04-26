@@ -1,10 +1,12 @@
 package urgency.db.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +59,17 @@ public class JDBCPatientManager implements PatientManager {
 	public void addPatient(Patient patient) {
 		// TODO Auto-generated method stub
 		try {
-			String template = "INSERT INTO patients (name) VALUES (?)";
+			String template = "INSERT INTO patients (name, surname, weight, height, status, urgency, sex, birthdate) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, patient.getName());
+			pstmt.setString(2, patient.getSurname());
+			pstmt.setFloat(3, patient.getWeight());
+			pstmt.setFloat(4, patient.getHeight());
+			pstmt.setString(5, patient.getStatus());
+			pstmt.setInt(6, patient.getUrgency());
+			pstmt.setString(7, patient.getSex());
+			pstmt.setDate(8, patient.getBirthDate());
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -88,9 +97,9 @@ public class JDBCPatientManager implements PatientManager {
 				String status = rs.getString("status");
 				Integer urgency = rs.getInt("urgency");
 				String sex = rs.getString("sex");
-				Integer age = rs.getInt("age");
-				Patient p = conMan.getPatientMan().getPatient(id);
-				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, age);
+				Date birthDate = rs.getDate("birthdate");
+				//Patient p = conMan.getPatientMan().getPatient(id);
+				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
 				patients.add(newPatient);
 			}
 			return patients;
@@ -110,8 +119,9 @@ public class JDBCPatientManager implements PatientManager {
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
+			
 			Patient p = new Patient(rs.getInt("id"), rs.getString("name"), rs.getString("surname"), rs.getFloat("weight"),  
-					    rs.getFloat("height"), rs.getString("status"), rs.getInt("urgency"), rs.getString("sex"), rs.getInt("age"));
+					    rs.getFloat("height"), rs.getString("status"), rs.getInt("urgency"), rs.getString("sex"), rs.getDate("birthdate"));
 			return p;
 		}catch(SQLException e) {
 			System.out.println("Error");
@@ -127,5 +137,33 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 
+	public static void main(String[] args) {
+		ConnectionManager conMan = new ConnectionManager(); 
+		JDBCPatientManager patMan = new JDBCPatientManager(conMan); 
+		LocalDate birthDate = LocalDate.EPOCH; 
+		
+		/*Patient patient1 = new Patient("Rodrigo", "Gamarra", "waiting", 1, "Man", birthDate); 
+		System.out.println(patient1);
+		patMan.addPatient(patient1);*/
+		
+		/*Patient patient1 = patMan.getPatient(1);
+		System.out.println(patient1);*/
+		
+		/*Patient patient2 = new Patient("Paula", "Blanco", "assisted", 1, "Woman", birthDate); 
+		patMan.addPatient(patient2);
+		Patient patient3 = new Patient("Menganito", "Robledo", "emergency room", 2, "Man", birthDate); 
+		patMan.addPatient(patient3);
+		Patient patient4 = new Patient("Pepe", "de los parques", "waiting", 3, "Man", birthDate); 
+		patMan.addPatient(patient4);*/
+		
+		/*
+		Patient patient2 = new Patient("Luis", "Blanco", "waiting", 1, "Man", birthDate); 
+		patMan.addPatient(patient2);
+		
+		List<Patient> patients = patMan.searchPatientsBySurname("Blanco"); 
+		System.out.println(patients);*/
+		
+		conMan.closeConnection();
+	}
 
 }

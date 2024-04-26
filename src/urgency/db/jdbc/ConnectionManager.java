@@ -22,7 +22,7 @@ public class ConnectionManager {
 	}
 	
 	public ConnectionManager() {
-		this.connect();
+		this.createConnection();
 		this.docMan = new JDBCDoctorManager(this);
 		/*this.patientMan = new JDBCPatientManager(this); 
 		this.boxManager = new JDBCBoxManager(this); 
@@ -30,10 +30,6 @@ public class ConnectionManager {
 		this.specialityManager = new JDBCSpecialityManager(this); */
 	}
 
-	private void connect() {
-		// TODO Auto-generated method stub
-		
-	}
 	//Creates a connection with the database
 	private void createConnection() {
 		//TODO if the tables are already created, skip this step. 
@@ -73,31 +69,26 @@ public class ConnectionManager {
 		this.patientMan = patientMan;
 	}
 
-	public static void main(String[] args) {
-		ConnectionManager conMan = new ConnectionManager(); 
-		conMan.createConnection();
-		conMan.closeConnection();
-	}
 	
 	private void createTables() {
 		try {
 			// Create the tables
 			Statement createTables1 = connection.createStatement();
-			String createPatients = "CREATE TABLE Patients ( "
+			String createPatients = "CREATE TABLE IF NOT EXISTS Patients ( "
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
-					+ " surname TEXT NOT NULL"
+					+ " surname TEXT NOT NULL,"
 					+ " birthdate DATE NOT NULL,"
-					+ " sex TEXT NOT NULL,"
-					+ " weight INTEGER"
-					+ " height INTEGER"
+					+ " sex TEXT NOT NULL CHECK (sex = 'Man' OR sex ='Woman'),"
+					+ " weight INTEGER,"
+					+ " height INTEGER,"
 					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'assisted' OR status = 'emergency room' OR status = 'discharged' OR status = 'hospitalized'),"
-					+ " urgency INTEGER CHECK (urgency = 1 OR ugency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
+					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);
 			createTables1.close();
 			
 			Statement createTables2 = connection.createStatement();
-			String createDoctors = "CREATE TABLE Doctors ( "
+			String createDoctors = "CREATE TABLE IF NOT EXISTS Doctors ( "
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
@@ -107,20 +98,20 @@ public class ConnectionManager {
 			createTables2.close();
 			
 			Statement createTables3 = connection.createStatement();
-			String createSpecialities = "CREATE TABLE Specialities ( "
+			String createSpecialities = "CREATE TABLE IF NOT EXISTS Specialities ( "
 					+ " type TEXT PRIMARY KEY)";
 			createTables3.executeUpdate(createSpecialities);
 			createTables3.close();
 			
 			Statement createTables4 = connection.createStatement();
-			String createTriages = "CREATE TABLE Triages ("
+			String createTriages = "CREATE TABLE IF NOT EXISTS Triages ("
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " available Boolean NOT NULL)";
 			createTables4.executeUpdate(createTriages);
 			createTables4.close();
 	
 			Statement createTables5 = connection.createStatement();
-			String createBoxes = "CREATE TABLE Boxes ("
+			String createBoxes = "CREATE TABLE IF NOT EXISTS Boxes ("
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " available Boolean NOT NULL,"
 					+ " speciality_type TEXT)";
@@ -128,7 +119,7 @@ public class ConnectionManager {
 			createTables5.close();
 			
 			Statement createTables6 = connection.createStatement();
-			String createPatientSpeciality = "CREATE TABLE PatientSpeciality ( "
+			String createPatientSpeciality = "CREATE TABLE IF NOT EXISTS PatientSpeciality ( "
 					+ " patient_id INTEGER REFERENCES Patients(id),"
 					+ " speciality_type TEXT REFERENCES Specialities(type),"
 					+ " date DATETIME NOT NULL,"
@@ -137,7 +128,7 @@ public class ConnectionManager {
 			createTables6.close();
 			
 			Statement createTables7 = connection.createStatement();
-			String createPatientTriage = "CREATE TABLE PatientTriage ( "
+			String createPatientTriage = "CREATE TABLE IF NOT EXISTS PatientTriage ( "
 					+ " patient_id INTEGER REFERENCES Patients(id),"
 					+ " triage_id INTEGER REFERENCES Triages(id),"
 					+ " date DATETIME NOT NULL,"
@@ -146,7 +137,7 @@ public class ConnectionManager {
 			createTables7.close();
 			
 			Statement createTables8 = connection.createStatement();
-			String createPatientBox = "CREATE TABLE PatientBox ( "
+			String createPatientBox = "CREATE TABLE IF NOT EXISTS PatientBox ( "
 					+ " patient_id INTEGER REFERENCES Patients(id),"
 					+ " box_id INTEGER REFERENCES Boxes(id),"
 					+ " date DATETIME NOT NULL,"
@@ -157,7 +148,7 @@ public class ConnectionManager {
 			
 			
 			Statement createTables9 = connection.createStatement();
-			String createBoxDoctor = "CREATE TABLE BoxDoctor ( "
+			String createBoxDoctor = "CREATE TABLE IF NOT EXISTS BoxDoctor ( "
 					+ " box_id INTEGER REFERENCES Boxes(id),"
 					+ " doctor_id INTEGER REFERENCES Doctors(id),"
 					+ " date DATETIME NOT NULL,"
@@ -172,7 +163,16 @@ public class ConnectionManager {
 			else {
 				System.out.println("Error in query");
 				sqlE.printStackTrace();
+				System.out.println(sqlE.getMessage());
 			}
 		}
 	}
+	
+	public static void main(String[] args) {
+		ConnectionManager conMan = new ConnectionManager(); 
+		conMan.createConnection();
+		conMan.createTables();
+		conMan.closeConnection();
+	}
+	
 }

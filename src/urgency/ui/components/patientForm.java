@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JComponent;
@@ -38,21 +39,17 @@ public class patientForm extends JPanel {
 	
 	private JTextField name; 
 	private JTextField surname; 
-	private JTextField age; //TODO should we add a birthDate instead of date?
 	private JTextField weight; 
 	private JTextField height; 
-	private JComboBox<String> speciality; 
+	//private JComboBox<String> speciality; 
+	private MyComboBox speciality; 
 	private JComboBox<String> sex; 
 	private JDateChooser dateChooser; 
+	private JComboBox<String> emergency; 
 
 	public patientForm() {
 		textFields = new ArrayList<JTextField>(); 
-		this.setBackground(Color.white);
-		this.setLayout(new MigLayout("fill, inset 10, gap 5, wrap 2", "[][]", "[][][][][][][]push"));
-		
-	    JScrollPane scrollPane1 = new JScrollPane();
-	    scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	    scrollPane1.setViewportView(this);
+		initPanel(); 
 	    
 	    JLabel title1 = new JLabel("General Info"); 
 	    title1.setFont(titleFont);
@@ -70,26 +67,25 @@ public class patientForm extends JPanel {
 	    surnameText.setForeground(contentColor);
 	    add(surnameText, "grow");
 	    
-	    name = new MyTextField(); 
-	    name.setText("Name*");
+	    name = new MyTextField("Name*");
 	    add(name, "grow");
 	    
-	    surname = new MyTextField();
-	    surname.setText("Surname*");
+	    surname = new MyTextField("Surname*");
 	    add(surname, "grow");
 	    
 	    //Sex and dateOfBirth
-	    JLabel sexText = new JLabel("Sex");
+	    JLabel sexText = new JLabel("Sex*");
 	    sexText.setFont(contentFont);
 	    sexText.setForeground(contentColor);
 	    add(sexText, "grow");
 	    
-	    JLabel spec = new JLabel("Date of Birth");
+	    JLabel spec = new JLabel("Date of Birth*");
 	    spec.setFont(contentFont);
 	    spec.setForeground(contentColor);
 	    add(spec, "grow");
 	    
-	    sex =new MyComboBox();
+	    sex =new MyComboBox<String>();
+	    sex.addItem("...");
         sex.addItem("Man");
         sex.addItem("Woman");
         add(sex, "grow");
@@ -115,123 +111,40 @@ public class patientForm extends JPanel {
         }
 
         add(dateChooser, "grow"); 
+        
+        JLabel emergencyText = new JLabel("Emergency*");
+	    emergencyText.setFont(contentFont);
+	    emergencyText.setForeground(contentColor);
+	    add(emergencyText, "grow");
+        
+	    emergency =new MyComboBox<String>();
+	    emergency.addItem("...");
+        emergency.addItem("Low");
+        emergency.addItem("High");
+        add(emergency, "grow, skip 1, span");
 
-        
-        
-        
+	}
+	
+	public patientForm(JTextField name, JTextField surname, JDateChooser dateChooser, JComboBox<String> sex, JComboBox<Integer> emergency) {
         //Speciality
-	    speciality =new JComboBox<String>();
+        speciality = new MyComboBox(); 
 	    speciality.setToolTipText("hello");
         speciality.addItem("Traumatología");
         speciality.addItem("Medicina general");
         add(speciality, "grow");
 	    
-		
-	    /*//Genera un panel con la información de cada ratón y los añade a un contendor
-	    while (iterator.hasNext()) {
-	        gridPanel.add(ratonCell(iterator.next()));
-	    }
-
-	    //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
-	    scrollPane1.setPreferredSize(this.getPreferredSize());*/
-
 	}
 	
-	  /**
-     * Genera un JOptionPanel que permite al usuario introducir los
-     * valores necesarios para crear un ratón.
-     * @return el ratón creado
-     * @throws IllegalArgument si el formato de la fecha no es correcto (IllegalDate),
-     *          si alguno de los valores de entrada no es del tipo correcto y no se consigue convertir (IllegalFormat),
-     *          si el peso o la temperatura no son válidos (IllegalPeso e IllegalTemperatura)
-     * @throws GUIExceptions si se cancela la operación (CanceledOperation) o si no se rellenan todos los campos de texto (EmptyTextField)
-     */
-    /*public Raton createRaton() throws IllegalArgument, GUIExceptions {
-        //Array para almacenar los textFields
-        ArrayList<JTextField> textFields = new ArrayList<>();
-        String[] parametros = {"Codigo de referencia", "Nacimiento (YYYY-MM-DD)", "Peso", "Temperatura", "Información Adicional"};
-
-        //Se inicializa el panel donde se dispondrán los componentes
-        JPanel gridPanel = new JPanel(new GridLayout(9, 2));
-
-        //Crear los label, textfields de los parametros y añadirlos al panel
-        for (String param:parametros) {
-            JLabel text = new JLabel(param);
-            text.setVerticalAlignment(JLabel.CENTER);
-            text.setHorizontalAlignment(JLabel.CENTER);
-            JTextField textInput = new JTextField();
-            gridPanel.add(text);
-            gridPanel.add(textInput);
-            textFields.add(textInput);
-        }
-
-
-        //Crear ComboBoxes para limitar la selección de algunos atributos
-        //Sex ComboBox
-        JLabel sexText = new JLabel("Sexo");
-        sexText.setVerticalAlignment(JLabel.CENTER);
-        sexText.setHorizontalAlignment(JLabel.CENTER);
-        JComboBox<String> sex =new JComboBox<String>();
-        sex.addItem("HEMBRA");
-        sex.addItem("MACHO");
-        gridPanel.add(sexText);
-        gridPanel.add(sex);
-
-        //Cromosoma 1
-        JLabel cr1Text = new JLabel("Cromosoma 1");
-        cr1Text.setVerticalAlignment(JLabel.CENTER);
-        cr1Text.setHorizontalAlignment(JLabel.CENTER);
-        JComboBox<String> cr1 =new JComboBox<String>();
-        cr1.addItem("Sin Mutación");
-        cr1.addItem("Mutado");
-        gridPanel.add(cr1Text);
-        gridPanel.add(cr1);
-
-        //Cromosoma 2
-        JLabel cr2Text = new JLabel("Cromosoma 2");
-        cr2Text.setVerticalAlignment(JLabel.CENTER);
-        cr2Text.setHorizontalAlignment(JLabel.CENTER);
-        JComboBox<String> cr2 =new JComboBox<String>();
-        cr2.addItem("Sin Mutación");
-        cr2.addItem("Mutado");
-        gridPanel.add(cr2Text);
-        gridPanel.add(cr2);
-
-        //Se crea el cuadro de diálogo con el panel
-        int opcionResultado = JOptionPane.showConfirmDialog(null, gridPanel, "Crear nuevo ratón", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        if(opcionResultado == JOptionPane.OK_OPTION){
-            try{
-                int codigoRef = Integer.parseInt(textFields.get(0).getText());
-                LocalDate nacimiento = parseNacimiento(textFields.get(1).getText());
-                Sexo sexo = Sexo.valueOf((String) sex.getSelectedItem());
-                Boolean c1mut = null;
-                Boolean c2mut = null;
-                String cr1String = (String) cr1.getSelectedItem();
-                if(cr1String.equals("Mutado")){
-                    c1mut = true;
-                } else if (cr1String.equals("Sin Mutación")) {
-                    c1mut = false;
-                }
-                String cr2String = (String) cr2.getSelectedItem();
-                if(cr2String.equals("Mutado")){
-                    c2mut = true;
-                } else if (cr1String.equals("Sin Mutación")) {
-                    c2mut = false;
-                }
-
-                float peso = Float.parseFloat(textFields.get(2).getText());
-                float temp = Float.parseFloat(textFields.get(3).getText());
-                String campoTexto = textFields.get(4).getText();
-                return new Raton(codigoRef, nacimiento, peso, temp, sexo, Boolean.TRUE.equals(c1mut), Boolean.TRUE.equals(c2mut), campoTexto);
-            }catch (NullPointerException npex){
-                throw new GUIExceptions(GUIError.EmptyTextField,"Todos los campos deben rellenarse para poder crear una población");
-            }catch (NumberFormatException numFex){
-                throw new IllegalArgument("Alguno de los valores introducidos don del tipo correcto", ErrorType.IllegalFormat);
-            }
-
-        }else{
-            throw new GUIExceptions(GUIError.CanceledOperation, "Operación Cancelada");
-        }
-    }*/
-	
+	public void initPanel() {
+		this.setBackground(Color.white);
+		this.setLayout(new MigLayout("fill, inset 10, gap 5, wrap 2", "[][]", "[][][][][][][]push"));
+		
+	    JScrollPane scrollPane1 = new JScrollPane();
+	    scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    scrollPane1.setViewportView(this);
+	    JScrollBar sb = new JScrollBar();
+        sb.setUnitIncrement(30);
+        sb.setForeground(new Color(180, 180, 180));
+        scrollPane1.setVerticalScrollBar(sb);
+	}
 }

@@ -86,11 +86,9 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/pass.png")));
         txtPass.setHint("Password");
         register.add(txtPass, "w 60%");
-        signUpButton = new JButton();
+        signUpButton = new MyButton("SIGN UP");
         signUpButton.setBackground(new Color(7, 164, 121));
         signUpButton.setForeground(new Color(250, 250, 250));
-        signUpButton.setText("SIGN UP");
-        signUpButton.setUI(new StyledButtonUI());
 		signUpButton.addActionListener(new ActionListener() {
 
 			@Override
