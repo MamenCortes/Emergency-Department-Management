@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+Finish programming the pojos and start with the JDBCManagers. Advance with the user interface. 
+
+Reasons why
+-----------
+To continue with the database design. 
+ 
+This week we did...
+===================
+We continued with the user interface, continued programming the JDBC Managers and programmed the Pojos. 
+
+Reasons why
+------------
+Continue with the system development. 
+
+Next weeks we will do...
+========================
+Continue programming the JDBC Managers and interface. Maybe start using JPA.
+
+Reasons why
+-----------
+To continue with the system development.  
