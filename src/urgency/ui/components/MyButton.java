@@ -44,6 +44,14 @@ public class MyButton extends JButton {
 		this.setUI(new StyledButtonUI());
 	}
 	
+	public MyButton() {
+		this.setBackground(backgroundColor);
+		this.setForeground(foregroundColor.darker());
+		this.setText("");
+		this.setFont(font);
+		this.setUI(new StyledButtonUI());
+	}
+	
     @Override
     protected void paintComponent(Graphics grphcs) {
         int width = getWidth();

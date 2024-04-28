@@ -1,16 +1,10 @@
 package urgency.ui.components;
 
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,20 +14,20 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-public class PanelLoginAndRegister extends JPanel implements ActionListener{
+public class PanelLoginAndRegister extends JPanel{
 
 	private static final long serialVersionUID = 1L;
     private javax.swing.JPanel login;
     private javax.swing.JPanel register;
     
     //Components
-    private JButton signUpButton; 
-    private JButton signInButton; 
-    private ActionListener actionListener; 
-    private PanelCoverLogIn panelCoverLogIn; 
+    private JButton registerButton; 
+    private JButton logInButton; 
 
 
-	public PanelLoginAndRegister() {
+	public PanelLoginAndRegister(MyButton logIn, MyButton register) {
+		logInButton = logIn; 
+		registerButton = register; 
 		setOpaque(false); 
 		initComponents(); 
 		initLogin();
@@ -47,23 +41,16 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
 		//setRegisterVisible(true); 
 
 	}
-	public void setPanelCover(PanelCoverLogIn cover) {
-		this.panelCoverLogIn = cover; 
-	}
 
 	public void setLoginVisible(Boolean bool) {
-		login.setVisible(bool);
-		register.setVisible(!bool);
+		login.setVisible(!bool);
+		register.setVisible(bool);
 	}
 
-
-	public void setActionListener(ActionListener al) {
-		actionListener = al; 
-	}
 	public ArrayList<JButton> getButtons(){
 		ArrayList<JButton> buttons = new ArrayList<JButton>();
-		buttons.add(signInButton);
-		buttons.add(signUpButton);
+		buttons.add(logInButton);
+		buttons.add(registerButton);
 		return buttons; 
 	}
 	
@@ -73,32 +60,27 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         label.setFont(new Font("sansserif", 1, 30));
         label.setForeground(new Color(7, 164, 121));
         register.add(label);
+        
         MyTextField txtUser = new MyTextField();
         txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/user.png")));
         txtUser.setHint("Name");
         register.add(txtUser, "w 60%");
+        
         MyTextField txtEmail = new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/mail.png")));
         txtEmail.setHint("Email");
         register.add(txtEmail, "w 60%");
+        
         //MyPasswordField txtPass = new MyPasswordField();
         MyTextField txtPass = new MyTextField();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/pass.png")));
         txtPass.setHint("Password");
         register.add(txtPass, "w 60%");
-        signUpButton = new MyButton("SIGN UP");
-        signUpButton.setBackground(new Color(7, 164, 121));
-        signUpButton.setForeground(new Color(250, 250, 250));
-		signUpButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				actionListener.actionPerformed(e);
-				
-			}
-			
-		});
-        register.add(signUpButton, "w 40%, h 40");
+        
+        registerButton.setText("REGISTER");
+        registerButton.setBackground(new Color(7, 164, 121));
+        registerButton.setForeground(new Color(250, 250, 250));
+        register.add(registerButton, "w 40%, h 40");
         
     }
 
@@ -108,36 +90,30 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
         label.setFont(new Font("sansserif", 1, 30));
         label.setForeground(new Color(7, 164, 121));
         login.add(label);
+        
         MyTextField txtEmail = new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/mail.png")));
         txtEmail.setHint("Email");
         login.add(txtEmail, "w 60%");
         //MyPasswordField txtPass = new MyPasswordField();
+        
         MyTextField txtPass = new MyTextField();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/pass.png")));
         txtPass.setHint("Password");
         login.add(txtPass, "w 60%");
+        
         JButton cmdForget = new JButton("Forgot your password ?");
         cmdForget.setForeground(new Color(100, 100, 100));
         cmdForget.setFont(new Font("sansserif", 1, 12));
         cmdForget.setContentAreaFilled(false);
         cmdForget.setCursor(new Cursor(Cursor.HAND_CURSOR));
         login.add(cmdForget);
-        signInButton = new JButton();
-        signInButton.setBackground(new Color(7, 164, 121));
-        signInButton.setForeground(new Color(250, 250, 250));
-        signInButton.setText("SIGN IN");
-        signInButton.setUI(new StyledButtonUI());
-        signInButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				actionListener.actionPerformed(e);
-				
-			}
-			
-		});
-        login.add(signInButton, "w 40%, h 40");
+        
+        logInButton.setText("LOG IN"); 
+        logInButton.setBackground(new Color(7, 164, 121));
+        logInButton.setForeground(new Color(250, 250, 250));
+        logInButton.setUI(new StyledButtonUI());
+        login.add(logInButton, "w 40%, h 40");
     }
     
     
@@ -179,17 +155,5 @@ public class PanelLoginAndRegister extends JPanel implements ActionListener{
 
         add(register, "card2");
     }// </editor-fold>//GEN-END:initComponents
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(signUpButton)) {
-			System.out.println("SignUp");
-			
-		}else if(e.getSource().equals(signInButton)){
-			System.out.println("SignIn");
-			
-		}
-		
-	}
 
 }

@@ -36,7 +36,8 @@ public class PanelCoverLogIn extends JPanel{
     private PanelLoginAndRegister logInRegister; 
 
 	
-	public PanelCoverLogIn() {
+	public PanelCoverLogIn(MyButton changePanels) {
+		button = changePanels; 
         setOpaque(false);
         layout = new MigLayout("wrap, fill", "[center]", "push[]10[]10[]push"); 
         setLayout(layout);
@@ -89,28 +90,10 @@ public class PanelCoverLogIn extends JPanel{
         description1.setForeground(new Color(245, 245, 245));
         add(description1);*/
         
-        button = new JButton();
         button.setBackground(new Color(255, 255, 255));
         button.setForeground(new Color(35, 166, 97));
-        button.setText("SIGN IN");
+        button.setText("REGISTER");
         button.setUI(new StyledButtonUI());
-        button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(button.getText()=="SIGN IN") {
-					button.setText("SIGN UP"); 
-					logInRegister.setLoginVisible(true); 
-				}else {
-					button.setText("SIGN IN");
-					logInRegister.setLoginVisible(false);
-				}
-				
-				
-				
-			}
-        	
-        }); 
         add(button, "w 60%, h 40");
 	}
 

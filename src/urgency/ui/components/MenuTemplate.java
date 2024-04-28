@@ -4,9 +4,11 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Menu extends JPanel {
+public class MenuTemplate extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,7 +18,7 @@ public class Menu extends JPanel {
 	private final Color backgroundColor2 = Color.WHITE; 
 	
 
-	public Menu() {
+	public MenuTemplate() {
 		this.setLayout(new MigLayout("fill, inset 0, gap 0", "[][][][][]", "[][][][][]"));
 		buttons = new ArrayList<JButton>();
 	}
@@ -24,6 +26,9 @@ public class Menu extends JPanel {
 	protected void init() { 
 		panelCoverMenu = new PanelCoverForMenu();
 		panelMenu = new PanelMenu(buttons); 
+		for (JButton jButton : buttons) {
+			jButton.addActionListener(this);
+		}
 		panelMenu.setBackground(backgroundColor2);
 		this.add(panelCoverMenu, "cell 0 0 5 1,grow"); 
 		this.add(panelMenu, "cell 0 1 5 5,grow");
@@ -47,6 +52,12 @@ public class Menu extends JPanel {
 
 	public ArrayList<JButton> getButtons() {
 		return buttons;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

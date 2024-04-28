@@ -40,7 +40,6 @@ public class PanelMenu extends JPanel {
 	public void setButtons(ArrayList<JButton> buttons) {
 		this.buttons = buttons;
 		setLayout(); 
-		System.out.println(this.buttons);
 		initComponents(); 
 	}
 	private void setLayout() {
@@ -89,14 +88,13 @@ public class PanelMenu extends JPanel {
 	private void initComponents() {
 		
 		//Botones múltiplo de 3
-		System.out.println(numColumns+", "+numRows);
 		int buttonOut = 0; 
 		if(numButtons%3 == 0) { //numero de botones múltiplo de 3
 			for(int i = 0; i<numRows-2; i++) {
 				for(int j = 0; j<3; j++) { //Añadir 3 botones en cada fila
 					this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 					buttonOut++; 
-					System.out.println(buttons.get(0).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
+					//System.out.println(buttons.get(0).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
 				}
 			}
 		}else if(numButtons%3 == 1) {
@@ -110,7 +108,7 @@ public class PanelMenu extends JPanel {
 					 //Añadir 3 botones en cada fila
 						this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 						buttonOut++; 
-						System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
+						//System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
 					}
 				}
 		}
@@ -120,18 +118,16 @@ public class PanelMenu extends JPanel {
 				int j = 0; 
 				if(buttons.get(buttonOut) == buttons.get(numButtons-2)){ //Colocar el último botón centrado
 					this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", span "+(numColumns-2)+", split 3, center, grow");
-					System.out.println("penúltimo elemento, buttonOut "+buttonOut);
 					buttonOut++; 
 					
 					this.add(buttons.get(buttonOut), "grow, gap 0");
-					System.out.println("ahora sí, último elemento");
 					buttonOut++;
 				}else if(buttonOut < numButtons-3) {
 					for(j = 0; j<3; j++) {
 					 //Añadir 3 botones en cada fila
 						this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 						buttonOut++; 
-						System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
+						//System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
 					}
 				}
 			}

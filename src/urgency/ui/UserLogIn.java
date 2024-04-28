@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.ui.components.MyButton;
 import urgency.ui.components.PanelCoverLogIn;
 import urgency.ui.components.PanelLoginAndRegister;
 
@@ -17,38 +18,37 @@ public class UserLogIn extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private PanelCoverLogIn panelCoverLogIn; 
 	private PanelLoginAndRegister panelLogIn; 
-	private final double addSize = 30;
-	private final double coverSize = 30;
-	private final double logInSize = 60; 
-	private List<JButton> buttons; 
+	private MyButton applyLogIn; 
+	private MyButton applyRegister; 
+	private MyButton changePanels; 
+	private Application appMenu; 
 
 	/**
 	 * Create the panel.
 	 */
-	public UserLogIn() {
-		this.setLayout(new MigLayout("fill, inset 0, debug, gap 0", "[30]0px[70:pref]", "[]")); 
+	public UserLogIn(Application appMenu) {
+		this.appMenu = appMenu; 
+		this.setLayout(new MigLayout("fill, inset 0, gap 0", "[30]0px[70:pref]", "[]")); 
 		//this.setLayout(new MigLayout("fill, inset 0, debug"));  
-		buttons = new ArrayList<JButton>(); 
 		init();
 	}
 	
 	private void init() {
-		panelCoverLogIn = new PanelCoverLogIn(); 
-		panelLogIn = new PanelLoginAndRegister(); 
+		//Initialize buttons
+		applyLogIn = new MyButton();
+		applyLogIn.addActionListener(this);
+		applyRegister = new MyButton(); 
+		applyRegister.addActionListener(this);
+		changePanels = new MyButton(); 
+		changePanels.addActionListener(this);
+		
+		panelCoverLogIn = new PanelCoverLogIn(changePanels); 
+		panelLogIn = new PanelLoginAndRegister(applyLogIn, applyRegister); 
 		//Dimensiones del panel.
 		
 		this.add(panelCoverLogIn, "grow"); 
 		this.add(panelLogIn, "grow"); 
-		
-		panelLogIn.setActionListener(this);
-		panelLogIn.setPanelCover(panelCoverLogIn);
-		panelCoverLogIn.setActionListener(this);
-		panelCoverLogIn.setLogInRegister(panelLogIn);
-		
-		
-		buttons.addAll(panelCoverLogIn.getButtons());
-		buttons.addAll(panelLogIn.getButtons());
-		//System.out.println(buttons);
+
 	}
 	
 	private void showLogIn() {
@@ -60,16 +60,25 @@ public class UserLogIn extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println(e.getSource());
-		if(e.getSource().equals(buttons.get(0))){
-			System.out.println("0: "+buttons.get(0).getText());
-		}else if(e.getSource().equals(buttons.get(1))) {
-			System.out.println("1: "+buttons.get(1).getText());
-		}else if(e.getSource().equals(buttons.get(2))) {
-			System.out.println("2: "+buttons.get(2).getText());
+		if(e.getSource() == changePanels) {
+			if(changePanels.getText()=="LOG IN") {
+				//System.out.println("Log In --> Register");
+				changePanels.setText("REGISTER"); 
+				showRegister();
+			}else {
+				//System.out.println("Register --> LogIn");
+				changePanels.setText("LOG IN");
+				showLogIn(); 
+			}
+		}else if(e.getSource() == applyLogIn) {
+			//System.out.println("LogIn");
+			appMenu.changeToRecepcionistMenu();
+			
+		}else if(e.getSource() == applyRegister) {
+			//System.out.println("Register");
+			appMenu.changeToManagerMenu(); 
 		}
-		
+
 		
 	}
 

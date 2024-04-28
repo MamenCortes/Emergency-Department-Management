@@ -1,33 +1,31 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
-
-import javax.swing.JTextField;
-
-import com.toedter.calendar.JDateChooser;
+import java.util.List;
 
 import urgency.ui.components.MyComboBox;
 import urgency.ui.components.MyTextField;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 
-public class AddPatient extends FormTemplate {
+public class AddDoctor extends FormTemplate {
 
-	private static final long serialVersionUID = 7053856282647622743L;
+
+	private static final long serialVersionUID = 150788289055975404L;
 	private Application appMain; 
+	private List<String> specialities; 
 
-	public AddPatient(Application appMain) {
+	public AddDoctor(Application appMain) {
 		this.option2Text = null; 
 		this.option3Text = null; 
 		this.appMain = appMain; 
+		this.titleText = "Add Doctor"; 
 		
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
-		sex = new MyComboBox<String>(); 
-		emergency = new MyComboBox<String>(); 
-		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
-		
-		patientForm1 = new FormPanel("Add New Patient", name, surname, sex, birthDate, emergency); 
+		speciality = new MyComboBox<String>(); 
+		specialities = appMain.specMan.getSpecialities(); 
+		patientForm1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities); 
 		initPatientForm(); 
 	}
 	
@@ -35,11 +33,10 @@ public class AddPatient extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
-			appMain.changeToRecepcionistMenu();
+			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
-			appMain.changeToRecepcionistMenu();
+			appMain.changeToManagerMenu(); 
 		}
 	}
 	
-
 }
