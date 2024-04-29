@@ -52,11 +52,11 @@ public class JDBCTriageManager implements TriageManager {
 
 	@Override
 	public List<Triage> getTriages() {
-		try {
+		/*try {
 			
 		}catch (SQLException e) {
-			
-		}
+			System.out.println("Error");
+		}*/
 		return null;
 	}
 
