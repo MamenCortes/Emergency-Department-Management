@@ -15,8 +15,9 @@ public class Triage implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Triage (boolean available) {
+	public Triage (int id,boolean available) {
 		super();
+		this.id = id;
 		this.available = available;
 	}
 
