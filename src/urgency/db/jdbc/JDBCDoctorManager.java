@@ -31,7 +31,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		// TODO Auto-generated method stub
 		Doctor d = conMan.getDocMan().getDoctor(id);
 		try {
-		String template = "DELETE FROM doctors WHERE id = ? ";
+		String template = "DELETE FROM Doctors WHERE id = ? ";
 		PreparedStatement pstmt;
 		pstmt = connection.prepareStatement(template);
 		pstmt.setInt(1, d.getid());
@@ -47,26 +47,27 @@ public class JDBCDoctorManager implements DoctorManager {
 	@Override
 	public void changeStatus(boolean in_box) {
 		// TODO Auto-generated method stub
-		try{
+		/*try{
 		String template = "UPDATE doctors SET InBox = ? WHERE id = ? AND name = ?";
 		PreparedStatement pstmt;
 		pstmt = connection.prepareStatement(template);
-		pstmt.setString(1, b.getName());
-		pstmt.setString(2, b.getSurname());
+		//pstmt.setString(1, b.getName());
+		//pstmt.setString(2, b.getSurname());
 		pstmt.executeUpdate();
 		pstmt.close();
 	} catch (SQLException e) {
 		System.out.println("Error in the database");
 		e.printStackTrace();
-	}
-
-	}
+	}*/
+		
+    }  
+	
 
 	@Override
 	public void addDoctor(Doctor doctor) {
 		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
 		try {
-			String template = "INSERT INTO doctors (name) VALUES (?)";
+			String template = "INSERT INTO Doctors (name) VALUES (?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, doctor.getName());
