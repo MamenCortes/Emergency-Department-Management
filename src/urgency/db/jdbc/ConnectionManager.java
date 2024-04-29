@@ -65,8 +65,22 @@ public class ConnectionManager {
 		return patientMan;
 	}
 
-	public void setPatientMan(PatientManager patientMan) {
+	public void setPatientMan(PatientManager patientMan) { //xq esta esto aqui??
 		this.patientMan = patientMan;
+	}
+
+	public BoxManager getBoxManager() {
+		return boxManager;
+	}
+
+
+	public TriageManager getTriageManager() {
+		return triageManager;
+	}
+
+
+	public SpecialityManager getSpecialityManager() {
+		return specialityManager;
 	}
 
 	
@@ -82,7 +96,8 @@ public class ConnectionManager {
 					+ " sex TEXT NOT NULL CHECK (sex = 'Man' OR sex ='Woman'),"
 					+ " weight INTEGER,"
 					+ " height INTEGER,"
-					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'assisted' OR status = 'emergency room' OR status = 'discharged' OR status = 'hospitalized'),"
+					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'assisted' OR status = 'emergency room' "
+					+ "OR status = 'discharged' OR status = 'hospitalized'),"
 					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);
 			createTables1.close();
@@ -167,6 +182,7 @@ public class ConnectionManager {
 			}
 		}
 	}
+	
 	
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager(); 

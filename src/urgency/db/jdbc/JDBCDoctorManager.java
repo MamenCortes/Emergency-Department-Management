@@ -160,7 +160,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
 	
-		
+		conMan.closeConnection();
 	}
 	
 
