@@ -32,7 +32,7 @@ public class Doctor implements Serializable{
 		this.boxes=new ArrayList<> ();
 	}
 	
-	public Doctor(String name, String surname, String speciality_type) {
+	public Doctor(Integer id, String name, String surname, String speciality_type) {
 		super();
 		this.id = -1; 
 		this.name = name;
@@ -74,6 +74,14 @@ public class Doctor implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getSpeciality_type() {
