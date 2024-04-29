@@ -65,10 +65,6 @@ public class ConnectionManager {
 		return patientMan;
 	}
 
-	public void setPatientMan(PatientManager patientMan) { //xq esta esto aqui??
-		this.patientMan = patientMan;
-	}
-
 	public BoxManager getBoxManager() {
 		return boxManager;
 	}
