@@ -9,11 +9,19 @@ public class Box implements Serializable{
 	private static final long serialVersionUID = 2176901194552554551L;
 	private Integer id;
 	private boolean available;
-	private Speciality speciality;
+	private Speciality speciality; //lo he vuelto a cambiar a speciality
+	//He creado otro constructor que admita un objeto speciality en vez de un string
 	
 	
 	public Box() {
 		super();
+	}
+	
+	public Box (Integer id, boolean available, String speciality) {
+		super();
+		this.id = id;
+		this.available = available;
+		this.speciality = new Speciality(speciality);
 	}
 	
 	public Box (Integer id, boolean available, Speciality speciality) {
@@ -67,8 +75,8 @@ public class Box implements Serializable{
 		return speciality;
 	}
 
-	public void setSpeciality(Speciality speciality) {
-		this.speciality = speciality;
+	public void setSpeciality(String speciality) {
+		this.speciality = new Speciality(speciality);
 	}
 	
 	
