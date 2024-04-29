@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import library.db.pojos.Author;
 import urgency.db.interfaces.TriageManager;
 
 public class JDBCTriageManager implements TriageManager {
@@ -68,10 +67,10 @@ public class JDBCTriageManager implements TriageManager {
 			}
 			rs.close();
 			st.close();
-		}catch (SQLException e) {
-			System.out.println("Error in the database");
+	    }catch (SQLException e) {
+			System.out.println("error");
 			e.printStackTrace();
-		}
+		} 
 		return triages;
 	}
 	
@@ -90,26 +89,9 @@ public class JDBCTriageManager implements TriageManager {
 			st = connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
-			Triage t = new Triage (rs.getInt("id"));
-			
+			Triage t = new Triage (rs.getInt("id"), rs.getBoolean("available"));
+			return t;
 		}catch (SQLException e) {
-			System.out.println("Error in the database");
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	@Override
-	public Author getAuthor(int id) {
-		try {
-			String sql = "SELECT * FROM authors WHERE id = " + id;
-			Statement st;
-			st = c.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			rs.next();
-			Author a = new Author (rs.getInt("id"), rs.getString("name"), rs.getString("surname"));
-			return a;
-		} catch (SQLException e) {
 			System.out.println("Error in the database");
 			e.printStackTrace();
 		}

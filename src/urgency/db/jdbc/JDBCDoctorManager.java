@@ -85,7 +85,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
-			String sql = "SELECT * FROM doctors WHERE surname LIKE ?";
+			String sql = "SELECT * FROM Doctors WHERE surname LIKE ?";
 			PreparedStatement search = connection.prepareStatement(sql);
 			search.setString(1, "%" + surname + "%");
 			ResultSet rs = search.executeQuery();
@@ -106,7 +106,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	public Doctor getDoctor(int id) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "SELECT * FROM doctors WHERE ID = " + id;
+			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -132,7 +132,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
-			String sql = "SELECT * FROM doctors WHERE speciality LIKE ?";
+			String sql = "SELECT * FROM Doctors WHERE speciality LIKE ?";
 			PreparedStatement p;
 			p = connection.prepareStatement(sql);
 			p.setString(1, "%" + speciality_type + "%");
