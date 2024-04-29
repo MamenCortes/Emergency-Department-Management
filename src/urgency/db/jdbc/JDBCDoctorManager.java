@@ -67,10 +67,14 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void addDoctor(Doctor doctor) {
 		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
 		try {
-			String template = "INSERT INTO Doctors (name) VALUES (?)";
+			String template = "INSERT INTO Doctors (id, name, surname, speciality_type, in_box) VALUES (?,?, ?, ?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
-			pstmt.setString(1, doctor.getName());
+			pstmt.setInt(1, doctor.getid());
+			pstmt.setString(2, doctor.getSurname());
+			pstmt.setString(3, doctor.getName());
+			pstmt.setString(4, doctor.getSpeciality_type());
+			pstmt.setBoolean(5, doctor.getIn_box());
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -111,8 +115,8 @@ public class JDBCDoctorManager implements DoctorManager {
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
-			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("speciality"), 
-					    rs.getBoolean("InBox"));
+			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
+					   rs.getString("speciality"),  rs.getBoolean("InBox"));
 			return d;
 		}catch(SQLException e) {
 			System.out.println("Error");
@@ -140,8 +144,9 @@ public class JDBCDoctorManager implements DoctorManager {
 			while (rs.next()) {
 				Integer id = rs.getInt("ID");
 				String doctorName = rs.getString("name");
+				String doctorSurname = rs.getString("surname");
 				String doctorSpeciality = rs.getString("speciality");
-				Doctor d = new Doctor(id, doctorName, doctorSpeciality);
+				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorSpeciality);
 				doctors.add(d);
 			}
 			rs.close();
@@ -157,7 +162,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager();
 		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan);
-		Doctor d = new Doctor(1, "Jorge Fernandez", "Traumatology", true);
+		Doctor d = new Doctor(1, "Jorge", "Fernandez", "Traumatology", true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
 	

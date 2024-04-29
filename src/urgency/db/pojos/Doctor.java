@@ -11,6 +11,7 @@ public class Doctor implements Serializable{
 	private static final long serialVersionUID = 5306355128952164035L;
 	private Integer id;
 	private String name;
+	private String surname;
 	private String speciality_type;
 	private Boolean in_box;
 
@@ -21,19 +22,21 @@ public class Doctor implements Serializable{
 		super();
 	}
 
-	public Doctor(Integer id, String name, String speciality_type, Boolean in_box) {
+	public Doctor(Integer id, String name, String surname, String speciality_type, Boolean in_box) {
 		this.id=id;
 		this.name=name;
+		this.surname=surname;
 		this.speciality_type=speciality_type;
 		this.in_box=in_box;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
 	}
 	
-	public Doctor(Integer iD, String name, String speciality_type) {
+	public Doctor(Integer iD, String name, String surname, String speciality_type) {
 		super();
 		this.id = iD;
 		this.name = name;
+		this.surname=surname;
 		this.speciality_type = speciality_type;
 	}
 
@@ -64,6 +67,10 @@ public class Doctor implements Serializable{
 
 	public String getName() {
 		return name;
+	}
+
+	public String getSurname() {
+		return surname;
 	}
 
 	public void setName(String name) {
