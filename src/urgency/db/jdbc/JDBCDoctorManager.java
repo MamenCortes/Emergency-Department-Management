@@ -67,7 +67,8 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void addDoctor(Doctor doctor) {
 		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
 		try {
-			String template = "INSERT INTO Doctors (id, name, surname, speciality_type, in_box) VALUES (?,?, ?, ?,?)";
+			String template = "INSERT INTO Doctors (id, name, surname, speciality_type, in_box) VALUES "
+					+ "(?,?, ?, ?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setInt(1, doctor.getid());

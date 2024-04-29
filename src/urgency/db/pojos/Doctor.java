@@ -17,6 +17,7 @@ public class Doctor implements Serializable{
 
 	private List<Patient> patients;
 	private List<Box> boxes;
+	private List<DoctorBox> doctorbox;
 
 	public Doctor() {
 		super();

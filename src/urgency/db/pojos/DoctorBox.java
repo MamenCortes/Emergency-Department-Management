@@ -1,5 +1,10 @@
 package urgency.db.pojos;
 
-public class DoctorBox {
+import java.io.Serializable;
 
+public class DoctorBox implements Serializable{
+	
+	private Doctor doctor;
+	private Box box;
+   
 }
