@@ -5,9 +5,13 @@ import urgency.db.pojos.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+import library.db.pojos.Author;
 import urgency.db.interfaces.TriageManager;
 
 public class JDBCTriageManager implements TriageManager {
@@ -52,13 +56,25 @@ public class JDBCTriageManager implements TriageManager {
 
 	@Override
 	public List<Triage> getTriages() {
+		List<Triage> triages = new ArrayList<Triage>();
 		try {
-			
+			String sql = "SELECT * FROM Triages";
+			Statement st;
+			st = connection.createStatement(); //se puede hacer con prepared statement
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				Triage t = new Triage ();
+				triages.add(t);
+			}
+			rs.close();
+			st.close();
 		}catch (SQLException e) {
-			
+			System.out.println("Error in the database");
+			e.printStackTrace();
 		}
-		return null;
+		return triages;
 	}
+	
 
 	@Override
 	public Patient getPatientInTriage(int Triage_id) {
@@ -68,7 +84,35 @@ public class JDBCTriageManager implements TriageManager {
 
 	@Override
 	public Triage getTriage(int id) {
-		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT * FROM Triages WHERE id =" + id;
+			Statement st;
+			st = connection.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			rs.next();
+			Triage t = new Triage (rs.getInt("id"));
+			
+		}catch (SQLException e) {
+			System.out.println("Error in the database");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public Author getAuthor(int id) {
+		try {
+			String sql = "SELECT * FROM authors WHERE id = " + id;
+			Statement st;
+			st = c.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			rs.next();
+			Author a = new Author (rs.getInt("id"), rs.getString("name"), rs.getString("surname"));
+			return a;
+		} catch (SQLException e) {
+			System.out.println("Error in the database");
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -80,4 +124,9 @@ public class JDBCTriageManager implements TriageManager {
 
 
 
+	public static void main (String [] args) {
+		ConnectionManager conManager = new ConnectionManager();
+		JDBCTriageManager conTriage = new JDBCTriageManager(conManager);
+		
+	}
 }
