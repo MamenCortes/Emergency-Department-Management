@@ -26,7 +26,7 @@ public class AddRoom extends FormTemplate {
 		
 		roomType = new MyComboBox<String>(); 
 		
-		patientForm1 = new FormPanel("Add Room", roomType, speciality, specialities); 
+		form1 = new FormPanel("Add Room", roomType, speciality, specialities); 
 		initPatientForm(); 
 	}
 	

@@ -51,6 +51,7 @@ public class ManagerMenu extends MenuTemplate {
 		if(e.getSource()==addDoctorButton) {
 			appMenu.changeToAddDoctor();
 		}else if(e.getSource()==searchDoctorButton) {
+			appMenu.changeToSearchDoctor();
 			
 		}else if(e.getSource()==addSpecialityButton) {
 			appMenu.changeToAddSpeciality();

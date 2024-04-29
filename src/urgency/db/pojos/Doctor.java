@@ -11,13 +11,12 @@ public class Doctor implements Serializable{
 	private static final long serialVersionUID = 5306355128952164035L;
 	private Integer id;
 	private String name;
-	private String surname;
+	private String surname; 
 	private String speciality_type;
 	private Boolean in_box;
 
 	private List<Patient> patients;
 	private List<Box> boxes;
-	private List<DoctorBox> doctorbox;
 
 	public Doctor() {
 		super();
@@ -26,31 +25,19 @@ public class Doctor implements Serializable{
 	public Doctor(Integer id, String name, String surname, String speciality_type, Boolean in_box) {
 		this.id=id;
 		this.name=name;
-		this.surname=surname;
+		this.surname = surname; 
 		this.speciality_type=speciality_type;
 		this.in_box=in_box;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
 	}
 	
-	public Doctor(Integer iD, String name, String surname, String speciality_type) {
-		super();
-		this.id = iD;
-		this.name = name;
-		this.surname=surname;
-		this.in_box=false;
-		this.speciality_type = speciality_type;
-		this.patients=new ArrayList<> ();
-		this.boxes=new ArrayList<> ();
-	}
-	
-	//Constructor que he usado para probar la interfaz
 	public Doctor(String name, String surname, String speciality_type) {
 		super();
-		this.id = -1;
+		this.id = -1; 
 		this.name = name;
-		this.surname=surname;
-		this.in_box=false;
+		this.surname = surname;
+		this.in_box = false;
 		this.speciality_type = speciality_type;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
@@ -83,10 +70,6 @@ public class Doctor implements Serializable{
 
 	public String getName() {
 		return name;
-	}
-
-	public String getSurname() {
-		return surname;
 	}
 
 	public void setName(String name) {

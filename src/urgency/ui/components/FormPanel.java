@@ -47,6 +47,7 @@ public class FormPanel extends JPanel {
 	private MyComboBox<String> sex; 
 	private JDateChooser dateChooser; 
 	private MyComboBox<String> emergency; 
+	private MyComboBox<Integer> assignedBox; 
 
 	public FormPanel() {
 		textFields = new ArrayList<JTextField>(); 
@@ -127,6 +128,7 @@ public class FormPanel extends JPanel {
 	}
 	
 	/**
+	 * Constructor for Patient Form
 	 * @param Title: a String with the title of the panel
 	 * @param Name: A MyTextField to input the name of the patient
 	 * @param Surname: A MyTextField to input the surname of the patient
@@ -214,6 +216,14 @@ public class FormPanel extends JPanel {
 
 	}
 	
+	/**
+	 * Constructor for partial Doctor Form
+	 * @param Title
+	 * @param Name
+	 * @param Surname
+	 * @param specialities
+	 * @param specialitiesList
+	 */
 	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList) {
 		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
@@ -257,6 +267,77 @@ public class FormPanel extends JPanel {
 	    
 	}
 	
+	/**
+	 * Constructor for Complete Doctor Form
+	 * @param Title
+	 * @param Name
+	 * @param Surname
+	 * @param specialities
+	 * @param specialitiesList
+	 * @param assignedBox
+	 * @param boxesIds
+	 */
+	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList, MyComboBox<Integer> assignedBox, List<Integer> boxesIds) {
+		//Create a ComboBox from all the possible Boxes
+		textFields = new ArrayList<JTextField>(); 
+		initPanel(); 
+	    
+	    JLabel title1 = new JLabel(Title); 
+	    title1.setFont(titleFont);
+	    title1.setForeground(titleColor);
+	    add(title1, "cell 0 0, grow");
+	    
+	    //Name and surname
+	    JLabel nameText = new JLabel("Name*");
+	    nameText.setFont(contentFont);
+	    nameText.setForeground(contentColor);
+	    add(nameText, "skip 1, grow");
+	    
+	    JLabel surnameText = new JLabel("Surname*");
+	    surnameText.setFont(contentFont);
+	    surnameText.setForeground(contentColor);
+	    add(surnameText, "grow");
+	    
+	    name = Name; 
+	    name.setHint("Name*"); 
+	    add(name, "grow");
+	    
+	    surname = Surname; 
+	    surname.setHint("Surname*");
+	    add(surname, "grow");
+	    
+	    //Speciality
+	    JLabel specText = new JLabel("Medical Speciality*");
+	    specText.setFont(contentFont);
+	    specText.setForeground(contentColor);
+	    add(specText, "grow");
+	    
+
+	    List<String> specialityList = specialitiesList; 
+        speciality = specialities; 
+        for (String string : specialityList) {
+			speciality.addItem(string);
+		}
+        add(speciality, "skip 1, grow, span");
+        
+        //Box
+	    JLabel boxText = new JLabel("Current Box");
+	    boxText.setFont(contentFont);
+	    boxText.setForeground(contentColor);
+	    add(boxText, "grow");
+	    
+        this.assignedBox = assignedBox;
+        for (Integer id : boxesIds) {
+			this.assignedBox.addItem(id);
+		}
+        add(this.assignedBox, "skip 1, grow, span");
+	    
+	}
+	/**
+	 * Constructor for Speciality Form
+	 * @param Title
+	 * @param speciality
+	 */
 	public FormPanel(String Title, MyTextField speciality) {
 		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
@@ -278,6 +359,13 @@ public class FormPanel extends JPanel {
 	    
 	}
 
+	/**
+	 * Constructor for Box Form
+	 * @param Title
+	 * @param roomType
+	 * @param speciality2
+	 * @param specialityList
+	 */
 	public FormPanel(String Title, MyComboBox<String> roomType, MyComboBox<String> speciality2,
 			List<String> specialityList) {
 		textFields = new ArrayList<JTextField>(); 

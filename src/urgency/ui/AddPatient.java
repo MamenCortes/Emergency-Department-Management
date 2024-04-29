@@ -27,7 +27,7 @@ public class AddPatient extends FormTemplate {
 		emergency = new MyComboBox<String>(); 
 		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
 		
-		patientForm1 = new FormPanel("Add New Patient", name, surname, sex, birthDate, emergency); 
+		form1 = new FormPanel("Add New Patient", name, surname, sex, birthDate, emergency); 
 		initPatientForm(); 
 	}
 	
@@ -35,11 +35,21 @@ public class AddPatient extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
+			resetPanel(); 
 			appMain.changeToRecepcionistMenu();
 		}else if(e.getSource() == applyChanges) {
+			resetPanel(); 
 			appMain.changeToRecepcionistMenu();
 		}
 	}
 	
+	@Override
+	protected void resetPanel() {
+		name.setText(null);
+		surname.setText(null);
+		sex.setSelectedIndex(0);
+		emergency.setSelectedIndex(0);
+		birthDate.setDate(null);
+	}
 
 }

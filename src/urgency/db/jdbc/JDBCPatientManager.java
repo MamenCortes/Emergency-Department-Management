@@ -104,7 +104,7 @@ public class JDBCPatientManager implements PatientManager {
 			}
 			return patients;
 		} catch (SQLException e) {
-			System.out.println("Error looking for a doctor");
+			System.out.println("Error looking for a patient");
 			e.printStackTrace();
 		}
 		return patients;

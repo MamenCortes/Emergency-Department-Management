@@ -36,10 +36,10 @@ public class FormTemplate extends JPanel implements ActionListener{
 	private JLabel option3; 
 	protected String option3Text = "    Urgency Details";
 	private ArrayList<JLabel> optionTexts; 
-	private ArrayList<JPanel> patientForms; 
-	protected JPanel patientForm1; 
-	protected JPanel patientForm2; 
-	protected JPanel patientForm3;
+	private ArrayList<JPanel> forms; 
+	protected JPanel form1; 
+	protected JPanel form2; 
+	protected JPanel form3;
 	protected JButton backButton; 
 	protected JButton nextButton;
 	protected JButton applyChanges; 
@@ -57,6 +57,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 	protected MyComboBox<String> sex; 
 	protected JDateChooser birthDate; 
 	protected MyComboBox<String> emergency;
+	protected MyComboBox<Integer> boxes; 
 
 
 	public FormTemplate() {
@@ -66,8 +67,8 @@ public class FormTemplate extends JPanel implements ActionListener{
 	
 	protected void initPatientForm() {
 		//TODO que la letra aumente con la pantalla
-		this.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 3", "[][][]", "[][][][][][][][][][]"));
-		patientForms = new ArrayList<JPanel>(); 
+		this.setLayout(new MigLayout("fill, inset 15, gap 0, wrap 3", "[][][]", "[][][][][][][][][][]"));
+		forms = new ArrayList<JPanel>(); 
 		optionTexts = new ArrayList<JLabel>(); 
 		
 		
@@ -161,7 +162,7 @@ public class FormTemplate extends JPanel implements ActionListener{
         applyChanges.setForeground(new Color(250, 250, 250));
         applyChanges.addActionListener(this);
         
-        if(panelShowed == patientForms.size()) {
+        if(panelShowed == forms.size()) {
 			nextButton.setVisible(false);
 			this.remove(nextButton);
 			applyChanges.setVisible(true);
@@ -207,7 +208,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     			add(goBackButton, "cell 1 7, left, gapx 10, gapy 5");
     		}
     		 
-    		if(applyChanges.isVisible() && panelShowed != patientForms.size()) {
+    		if(applyChanges.isVisible() && panelShowed != forms.size()) {
     			applyChanges.setVisible(false);
     			this.remove(applyChanges);
     			nextButton.setVisible(true);
@@ -224,7 +225,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     			backButton.setVisible(true);
     			add(backButton, "cell 1 7, left, gapx 10, gapy 5");
     		}
-    		if(panelShowed == patientForms.size()) {
+    		if(panelShowed == forms.size()) {
     			nextButton.setVisible(false);
     			this.remove(nextButton);
     			applyChanges.setVisible(true);
@@ -232,7 +233,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     		}
     		
     		
-    		if(!patientForms.get(0).isVisible()) {
+    		if(!forms.get(0).isVisible()) {
     			goBackButton.setVisible(false); 
     			this.remove(goBackButton);
     			backButton.setVisible(true);
@@ -246,57 +247,60 @@ public class FormTemplate extends JPanel implements ActionListener{
     }
     
     protected void initPatientForm1(Boolean isVisible) {
-		if(patientForm1 == null) {
-			patientForm1 = new FormPanel();
+		if(form1 == null) {
+			form1 = new FormPanel();
 		}
-		patientForms.add(patientForm1);
-		patientForm1.setVisible(isVisible);
+		forms.add(form1);
+		form1.setVisible(isVisible);
 		
 		if(isVisible) {
-	    	add(patientForm1,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form1,  "cell 1 1 2 6, grow, gap 10");
 		}
     }
     
     protected void initPatientForm2(Boolean isVisible) {
-		if(patientForm2 == null) {
-			patientForm2 = new FormPanel();
+		if(form2 == null) {
+			form2 = new FormPanel();
 		}
-		patientForm2.setVisible(isVisible);
-		patientForm2.setBackground(Color.BLUE);
-		patientForms.add(patientForm2);
+		form2.setVisible(isVisible);
+		form2.setBackground(Color.BLUE);
+		forms.add(form2);
 		
 		if(isVisible) {
-	    	add(patientForm2,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form2,  "cell 1 1 2 6, grow, gap 10");
 		}
     }
     protected void initPatientForm3(Boolean isVisible) {
-		if(patientForm3 == null) {
-			patientForm3 = new FormPanel();
+		if(form3 == null) {
+			form3 = new FormPanel();
 		}
-		patientForm3.setVisible(isVisible);
-		patientForm3.setBackground(Color.RED);
-		patientForms.add(patientForm3);
+		form3.setVisible(isVisible);
+		form3.setBackground(Color.RED);
+		forms.add(form3);
 
 		if(isVisible) {
-	    	add(patientForm3,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form3,  "cell 1 1 2 6, grow, gap 10");
 		}
     }
     
     protected void changePanel() {
     	int index = 0; 
     	
-    	for (int i = 0; i<patientForms.size(); i++) {
-    		if(patientForms.get(i).isVisible()) {
+    	for (int i = 0; i<forms.size(); i++) {
+    		if(forms.get(i).isVisible()) {
     			index = i; 
-    			patientForms.get(i).setVisible(false); 
-    			this.remove(patientForms.get(i));
+    			forms.get(i).setVisible(false); 
+    			this.remove(forms.get(i));
     			disableBackground(optionTexts.get(i));
     		}
     	}
     	
-    	patientForms.get(panelShowed-1).setVisible(true);
-    	add(patientForms.get(panelShowed-1),  "cell 1 1 2 6, grow, gap 10");
+    	forms.get(panelShowed-1).setVisible(true);
+    	add(forms.get(panelShowed-1),  "cell 1 1 2 6, grow, gap 10");
     	enableBackground(optionTexts.get(panelShowed-1));
+    }
+    
+    protected void resetPanel() {
     }
 
 }

@@ -32,7 +32,10 @@ public class Application extends JFrame{
 	private AddDoctor addDoctor; 
 	private AddSpeciality addSpeciality; 
 	private AddRoom addRoom;
-	private SearchTemplate searchTemplate; 
+	private SearchPatients searchPatient; 
+	private SearchDoctor searchDoctor; 
+	private ModifyDoctor modifyDoctor; 
+	private SearchRoom searchRoom;
 
 
 	/**
@@ -70,100 +73,105 @@ public class Application extends JFrame{
 		addRoom = new AddRoom(this); 
 		appPanels.add(addRoom); 
 		
-		searchTemplate = new SearchTemplate(this); 
+		searchPatient = new SearchPatients(this); 
+		appPanels.add(searchPatient); 
+		searchDoctor = new SearchDoctor(this); 
+		appPanels.add(searchDoctor); 
 		
+		
+		modifyDoctor = new ModifyDoctor(null, this);
+		appPanels.add(modifyDoctor);
+		searchRoom = new SearchRoom(this); 
+		appPanels.add(searchRoom); 
 
-		setContentPane(searchTemplate);
-		conMan.closeConnection();
+		setContentPane(searchRoom);
+		//conMan.closeConnection();
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        conMan.closeConnection();
+		    }
+		});
 	}
 	
-	public void changeToRecepcionistMenu() {
-		
+	private void hideAllPanels() {
 		for (JPanel jPanel : appPanels) {
 			if(jPanel.isVisible()) {
 				jPanel.setVisible(false);
 			}
 		}
+	}
+	
+	public void changeToRecepcionistMenu() {
+		hideAllPanels();
 		recepcionistMenu.setVisible(true);
 		this.setContentPane(recepcionistMenu); 
 	}
 
 	public void changeToAddPatient() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		addPatient.setVisible(true);
 		this.setContentPane(addPatient); 
 	}
 	
-	public void changeToAdmitPatient() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+	public void changeToAdmitPatient(Patient patient) {
+		//admitPatient = new AdmitPatient(patient, this); 
+		admitPatient.updatePanelWith(patient);
+		hideAllPanels();
 		admitPatient.setVisible(true);
 		this.setContentPane(admitPatient); 
 	}
 	
 	public void changeToUserLogIn() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		logInPanel.setVisible(true);
-		this.setContentPane(logInPanel); 
+		this.setContentPane(logInPanel);
 	}
 	
 	public void changeToManagerMenu() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		managerMenu.setVisible(true);
 		this.setContentPane(managerMenu); 
 	}
 
 	public void changeToAddDoctor() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		addDoctor.setVisible(true);
 		this.setContentPane(addDoctor); 
 	}
 	
 	public void changeToAddSpeciality() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		addSpeciality.setVisible(true);
 		this.setContentPane(addSpeciality); 
 	}
 	
 	public void changeToAddRoom() {
-		
-		for (JPanel jPanel : appPanels) {
-			if(jPanel.isVisible()) {
-				jPanel.setVisible(false);
-			}
-		}
+		hideAllPanels();
 		addRoom.setVisible(true);
 		this.setContentPane(addRoom); 
 	}
+	
+	public void changeToSearchPatient() {
+		hideAllPanels();
+		searchPatient.setVisible(true);
+		this.setContentPane(searchPatient); 
+	}
+	
+	public void changeToSearchDoctor() {
+		hideAllPanels();
+		searchDoctor.setVisible(true);
+		this.setContentPane(searchDoctor); 
+	}
+	
+	public void changeToModifyDoctor(Doctor doctor) {
+		modifyDoctor.updatePanelWith(doctor);
+		hideAllPanels();
+		modifyDoctor.setVisible(true);
+		this.setContentPane(modifyDoctor); 
+	}
+	
 
 
 }
