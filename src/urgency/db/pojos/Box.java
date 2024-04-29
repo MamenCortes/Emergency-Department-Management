@@ -9,6 +9,7 @@ public class Box implements Serializable{
 	private static final long serialVersionUID = 2176901194552554551L;
 	private Integer id;
 	private boolean available;
+	private Speciality speciality;
 	
 	
 	public Box() {
@@ -19,11 +20,12 @@ public class Box implements Serializable{
 		super();
 		this.id = id;
 		this.available = available;
+		this.speciality = speciality;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(available, id);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -35,12 +37,14 @@ public class Box implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Box other = (Box) obj;
-		return available == other.available && Objects.equals(id, other.id);
+		return Objects.equals(id, other.id);
 	}
+
+
 
 	@Override
 	public String toString() {
-		return "Box [id=" + id + ", available=" + available + "]";
+		return "Box [id=" + id + ", available=" + available + ", speciality=" + speciality + "]";
 	}
 
 	public Integer getId() {
@@ -57,6 +61,14 @@ public class Box implements Serializable{
 
 	public void setAvailable(boolean available) {
 		this.available = available;
+	}
+
+	public Speciality getSpeciality() {
+		return speciality;
+	}
+
+	public void setSpeciality(Speciality speciality) {
+		this.speciality = speciality;
 	}
 	
 	
