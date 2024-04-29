@@ -116,13 +116,6 @@ public class Doctor implements Serializable{
 		this.boxes = boxes;
 	}
 
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
 	@Override
 	public String toString() {
 		return "Doctor [ID=" + id + ", name=" + name + ", speciality_type=" + speciality_type + ", in_box=" + in_box
