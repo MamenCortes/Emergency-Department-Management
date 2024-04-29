@@ -5,14 +5,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
-import urgency.db.pojos.Box;
-import urgency.db.pojos.Doctor;
-import urgency.db.pojos.Triage;
+import urgency.db.pojos.*;
 import urgency.ui.components.MyButton;
 import urgency.ui.components.MyComboBox;
 import urgency.ui.components.MyTextField;
@@ -129,9 +128,20 @@ public class SearchRoom extends SearchTemplate {
 			}
 			
 			if(type.equals("Box") && boxList != null) {
-				
+				showBoxes(createRandomBoxes());
 			}
 		}
+		
+	}
+	
+	private List<Box> createRandomBoxes() {
+		List<Box> boxes = new ArrayList<Box>(); 
+		List<String> specialities = appMain.specMan.getSpecialities(); 
+		for(int i = 0; i<10; i++) {
+    		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
+    		//boxes.add(new Box(-1, true, specialities.get(rd3))); 
+		}
+		return boxes;
 	}
 
 }

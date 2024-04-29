@@ -16,7 +16,7 @@ public class Box implements Serializable{
 		super();
 	}
 	
-	public Box (Integer id, boolean available) {
+	public Box (Integer id, boolean available, Speciality speciality) {
 		super();
 		this.id = id;
 		this.available = available;
