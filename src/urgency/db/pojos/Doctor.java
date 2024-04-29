@@ -38,7 +38,22 @@ public class Doctor implements Serializable{
 		this.id = iD;
 		this.name = name;
 		this.surname=surname;
+		this.in_box=false;
 		this.speciality_type = speciality_type;
+		this.patients=new ArrayList<> ();
+		this.boxes=new ArrayList<> ();
+	}
+	
+	//Constructor que he usado para probar la interfaz
+	public Doctor(String name, String surname, String speciality_type) {
+		super();
+		this.id = -1;
+		this.name = name;
+		this.surname=surname;
+		this.in_box=false;
+		this.speciality_type = speciality_type;
+		this.patients=new ArrayList<> ();
+		this.boxes=new ArrayList<> ();
 	}
 
 	@Override
