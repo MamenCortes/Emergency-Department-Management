@@ -127,15 +127,14 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String name, String speciality_type) { //no necesario el nombre
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type) { 
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
-			String sql = "SELECT * FROM doctors WHERE name LIKE ? AND speciality LIKE ?";
+			String sql = "SELECT * FROM doctors WHERE speciality LIKE ?";
 			PreparedStatement p;
 			p = connection.prepareStatement(sql);
-			p.setString(1, "%" + name + "%");
-			p.setString(2, "%" + speciality_type + "%");
+			p.setString(1, "%" + speciality_type + "%");
 			ResultSet rs = p.executeQuery();
 			while (rs.next()) {
 				Integer id = rs.getInt("ID");
@@ -152,6 +151,18 @@ public class JDBCDoctorManager implements DoctorManager {
 		}
 		return doctors;
 	}
+	
+	
+	public static void main(String[] args) {
+		ConnectionManager conMan = new ConnectionManager();
+		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan);
+		Doctor d = new Doctor(1, "Jorge Fernandez", "Traumatology", true);
+		docMan.addDoctor(d);
+		System.out.println("Doctor added");
+	
+		
+	}
+	
 
 
 }
