@@ -67,13 +67,13 @@ public class SearchRoom extends SearchTemplate {
         cancelButton.setBackground(new Color(7, 164, 121));
         cancelButton.setForeground(new Color(250, 250, 250));
         cancelButton.addActionListener(this);
-	    add(cancelButton, "cell 0 5, left, gapy 5");
+	    add(cancelButton, "cell 0 5, left, gapy 5, grow");
 	    
 		searchButton = new MyButton("SEARCH"); 
         searchButton.setBackground(new Color(7, 164, 121));
         searchButton.setForeground(new Color(250, 250, 250));
         searchButton.addActionListener(this);
-	    add(searchButton, "cell 1 5, right, gapy 5");
+	    add(searchButton, "cell 1 5, right, gapy 5, grow");
 	    
 		openFormButton = new MyButton("OPEN FILE"); 
         openFormButton.setBackground(new Color(7, 164, 121));
@@ -89,13 +89,59 @@ public class SearchRoom extends SearchTemplate {
 	    this.add(errorMessage, "cell 0 7, span 2, left"); 
 	    errorMessage.setVisible(false); 
 			    
+	    showEmptyScrollPane();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchButton) {
-
+			String type = (String) typeCB.getSelectedItem(); 
+			if(type.equals("Triage")) {
+				if(triageList == null) {
+					showTriages(appMain.conMan.getTriageManager().getTriages()); 
+					openFormButton.setVisible(true);
+				}else {
+					String idText = idTextField.getText(); 
+					if(!idText.equals("")) {
+						List<Triage> triages = new ArrayList<Triage>(); 
+						Triage triage = appMain.conMan.getTriageManager().getTriage(Integer.parseInt(idText));
+						if(triage == null) {
+							if(boxDefListModel != null) boxDefListModel.removeAllElements();
+							triageDefListModel.removeAllElements();
+							showErrorMessage("No Triages with such Id");
+						}else {
+							triages.add(triage);
+							showTriages(triages);
+						}
+					}else {
+						showTriages(appMain.conMan.getTriageManager().getTriages()); 
+					}
+				}	
+			}
 			
+			if(type.equals("Box")) {
+				if(boxList == null) {
+					showBoxes(createRandomBoxes());
+					openFormButton.setVisible(true);
+				}else {
+					String idText = idTextField.getText(); 
+					if(!idText.equals("")) {
+						List<Box> boxes = new ArrayList<Box>();
+						Box box = appMain.conMan.getBoxManager().getBox(Integer.parseInt(idText));
+						if(box == null) {
+							if(triageDefListModel!=null) triageDefListModel.removeAllElements();
+							boxDefListModel.removeAllElements();
+							showErrorMessage("No Boxes with such Id");
+						}else {
+							boxes.add(box);
+							showBoxes(boxes);
+						}
+					}else {
+						showBoxes(createRandomBoxes());
+					}
+				}
+			}
+				
 		}else if(e.getSource() == openFormButton){
 			if(boxList != null) {
 				Box box = boxList.getSelectedValue(); 
@@ -120,16 +166,16 @@ public class SearchRoom extends SearchTemplate {
 			resetPanel();
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == typeCB) {
+			/*System.out.println("type selected");
 			String type = (String) typeCB.getSelectedItem(); 
 			if(type.equals("Triage") && triageList == null) {
 				
 				showTriages(appMain.conMan.getTriageManager().getTriages()); 
 				typeCB.setEnabled(false);
-			}
-			
-			if(type.equals("Box") && boxList != null) {
+			}else if(type.equals("Box") && boxList == null) {
+				System.out.println("Box selected");
 				showBoxes(createRandomBoxes());
-			}
+			}*/
 		}
 		
 	}
@@ -137,10 +183,15 @@ public class SearchRoom extends SearchTemplate {
 	private List<Box> createRandomBoxes() {
 		List<Box> boxes = new ArrayList<Box>(); 
 		List<String> specialities = appMain.specMan.getSpecialities(); 
+		List<Speciality> specs = new ArrayList<Speciality>(); 
+		for (String string : specialities) {
+			specs.add(new Speciality(string)); 
+		}
 		for(int i = 0; i<10; i++) {
     		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		//boxes.add(new Box(-1, true, specialities.get(rd3))); 
+    		boxes.add(new Box(i, true, specs.get(rd3))); 
 		}
+		System.out.println(boxes);
 		return boxes;
 	}
 

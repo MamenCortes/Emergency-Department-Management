@@ -49,6 +49,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 	protected DefaultListModel<Box> boxDefListModel;
 	//TODO create methods for box and triage List
 	protected JLabel errorMessage; 
+	protected JScrollPane scrollPane2; 
 
 	public SearchTemplate() {
 		//this.appMain = appMain; 
@@ -82,13 +83,13 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         cancelButton.setBackground(new Color(7, 164, 121));
         cancelButton.setForeground(new Color(250, 250, 250));
         cancelButton.addActionListener(this);
-	    add(cancelButton, "cell 0 3, left, gapy 5");
+	    add(cancelButton, "cell 0 3, left, gapy 5, grow");
 	    
 		searchButton = new MyButton("SEARCH"); 
         searchButton.setBackground(new Color(7, 164, 121));
         searchButton.setForeground(new Color(250, 250, 250));
         searchButton.addActionListener(this);
-	    add(searchButton, "cell 1 3, right, gapy 5");
+	    add(searchButton, "cell 1 3, right, gapy 5, grow");
 	    
 		openFormButton = new MyButton("OPEN FILE"); 
         openFormButton.setBackground(new Color(7, 164, 121));
@@ -191,28 +192,17 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         }
     }
     
-    /*protected List<Doctor> createRandomDoctors() {
-    	List<Doctor> doctors = new ArrayList<Doctor>(); 
-    	String[] names = {"Pepe", "Juan", "María", "Fulanita", "Marta", "Eustaquio", "Camino", "Cristina"};
-    	ArrayList<String> specialities = (ArrayList<String>) appMain.specMan.getSpecialities(); 
-    	
-    	for(int i = 0; i<20; i++) {
-    		int rd1 = ThreadLocalRandom.current().nextInt(0, names.length);
-    		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		doctors.add(new Doctor(names[rd1], specialities.get(rd3))); 
-    	}
-    	
-		return doctors;
-    	
-    }*/
-    
-    protected void showBoxes(List<Box> boxes) {
-
-        //JPanel gridPanel = new JPanel(new GridLayout(patients.size(), 0));
-        JScrollPane scrollPane1 = new JScrollPane();
+    protected void showEmptyScrollPane() {
+        scrollPane1 = new JScrollPane();
         scrollPane1.setOpaque(false);
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //scrollPane1.setViewportView(gridPanel);
+        scrollPane1.setPreferredSize(this.getPreferredSize());
+
+        //Mostrar el panel en una ventana emergente
+        add(scrollPane1,  "cell 2 1 2 8, grow, gap 10");
+    }
+    
+    protected void showBoxes(List<Box> boxes) {
         
         boxDefListModel = new DefaultListModel<>(); 
         if(boxes != null) {
@@ -225,16 +215,16 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         
         boxList = new JList<Box>(boxDefListModel);
         boxList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //TODO apply custom box cell renderer
-        //boxList.setCellRenderer(new PatientCell());
+        boxList.setCellRenderer(new BoxCell());
         boxList.addMouseListener(this);
-        scrollPane1.setViewportView(triageList);
+        
+        if(scrollPane1 != null){
+        	scrollPane1.setViewportView(boxList);
+        }else {
+        	showEmptyScrollPane();
+        	scrollPane1.setViewportView(boxList);
+        }
 
-        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
-        scrollPane1.setPreferredSize(this.getPreferredSize());
-
-        //Mostrar el panel en una ventana emergente
-        add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
     }
     
     protected void updateBoxDefModel(List<Box> boxes) {
@@ -249,12 +239,6 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
     
 
     protected void showTriages(List<Triage> triages) {
-
-        //JPanel gridPanel = new JPanel(new GridLayout(patients.size(), 0));
-        JScrollPane scrollPane1 = new JScrollPane();
-        scrollPane1.setOpaque(false);
-        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //scrollPane1.setViewportView(gridPanel);
         
         triageDefListModel = new DefaultListModel<>(); 
         if(triages != null) {
@@ -267,16 +251,15 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         
         triageList = new JList<Triage>(triageDefListModel);
         triageList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        //TODO apply custom Triage cell renderer
-        //boxList.setCellRenderer(new PatientCell());
+        triageList.setCellRenderer(new TriageCell());
         triageList.addMouseListener(this);
-        scrollPane1.setViewportView(triageList);
-
-        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
-        scrollPane1.setPreferredSize(this.getPreferredSize());
-
-        //Mostrar el panel en una ventana emergente
-        add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
+        if(scrollPane1 != null){
+        	scrollPane1.setViewportView(triageList);
+        }else {
+        	showEmptyScrollPane();
+        	scrollPane1.setViewportView(boxList);
+        }
+        
     }
     
     protected void updateTriageDefModel(List<Triage> triages) {
