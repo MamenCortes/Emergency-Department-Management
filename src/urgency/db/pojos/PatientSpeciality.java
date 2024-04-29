@@ -1,16 +1,26 @@
 package urgency.db.pojos;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 public class PatientSpeciality implements Serializable{
 	
 	private Integer id_patient;
 	private Integer id_speciality;
+	private Date date;
 	
 	public PatientSpeciality() {
 		super();
 	}
+	
+	public PatientSpeciality(Integer id_patient, Integer id_speciality, Date date) {
+		super();
+		this.id_patient = id_patient;
+		this.id_speciality = id_speciality;
+		this.date = date;
+	}
+
 
 	@Override
 	public int hashCode() {
