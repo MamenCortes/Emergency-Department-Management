@@ -98,6 +98,12 @@ public class ConnectionManager {
 					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);
 			createTables1.close();
+
+			Statement createTables3 = connection.createStatement();
+			String createSpecialities = "CREATE TABLE IF NOT EXISTS Specialities ( "
+					+ " type TEXT PRIMARY KEY)";
+			createTables3.executeUpdate(createSpecialities);
+			createTables3.close();
 			
 			Statement createTables2 = connection.createStatement();
 			String createDoctors = "CREATE TABLE IF NOT EXISTS Doctors ( "
@@ -109,11 +115,6 @@ public class ConnectionManager {
 			createTables2.executeUpdate(createDoctors);
 			createTables2.close();
 			
-			Statement createTables3 = connection.createStatement();
-			String createSpecialities = "CREATE TABLE IF NOT EXISTS Specialities ( "
-					+ " type TEXT PRIMARY KEY)";
-			createTables3.executeUpdate(createSpecialities);
-			createTables3.close();
 			
 			Statement createTables4 = connection.createStatement();
 			String createTriages = "CREATE TABLE IF NOT EXISTS Triages ("
