@@ -34,7 +34,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 	protected ImageIcon icon  = new ImageIcon(getClass().getResource("/urgency/ui/icon/search-person-big.png"));
 	protected JScrollPane scrollPane1; 
 	protected String searchText = "Search By Surname"; 
-	protected MyTextField idTextField; 
+	protected MyTextField searchByTextField; 
 	protected MyButton searchButton; 
 	protected MyButton cancelButton; 
 	protected MyButton openFormButton; 
@@ -75,9 +75,9 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 	    searchTitle.setForeground(titleColor);
 	    add(searchTitle, "cell 0 1 2 1, alignx center, grow");
 	    
-	    idTextField = new MyTextField("ex. Doe..."); 
-	    idTextField.setBackground(Color.white);
-	    add(idTextField, "cell 0 2 2 1, alignx center, grow");
+	    searchByTextField = new MyTextField("ex. Doe..."); 
+	    searchByTextField.setBackground(Color.white);
+	    add(searchByTextField, "cell 0 2 2 1, alignx center, grow");
 	    
         cancelButton = new MyButton("CANCEL"); 
         cancelButton.setBackground(new Color(7, 164, 121));
@@ -302,7 +302,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 		}
 		errorMessage.setVisible(false);
 		openFormButton.setVisible(false);
-		idTextField.setText(null);
+		searchByTextField.setText(null);
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package urgency.ui.components;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -42,6 +40,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 	protected JPanel form3;
 	protected JButton backButton; 
 	protected JButton nextButton;
+	protected JButton deleteButton;
 	protected JButton applyChanges; 
 	protected JButton goBackButton; 
 	private int panelShowed = 1; 
@@ -61,13 +60,12 @@ public class FormTemplate extends JPanel implements ActionListener{
 
 
 	public FormTemplate() {
-		//TODO enableBackground of shown option
 		//Initialize panel 
 	}
 	
 	protected void initPatientForm() {
 		//TODO que la letra aumente con la pantalla
-		this.setLayout(new MigLayout("fill, inset 15, gap 0, wrap 3", "[][][]", "[][][][][][][][][][]"));
+		this.setLayout(new MigLayout("fill, inset 15, gap 0, wrap 4", "[][][][]", "[][][][][][][][][][]"));
 		forms = new ArrayList<JPanel>(); 
 		optionTexts = new ArrayList<JLabel>(); 
 		
@@ -79,7 +77,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 		title.setFont(new Font("sansserif", Font.BOLD, 25));
 		title.setAlignmentY(LEFT_ALIGNMENT);
 		title.setIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/medical-chechup.png")));
-		add(title, "cell 0 0 3 1, alignx left");
+		add(title, "cell 0 0 4 1, alignx left");
 		
 		//Add Options
 		if(option1Text != null) {
@@ -151,11 +149,18 @@ public class FormTemplate extends JPanel implements ActionListener{
         backButton.setForeground(new Color(250, 250, 250));
         backButton.addActionListener(this);
         
+        deleteButton = new MyButton("DELETE"); 
+        deleteButton.setBackground(new Color(7, 164, 121));
+        deleteButton.setForeground(new Color(250, 250, 250));
+        deleteButton.addActionListener(this);
+		add(deleteButton, "cell 2 7, center, gapy 5");
+		deleteButton.setVisible(false); 
+		
 		nextButton = new MyButton(">"); 
         nextButton.setBackground(new Color(7, 164, 121));
         nextButton.setForeground(new Color(250, 250, 250));
         nextButton.addActionListener(this);
-		add(nextButton, "cell 2 7, right, gapy 5");
+		add(nextButton, "cell 3 7, right, gapy 5");
 		
 		applyChanges = new MyButton("APPLY"); 
         applyChanges.setBackground(new Color(7, 164, 121));
@@ -166,7 +171,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 			nextButton.setVisible(false);
 			this.remove(nextButton);
 			applyChanges.setVisible(true);
-			add(applyChanges, "cell 2 7, right, gapy 5"); 
+			add(applyChanges, "cell 3 7, right, gapy 5"); 
 		}
         
         errorMessage = new JLabel(); 
@@ -212,7 +217,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     			applyChanges.setVisible(false);
     			this.remove(applyChanges);
     			nextButton.setVisible(true);
-    			add(nextButton, "cell 2 7, right, gapy 5"); 
+    			add(nextButton, "cell 3 7, right, gapy 5"); 
     		}
     		changePanel();
     		
@@ -229,7 +234,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     			nextButton.setVisible(false);
     			this.remove(nextButton);
     			applyChanges.setVisible(true);
-    			add(applyChanges, "cell 2 7, right, gapy 5"); 
+    			add(applyChanges, "cell 3 7, right, gapy 5"); 
     		}
     		
     		
@@ -254,7 +259,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 		form1.setVisible(isVisible);
 		
 		if(isVisible) {
-	    	add(form1,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form1,  "cell 1 1 3 6, grow, gap 10");
 		}
     }
     
@@ -267,7 +272,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 		forms.add(form2);
 		
 		if(isVisible) {
-	    	add(form2,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form2,  "cell 1 1 3 6, grow, gap 10");
 		}
     }
     protected void initPatientForm3(Boolean isVisible) {
@@ -279,16 +284,14 @@ public class FormTemplate extends JPanel implements ActionListener{
 		forms.add(form3);
 
 		if(isVisible) {
-	    	add(form3,  "cell 1 1 2 6, grow, gap 10");
+	    	add(form3,  "cell 1 1 3 6, grow, gap 10");
 		}
     }
     
     protected void changePanel() {
-    	int index = 0; 
     	
     	for (int i = 0; i<forms.size(); i++) {
     		if(forms.get(i).isVisible()) {
-    			index = i; 
     			forms.get(i).setVisible(false); 
     			this.remove(forms.get(i));
     			disableBackground(optionTexts.get(i));
@@ -296,7 +299,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     	}
     	
     	forms.get(panelShowed-1).setVisible(true);
-    	add(forms.get(panelShowed-1),  "cell 1 1 2 6, grow, gap 10");
+    	add(forms.get(panelShowed-1),  "cell 1 1 3 6, grow, gap 10");
     	enableBackground(optionTexts.get(panelShowed-1));
     }
     

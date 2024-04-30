@@ -33,6 +33,20 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
         Border border = javax.swing.BorderFactory.createLineBorder(darkGreen); 
         listCell.setBorder(border);
 		
+      //Surname
+      		JLabel surname = new JLabel("Surname:");
+      		surname.setForeground(titleColor);
+      		surname.setFont(titleFont); 
+      		
+      		//JLabel patientSurname= new JLabel("Apellido Random");
+      		JLabel patientSurname  = new JLabel(value.getSurname()); 
+      		
+      		
+      		patientSurname.setForeground(contentColor);
+      		patientSurname.setFont(contentFont);
+      		listCell.add(surname, "grow, left"); 
+      		listCell.add(patientSurname, "grow, left");
+      		
 		//Name
 		JLabel name = new JLabel("Name:"); 
 		name.setForeground(titleColor);
@@ -44,21 +58,6 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		listCell.add(name, "grow, left"); 
 		listCell.add(doctorName, "grow, left"); 
 		
-		
-		//Surname
-		/*JLabel surname = new JLabel("Surname:");
-		surname.setForeground(titleColor);
-		surname.setFont(titleFont); 
-		
-		//JLabel patientSurname= new JLabel("Apellido Random");
-		JLabel patientSurname  = new JLabel(value.getSurname()); 
-		
-		
-		patientSurname.setForeground(contentColor);
-		patientSurname.setFont(contentFont);
-		listCell.add(surname, "grow, left"); 
-		listCell.add(patientSurname, "grow, left");*/
-		
 		//Speciality
 		JLabel spec = new JLabel("Medical Speciality:");
 		spec.setForeground(titleColor);
@@ -67,7 +66,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		JLabel doctorSpec = new JLabel(value.getSpeciality_type());
 		doctorSpec.setForeground(contentColor);
 		doctorSpec.setFont(contentFont);
-		listCell.add(spec, "grow, left, skip 2"); 
+		listCell.add(spec, "grow, left"); 
 		listCell.add(doctorSpec, "grow, left");
 		
 		//Box assigned
@@ -87,7 +86,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		 
 		doctorBox.setForeground(contentColor);
 		doctorBox.setFont(contentFont);
-		listCell.add(box, "grow, left, skip 2"); 
+		listCell.add(box, "grow, left"); 
 		listCell.add(doctorBox, "grow, left");
 		
 		if(isSelected)

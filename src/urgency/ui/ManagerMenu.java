@@ -60,6 +60,7 @@ public class ManagerMenu extends MenuTemplate {
 			appMenu.changeToAddRoom();
 			
 		}else if(e.getSource()==searchRoomButton) {
+			appMenu.changeToSearchRoom();
 			
 		}else if(e.getSource()==generalViewButton) {
 			
