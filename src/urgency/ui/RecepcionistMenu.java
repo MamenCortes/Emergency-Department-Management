@@ -39,7 +39,7 @@ public class RecepcionistMenu extends MenuTemplate{
 			appMenu.changeToAddPatient();
 			
 		}else if(e.getSource()==searchPatientButton) {
-			appMenu.changeToAdmitPatient();
+			appMenu.changeToSearchPatient(); 
 		}else if(e.getSource()==logOutButton) {
 			appMenu.changeToUserLogIn(); 
 		}

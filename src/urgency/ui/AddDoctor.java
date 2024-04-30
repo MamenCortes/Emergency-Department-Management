@@ -19,13 +19,13 @@ public class AddDoctor extends FormTemplate {
 		this.option2Text = null; 
 		this.option3Text = null; 
 		this.appMain = appMain; 
-		this.titleText = "Add Doctor"; 
+		this.titleText = "Modify Doctor"; 
 		
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
 		speciality = new MyComboBox<String>(); 
 		specialities = appMain.specMan.getSpecialities(); 
-		patientForm1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities); 
+		form1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities); 
 		initPatientForm(); 
 	}
 	
@@ -33,10 +33,19 @@ public class AddDoctor extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
+			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
+			resetPanel(); 
 			appMain.changeToManagerMenu(); 
 		}
+	}
+	
+	@Override
+	protected void resetPanel() {
+		name.setText(null);
+		surname.setText(null);
+		speciality.setSelectedItem(null);
 	}
 	
 }

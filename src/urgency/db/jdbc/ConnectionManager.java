@@ -24,10 +24,11 @@ public class ConnectionManager {
 	public ConnectionManager() {
 		this.createConnection();
 		this.docMan = new JDBCDoctorManager(this);
-		/*this.patientMan = new JDBCPatientManager(this); 
-		this.boxManager = new JDBCBoxManager(this); 
 		this.triageManager = new JDBCTriageManager(this); 
-		this.specialityManager = new JDBCSpecialityManager(this); */
+		this.patientMan = new JDBCPatientManager(this); 
+		this.boxManager = new JDBCBoxManager(this); 
+		
+		this.specialityManager = new JDBCSpecialityManager(this); 
 	}
 
 	//Creates a connection with the database

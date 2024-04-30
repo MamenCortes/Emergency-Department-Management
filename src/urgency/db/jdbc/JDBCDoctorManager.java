@@ -72,8 +72,8 @@ public class JDBCDoctorManager implements DoctorManager {
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setInt(1, doctor.getid());
-			pstmt.setString(2, doctor.getSurname());
-			pstmt.setString(3, doctor.getName());
+			pstmt.setString(2, doctor.getName());
+			pstmt.setString(3, doctor.getSurname());
 			pstmt.setString(4, doctor.getSpeciality_type());
 			pstmt.setBoolean(5, doctor.getIn_box());
 			pstmt.executeUpdate();
@@ -166,6 +166,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		Doctor d = new Doctor(1, "Jorge", "Fernandez", "Traumatology", true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
+		docMan.
 	
 		conMan.closeConnection();								
 	}

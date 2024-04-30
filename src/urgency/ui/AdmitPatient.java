@@ -29,7 +29,7 @@ public class AdmitPatient extends FormTemplate {
 		emergency = new MyComboBox<String>(); 
 		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
 		
-		patientForm1 = new FormPanel("Admit Patient", name, surname, sex, birthDate, emergency); 
+		form1 = new FormPanel("Admit Patient", name, surname, sex, birthDate, emergency); 
 		initPatientForm(); 
 		showPatientData(); 
 		applyChanges.setText("ADMIT");
@@ -55,6 +55,12 @@ public class AdmitPatient extends FormTemplate {
 		}else if(e.getSource() == applyChanges) {
 			appMain.changeToRecepcionistMenu();
 		}
+	}
+	
+	public void updatePanelWith(Patient patient) {
+		this.patient = patient; 
+		showPatientData();
+		errorMessage.setVisible(false);
 	}
 	
 
