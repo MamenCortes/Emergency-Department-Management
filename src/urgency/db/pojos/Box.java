@@ -9,14 +9,10 @@ public class Box implements Serializable{
 	private static final long serialVersionUID = 2176901194552554551L;
 	private Integer id;
 	private boolean available;
-<<<<<<< HEAD
-	private String speciality; //te lo he cambiado a String en vez de tipo Speciality para
+	private String speciality1; //te lo he cambiado a String en vez de tipo Speciality para
 	//que no de errores de compilación
-=======
 	private Speciality speciality; //lo he vuelto a cambiar a speciality
-	//He creado otro constructor que admita un objeto speciality en vez de un string
->>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management.git
-	
+	//He creado otro constructor que admita un objeto speciality en vez de un string	
 	
 	public Box() {
 		super();
