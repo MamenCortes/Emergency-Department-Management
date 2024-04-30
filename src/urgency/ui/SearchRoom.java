@@ -22,6 +22,7 @@ public class SearchRoom extends SearchTemplate {
 	private static final long serialVersionUID = 2046290873154443207L;
 	private Application appMain; 
 	private MyComboBox<String> typeCB; 
+	private boolean isBoxSelected = false; //flag to know if we are working with boxes or triages
 	
 
 	public SearchRoom(Application appMain) {
@@ -95,54 +96,50 @@ public class SearchRoom extends SearchTemplate {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchButton) {
 			String type = (String) typeCB.getSelectedItem(); 
-			if(type.equals("Triage")) {
-				if(triageList == null) {
-					showTriages(appMain.conMan.getTriageManager().getTriages()); 
-					openFormButton.setVisible(true);
-				}else {
-					String idText = searchByTextField.getText(); 
-					if(!idText.equals("")) {
-						List<Triage> triages = new ArrayList<Triage>(); 
-						Triage triage = appMain.conMan.getTriageManager().getTriage(Integer.parseInt(idText));
-						if(triage == null) {
-							if(boxDefListModel != null) boxDefListModel.removeAllElements();
-							triageDefListModel.removeAllElements();
-							showErrorMessage("No Triages with such Id");
-						}else {
-							triages.add(triage);
-							showTriages(triages);
-						}
+			if(!isBoxSelected) { //I am working with triage
+				//Assign the scrollBox List a TriageDefaultModel and delete elements from BoxDefaultModel
+				if(boxDefListModel != null) boxDefListModel.removeAllElements();
+				showTriages(appMain.conMan.getTriageManager().getTriages()); 
+				openFormButton.setVisible(true);
+				
+				//Check if the person wants to filter the data
+				String idText = searchByTextField.getText(); 
+				if(!idText.equals("")) {//Si se ha introducido un filtro
+					List<Triage> triages = new ArrayList<Triage>(); 
+					Triage triage = appMain.conMan.getTriageManager().getTriage(Integer.parseInt(idText));
+					if(triage == null) {//no existe ningún triage con ese id
+						triageDefListModel.removeAllElements();
+						showErrorMessage("No Triages with such Id");
 					}else {
-						showTriages(appMain.conMan.getTriageManager().getTriages()); 
+						//Renderiza de nuevo la vista
+						triages.add(triage);
+						showTriages(triages);
 					}
 				}	
-			}
+			}else if(isBoxSelected) { //I am working with Box	
+				//Assign the scrollBox List a BoxDefaultModel
+				if(triageDefListModel != null) triageDefListModel.removeAllElements();
+				showBoxes(createRandomBoxes());
+				openFormButton.setVisible(true);
 			
-			if(type.equals("Box")) {
-				if(boxList == null) {
-					showBoxes(createRandomBoxes());
-					openFormButton.setVisible(true);
-				}else {
-					String idText = searchByTextField.getText(); 
-					if(!idText.equals("")) {
-						List<Box> boxes = new ArrayList<Box>();
-						Box box = appMain.conMan.getBoxManager().getBox(Integer.parseInt(idText));
-						if(box == null) {
-							if(triageDefListModel!=null) triageDefListModel.removeAllElements();
-							boxDefListModel.removeAllElements();
-							showErrorMessage("No Boxes with such Id");
-						}else {
-							boxes.add(box);
-							showBoxes(boxes);
-						}
+				String idText = searchByTextField.getText(); 
+				if(!idText.equals("")) {
+					List<Box> boxes = new ArrayList<Box>();
+					Box box = appMain.conMan.getBoxManager().getBox(Integer.parseInt(idText));
+					if(box == null) {
+						boxDefListModel.removeAllElements();
+						showErrorMessage("No Boxes with such Id");
 					}else {
-						showBoxes(createRandomBoxes());
+						boxes.add(box);
+						showBoxes(boxes);
 					}
+					
 				}
 			}
 				
 		}else if(e.getSource() == openFormButton){
-			if(boxList != null) {
+			errorMessage.setVisible(false);
+			if(isBoxSelected) {
 				Box box = boxList.getSelectedValue(); 
 				if(box == null) {
 					showErrorMessage("No Box Selected");
@@ -152,10 +149,10 @@ public class SearchRoom extends SearchTemplate {
 					appMain.changeToModifyRoom(box);
 					//appMain.changeToManagerMenu();
 				}
-			}else if(triageList != null) {
+			}else if(!isBoxSelected) {
 				Triage triage = triageList.getSelectedValue(); 
 				if(triage == null) {
-					showErrorMessage("No Box Selected");
+					showErrorMessage("No Triage Selected");
 				}else {
 					resetPanel();
 					//TODO ADD Triage Form
@@ -168,6 +165,13 @@ public class SearchRoom extends SearchTemplate {
 		}else if(e.getSource() == cancelButton){
 			resetPanel();
 			appMain.changeToManagerMenu();
+		}else if(e.getSource() == typeCB) {
+			if(typeCB.getSelectedItem().equals("Box")) {
+				isBoxSelected = true; 
+			}else if(typeCB.getSelectedItem().equals("Triage")) {
+				isBoxSelected = false; 
+			}
+			System.out.println(isBoxSelected);
 		}
 		
 	}
@@ -183,7 +187,8 @@ public class SearchRoom extends SearchTemplate {
 		errorMessage.setVisible(false);
 		openFormButton.setVisible(false);
 		searchByTextField.setText(null);
-		typeCB.setSelectedItem(null);
+		typeCB.setSelectedItem("Triage");
+		isBoxSelected = false; 
 	}
 	
 	private List<Box> createRandomBoxes() {

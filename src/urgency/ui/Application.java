@@ -32,6 +32,7 @@ public class Application extends JFrame{
 	private SearchDoctor searchDoctor; 
 	private ModifyDoctor modifyDoctor; 
 	private SearchRoom searchRoom;
+	private ModifyRoom modifyRoom; 
 
 	//TODO Create Box and Triage Forms for updating Info
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
@@ -82,6 +83,8 @@ public class Application extends JFrame{
 		appPanels.add(modifyDoctor);
 		searchRoom = new SearchRoom(this); 
 		appPanels.add(searchRoom); 
+		modifyRoom = new ModifyRoom(this); 
+		appPanels.add(modifyRoom);
 
 		setContentPane(logInPanel);
 		//conMan.closeConnection();
@@ -178,16 +181,16 @@ public class Application extends JFrame{
 	}
 	
 	public void changeToModifyRoom(Box box) {
-		addRoom.showRoomData(box);
+		modifyRoom.showRoomData(box);
 		hideAllPanels();
-		addRoom.setVisible(true);
-		this.setContentPane(addRoom); 
+		modifyRoom.setVisible(true);
+		this.setContentPane(modifyRoom); 
 	}
 	public void changeToModifyRoom(Triage triage) {
-		addRoom.showRoomData(triage);
+		modifyRoom.showRoomData(triage);
 		hideAllPanels();
-		addRoom.setVisible(true);
-		this.setContentPane(addRoom); 
+		modifyRoom.setVisible(true);
+		this.setContentPane(modifyRoom); 
 	}
 
 }
