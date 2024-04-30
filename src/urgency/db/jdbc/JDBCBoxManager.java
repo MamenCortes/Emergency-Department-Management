@@ -101,11 +101,9 @@ public class JDBCBoxManager implements BoxManager {
 	                Integer boxId = rs.getInt("id");
 	                boolean available = rs.getBoolean("available");
 	                String specialityName = rs.getString("speciality_type");
-	                Speciality speciality = new Speciality(specialityName);
-	                
+	                Speciality speciality = new Speciality(specialityName);         
 	                Box b = new Box(boxId, available, speciality);
-	                
-	                System.out.println("the id is: "+b.getId()+",availability is: "+b.getAvailable());
+	                rs.close();
 	                return b;
 
 
