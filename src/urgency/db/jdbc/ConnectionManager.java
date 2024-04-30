@@ -39,6 +39,7 @@ public class ConnectionManager {
 			connection = DriverManager.getConnection("jdbc:sqlite:./db/EmergencyDB.db"); //The folder must exist. If the database doesn't exist, it will be created. 
 			connection.createStatement().execute("PRAGMA foreign_keys=ON");
 			System.out.println("Connection and table created");
+			this.createTables();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
