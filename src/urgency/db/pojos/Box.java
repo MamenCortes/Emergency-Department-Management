@@ -9,7 +9,7 @@ public class Box implements Serializable{
 	private static final long serialVersionUID = 2176901194552554551L;
 	private Integer id;
 	private boolean available;
-	private String speciality; //te lo he cambiado a String en vez de tipo Spesiality para
+	private String speciality; //te lo he cambiado a String en vez de tipo Speciality para
 	//que no de errores de compilación
 	
 	
