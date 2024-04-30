@@ -13,15 +13,15 @@ public class Triage implements Serializable {
 	
 	public Triage (boolean available) {
 		super();
-		this.available = true;
-		this.patients = new ArrayList<Patient>();
+		this.available = available;
+		this.setPatients(new ArrayList<Patient>());
 	}
 	
 	public Triage (int id,boolean available) {
 		super();
 		this.id = id;
 		this.available = available;
-		this.patients = new ArrayList<Patient>();
+		this.setPatients(new ArrayList<Patient>());
 		
 	}
 
@@ -61,6 +61,14 @@ public class Triage implements Serializable {
 
 	public void setAvailable(boolean available) {
 		this.available = available;
+	}
+
+	public List<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
 	}
 	
 	

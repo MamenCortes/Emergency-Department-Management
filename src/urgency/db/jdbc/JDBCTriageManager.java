@@ -4,6 +4,8 @@ package urgency.db.jdbc;
 import urgency.db.pojos.*;
 
 import java.sql.*;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 import urgency.db.interfaces.TriageManager;
@@ -70,12 +72,50 @@ public class JDBCTriageManager implements TriageManager {
 		return triages;
 	}
 	
-
+	@Override
+	public void assingPatientToTriage(int patient_id, int triage_id) { //FUNCIONA
+		try {
+			String sql = "INSERT INTO PatientTriage (patient_id, triage_id, date) VALUES (?,?,?)"; 
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, patient_id);
+			pstmt.setInt(2, triage_id);
+			pstmt.setDate(3,Date.valueOf(LocalDate.now()));
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch (SQLException e) {
+			System.out.println("error");
+			e.printStackTrace();
+		} 
+	}
+	
 	@Override
 	public Patient getPatientInTriage(int id) {
-		/*try {
-			String sql = "SELECT * FROM 
-		} */
+		try {
+			String sql = "SELECT Patients.name, Patients.surname, Patients.urgency, Patients.sex, Patients.birthDate"
+					+ "FROM Patients JOIN PatientTriage ON"
+					+ "Patients.id = PatientTriage.patient_id JOIN Triages ON Triages.id = PatientTriage.triage_id "
+					+ "WHERE Triages.id = ? ORDER BY Patients.birthDate DESC";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			Integer id1 = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			String status = rs.getString("status");
+			Integer urgency = rs.getInt("urgency");
+			String sex = rs.getString("sex");
+			Date birthDate = rs.getDate("birthDate");
+			
+			Patient patient = new Patient(id1, name, surname, 0, 0, status, urgency, sex, birthDate);
+			System.out.print(patient);
+			return patient; 
+		} catch (SQLException e) {
+			System.out.println("error");
+			e.printStackTrace();
+		} 
 		return null; 
 	}
 
@@ -127,6 +167,9 @@ public class JDBCTriageManager implements TriageManager {
 		//conTriage.getTriage(4);
 		//conTriage.getTriages();
 		//conTriage.deleteTriage(3);
-		conTriage.changeAvailability(false, 4);
+		//conTriage.changeAvailability(false, 4);
+		//conTriage.assingPatientToTriage(10, 2);
+		//conTriage.getPatientInTriage(2);
 	}
+
 }

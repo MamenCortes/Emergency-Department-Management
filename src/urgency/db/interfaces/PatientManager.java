@@ -14,7 +14,7 @@ public interface PatientManager {
 	public void setStatus(int id, String status);
 	public void addComments(int Patient_id, int Box_id, String comments); 
 	public void getPatientWhithRecords(int Patient_id); //It is not void
-
+	
 	
 	
 }
