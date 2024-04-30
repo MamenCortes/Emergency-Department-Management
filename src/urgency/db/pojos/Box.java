@@ -31,6 +31,14 @@ public class Box implements Serializable{
 		this.available = available;
 		this.speciality = speciality;
 	}
+	
+
+	public Box(boolean available, String speciality1, Speciality speciality) {
+		super();
+		this.available = available;
+		this.speciality1 = speciality1;
+		this.speciality = speciality;
+	}
 
 	@Override
 	public int hashCode() {
