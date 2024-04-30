@@ -127,6 +127,6 @@ public class JDBCTriageManager implements TriageManager {
 		//conTriage.getTriage(4);
 		//conTriage.getTriages();
 		//conTriage.deleteTriage(3);
-		conTriage.changeAvailability(false, 4);
+		//conTriage.changeAvailability(false, 4);
 	}
 }
