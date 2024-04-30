@@ -132,7 +132,19 @@ public class JDBCBoxManager implements BoxManager {
 	}
 
 
-
+	public static void main (String [] args) {
+		ConnectionManager conManager = new ConnectionManager();
+		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
+		
+		Box box1 = new Box(1, true);
+		System.out.print(box1);
+		
+		conBox.addBox(box1);
+		
+		Box box2 = conBox.getBox(1);
+		System.out.println(box2);
+		
+	}
 	
 	
 }
