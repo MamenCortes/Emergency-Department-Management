@@ -38,9 +38,19 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void setStatus(int id, String status) {
-		// TODO Auto-generated method stub
-
+	public void setStatus(int id, String status) { //FUNCIONA
+		try {
+			String sql = "UPDATE Patients SET status = ? WHERE id = ?";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1,status);
+			pstmt.setInt(2,id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch (SQLException e) {
+			System.out.println("Error in the database");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -56,10 +66,9 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void addPatient(Patient patient) {
-		// TODO Auto-generated method stub
+	public void addPatient(Patient patient) { //FUNCIONA
 		try {
-			String template = "INSERT INTO patients (name, surname, weight, height, status, urgency, sex, birthdate) VALUES (?,?,?,?,?,?,?,?)";
+			String template = "INSERT INTO Patients (name, surname, weight, height, status, urgency, sex, birthdate) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, patient.getName());
@@ -76,20 +85,18 @@ public class JDBCPatientManager implements PatientManager {
 			System.out.println("Error in the database");
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
-	public List<Patient> searchPatientsBySurname(String surname) {
-		// TODO Auto-generated method stub
+	public List<Patient> searchPatientsBySurname(String surname) { //FUNCIONA
 		List<Patient> patients = new ArrayList<Patient>();
 		try {
-			String sql = "SELECT * FROM patients WHERE surname LIKE ?";
+			String sql = "SELECT * FROM Patients WHERE surname LIKE ?";
 			PreparedStatement search = connection.prepareStatement(sql);
 			search.setString(1, "%" + surname + "%");
 			ResultSet rs = search.executeQuery();
 			while(rs.next()) {
-				Integer id = rs.getInt("ID");
+				Integer id = rs.getInt("id");
 				String namePatient = rs.getString("name");
 				String surnamePatient = rs.getString("surname");
 				Float weight = rs.getFloat("weight");
@@ -107,14 +114,13 @@ public class JDBCPatientManager implements PatientManager {
 			System.out.println("Error looking for a patient");
 			e.printStackTrace();
 		}
-		return patients;
+		return null;
 	}
 
 	@Override
-	public Patient getPatient(int id) {
-		// TODO Auto-generated method stub
+	public Patient getPatient(int id) { //FUNCIONA
 		try {
-			String sql = "SELECT * FROM patients WHERE ID = " + id;
+			String sql = "SELECT * FROM Patients WHERE id = " + id;
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -141,6 +147,12 @@ public class JDBCPatientManager implements PatientManager {
 		ConnectionManager conMan = new ConnectionManager(); 
 		JDBCPatientManager patMan = new JDBCPatientManager(conMan); 
 		LocalDate birthDate = LocalDate.EPOCH; 
+		
+		//Patient patient = new Patient ("Marta", "Garcia", "hospitalized", 4, "Woman", birthDate);
+		//patMan.addPatient(patient);
+		//patMan.searchPatientsBySurname("Garcia");
+		//patMan.setStatus(10, "assisted");
+		//patMan.getPatient(10);
 		
 		/*Patient patient1 = new Patient("Rodrigo", "Gamarra", "waiting", 1, "Man", birthDate); 
 		System.out.println(patient1);

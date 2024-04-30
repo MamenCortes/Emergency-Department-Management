@@ -103,9 +103,11 @@ public class JDBCBoxManager implements BoxManager {
 				String sex = rs.getString("sex");
 				Date birthDate = rs.getDate("birthdate");
 				
+				rs.close();
 				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
 	            return newPatient;
 	        } else {
+	        	rs.close();
 	            return null;
 	        }
 	    } catch (SQLException e) {
@@ -124,12 +126,13 @@ public class JDBCBoxManager implements BoxManager {
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			Box b = new Box (rs.getInt("ID"), rs.getBoolean("Available"), rs.getString("speciality"));
+			rs.close(); 
 			return b;
 		} catch (SQLException e) {
 			System.out.println("Error");
 			e.printStackTrace();
+			return null; 
 		}
-		return null;
 	}
 
 

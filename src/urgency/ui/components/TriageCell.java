@@ -11,22 +11,22 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
-import urgency.db.pojos.Box;
+import urgency.db.pojos.Triage;
 
-public class BoxCell implements ListCellRenderer<Box> {
+public class TriageCell implements ListCellRenderer<Triage> {
 	
 	private final Color titleColor = new Color(7, 164, 121); //Bluish
-	private final Font titleFont = new Font("sansserif", 3, 12);
-	private final Font contentFont = new Font("sansserif", 1, 12);
+	private final Font titleFont = new Font("sansserif", 3, 15);
+	private final Font contentFont = new Font("sansserif", 1, 15);
 	private final Color contentColor = new Color(122, 140, 141); //Gris
     private Color backgroundColor = new Color(230, 245, 241); 
     private final Color darkGreen = new Color(24, 116, 67);
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Box> list, Box value, int index, boolean isSelected,
-			boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends Triage> list, Triage value, int index,
+			boolean isSelected, boolean cellHasFocus) {
 		JPanel listCell = new JPanel(); 
-		listCell.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 4", "push[]5[]20[]5[]push", "[][][][]"));
+		listCell.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 4", "push[][]push", ""));
 		listCell.setBackground(Color.white);
         Border border = javax.swing.BorderFactory.createLineBorder(darkGreen); 
         listCell.setBorder(border);
@@ -42,19 +42,6 @@ public class BoxCell implements ListCellRenderer<Box> {
 		listCell.add(idLabel, "grow, left"); 
 		listCell.add(boxId, "grow, left"); 
 		
-		
-		//Speciality
-		JLabel specLabel = new JLabel("Speciality:");
-		specLabel.setForeground(titleColor);
-		specLabel.setFont(titleFont); 
-		
-		JLabel boxSpec  = new JLabel(value.getSpeciality().getType()); 
-		boxSpec.setForeground(contentColor);
-		boxSpec.setFont(contentFont);
-		listCell.add(specLabel, "grow, left"); 
-		listCell.add(boxSpec, "grow, left");
-		
-		
 		if(isSelected)
 		{
 			listCell.setBackground(backgroundColor);
@@ -64,6 +51,4 @@ public class BoxCell implements ListCellRenderer<Box> {
 		return listCell;
 	}
 
-
-	
 }

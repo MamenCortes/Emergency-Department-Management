@@ -89,6 +89,7 @@ public class JDBCTriageManager implements TriageManager {
 			rs.next();
 			Triage t = new Triage (rs.getInt("id"), rs.getBoolean("available"));
 			System.out.println("the id is: "+t.getId()+", and its the availability is: "+t.getAvailable());
+			rs.close();
 			return t;
 		}catch (SQLException e) {
 			System.out.println("Error in the database");
