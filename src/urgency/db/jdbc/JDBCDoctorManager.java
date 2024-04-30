@@ -166,7 +166,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		Doctor d = new Doctor(1, "Jorge", "Fernandez", "Traumatology", true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
-		docMan.
+		
 	
 		conMan.closeConnection();								
 	}
