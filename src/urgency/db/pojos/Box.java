@@ -11,7 +11,7 @@ public class Box implements Serializable{
 	private static final long serialVersionUID = 2176901194552554551L;
 	private Integer id;
 	private boolean available;
-	private String speciality1;
+	//private String speciality1;
 	private Speciality speciality;
 	private List<PatientBox> patientBox;
 	private List<DoctorBox> doctorBox;
@@ -20,14 +20,14 @@ public class Box implements Serializable{
 		super();
 	}
 	
-	public Box (Integer id, boolean available, String speciality) {
+	/*public Box (Integer id, boolean available, String speciality) {
 		super();
 		this.id = id;
 		this.available = available;
 		this.speciality = new Speciality(speciality);
 		this.setPatients(new ArrayList<PatientBox>());
 		this.setDoctors(new ArrayList<DoctorBox>());
-	}
+	}*/
 
 	public Box (Integer id, boolean available, Speciality speciality) {
 		super();
@@ -120,7 +120,8 @@ public class Box implements Serializable{
 	public void setSpeciality(Speciality speciality) {
 		this.speciality = speciality;
 	}
-	
+
+
 	
 	
 }

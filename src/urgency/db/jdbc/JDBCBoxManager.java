@@ -70,7 +70,8 @@ public class JDBCBoxManager implements BoxManager {
 			while (rs.next()) {
 				Integer id = rs.getInt("ID");
 				Boolean availability = rs.getBoolean("Available");
-				String speciality = rs.getString("speciality");
+				String specialityName = rs.getString("speciality_type");
+	            Speciality speciality = new Speciality(specialityName);
 				Box b = new Box(id, availability, speciality);
 				boxes.add(b);
 			}
@@ -88,35 +89,45 @@ public class JDBCBoxManager implements BoxManager {
 		return null;
 	}
 
+	
 	@Override
 	public Box getBox(int id) {
-		try {
-			String sql = "SELECT * FROM Boxes WHERE id = " + id;
-			Statement st;
-			st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			rs.next();
-			Box b = new Box (rs.getInt("ID"), rs.getBoolean("Available"), rs.getString("speciality"));
-			rs.close(); 
-			return b;
-		} catch (SQLException e) {
-			System.out.println("Error");
-			e.printStackTrace();
-			return null; 
-		}
-	}
+	    String sql = "SELECT Boxes.*, Specialities.type AS speciality_type FROM Boxes " +
+                "LEFT JOIN Specialities ON Boxes.speciality_type = Specialities.type WHERE Boxes.id = ?";
+	    try (PreparedStatement st = connection.prepareStatement(sql)) {
+	        st.setInt(1, id);
+	        try (ResultSet rs = st.executeQuery()) {
+	            if (rs.next()) {
+	                Integer boxId = rs.getInt("id");
+	                boolean available = rs.getBoolean("available");
+	                String specialityName = rs.getString("speciality_type");
+	                Speciality speciality = new Speciality(specialityName);
+	                
+	                Box b = new Box(boxId, available, speciality);
+	                
+	                System.out.println("the id is: "+b.getId()+",availability is: "+b.getAvailable());
+	                return b;
 
+
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error retrieving box");
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 
 	public static void main (String [] args) {
 		ConnectionManager conManager = new ConnectionManager();
 		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
 		
 	
-		Box box1 = new Box(1, true, "trauma");
-		Box box2 = new Box(2, true, "gyno");
-		Box box3 = new Box(3, false, "cardio");
-		Box box4 = new Box(4, true, "ped");
-		Box box5 = new Box(5, false, "trauma");
+		Box box1 = new Box(1, true, null);
+		Box box2 = new Box(2, true, null);
+		Box box3 = new Box(3, false, null);
+		Box box4 = new Box(4, true, null);
+		Box box5 = new Box(5, false, null);
 		
 		
 		System.out.print(box1);
@@ -126,12 +137,13 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box5);
 
 		
-		conBox.addBox(box1);
-		conBox.addBox(box2);
-		conBox.addBox(box3);
-		conBox.getBox(1);
+		//conBox.addBox(box1);
+		//conBox.addBox(box2);
+		//conBox.addBox(box3);
+		//conBox.getBox(1);
 		conBox.getBoxes();
-		conBox.deleteBox(1);
+		//conBox.deleteBox(1);
+		
 		
 	}
 	
