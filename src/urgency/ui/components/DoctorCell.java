@@ -63,7 +63,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		spec.setForeground(titleColor);
 		spec.setFont(titleFont); 
 		
-		JLabel doctorSpec = new JLabel(value.getSpeciality_type());
+		JLabel doctorSpec = new JLabel(value.getSpeciality_type().getType());
 		doctorSpec.setForeground(contentColor);
 		doctorSpec.setFont(contentFont);
 		listCell.add(spec, "grow, left"); 

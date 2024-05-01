@@ -173,7 +173,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
 		docMan.addDoctor(d2);
 		//docMan.deleteDoctor(d2.getid());
-		//List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
+		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
 		
 		conMan.closeConnection();								
 	}
