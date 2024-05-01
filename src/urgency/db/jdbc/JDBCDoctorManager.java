@@ -35,6 +35,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		pstmt = connection.prepareStatement(template);
 		pstmt.setInt(1, d.getid());
 		pstmt.executeUpdate();
+		System.out.println("Doctor deleted");
 		pstmt.close();
 	} catch (SQLException e) {
 		System.out.println("Error in the database");
@@ -64,7 +65,7 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void addDoctor(Doctor doctor) {
-		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
+		// TODO Auto-generated method stub
 		try {
 			String template = "INSERT INTO Doctors (name, surname, speciality_type, in_box) VALUES "
 					+ "(?,?,?,?)";
@@ -131,7 +132,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String speciality_type) { 
+	public List<Doctor> getDoctorsBySpeciality(Speciality speciality_type){
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
@@ -168,8 +169,11 @@ public class JDBCDoctorManager implements DoctorManager {
 		d = new Doctor("Jorge", "Fernandez", s, true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
+		Doctor d2 = new Doctor("Maria", "Perez", s, false);
+		docMan.addDoctor(d2);
+		docMan.deleteDoctor(d2.getid());
+		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
 		
-	
 		conMan.closeConnection();								
 	}
 	
