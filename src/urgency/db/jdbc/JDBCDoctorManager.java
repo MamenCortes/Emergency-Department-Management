@@ -19,21 +19,34 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void assignBox(int Doctor_id, int Box_id) {
+	public void assignBox(int Doctor_id, int Box_id) { //habria q pasarle el date?
+		//ESTE METODO ES NECESARIO O DONDE SE UTILIZA?
 		// TODO Auto-generated method stub
-		//insertar en la tabla box-doctor
-        
+		try {
+			String sql = "INSERT INTO BoxDoctor (box_id, doctor_id, date) VALUES (?,?,?)";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, Box_id);
+			pstmt.setInt(2, Doctor_id);
+			pstmt.executeUpdate();
+			System.out.println("Doctor assigned to box");
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  
 	}
 
 	@Override
-	public void deleteDoctor(int id) {
+	public void deleteDoctor(int id) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
-		Doctor d = conMan.getDocMan().getDoctor(id);
+		//Doctor d = conMan.getDocMan().getDoctor(id);
 		try {
 		String template = "DELETE FROM Doctors WHERE id = ? ";
 		PreparedStatement pstmt;
 		pstmt = connection.prepareStatement(template);
-		pstmt.setInt(1, d.getid());
+		pstmt.setInt(1, id);
 		pstmt.executeUpdate();
 		System.out.println("Doctor deleted");
 		pstmt.close();
@@ -45,26 +58,28 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void changeStatus(boolean in_box) {
+	public void changeStatus(int id, boolean in_box) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
-		/*try{
-		String template = "UPDATE doctors SET InBox = ? WHERE id = ? AND name = ?";
+		//Doctor d = conMan.getDocMan().getDoctor(id);
+		try{
+		String template = "UPDATE Doctors SET in_box = ? WHERE id = ?";
 		PreparedStatement pstmt;
 		pstmt = connection.prepareStatement(template);
-		//pstmt.setString(1, b.getName());
-		//pstmt.setString(2, b.getSurname());
+		pstmt.setBoolean(1, in_box);
+		pstmt.setInt(2, id);
 		pstmt.executeUpdate();
+		System.out.println("Status changed");
 		pstmt.close();
 	} catch (SQLException e) {
 		System.out.println("Error in the database");
 		e.printStackTrace();
-	}*/
+	}
 		
     }  
 	
 
 	@Override
-	public void addDoctor(Doctor doctor) {
+	public void addDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
 			String template = "INSERT INTO Doctors (name, surname, speciality_type, in_box) VALUES "
@@ -107,7 +122,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) {
+	public Doctor getDoctor(int id) { //problema con especialidad, tipo speciality o string
 		// TODO Auto-generated method stub
 		try {
 			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
@@ -116,7 +131,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
-					   (Speciality)rs.getObject("speciality"),  rs.getBoolean("InBox"));
+					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
 			return d;
 		}catch(SQLException e) {
@@ -127,17 +142,22 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void updateDoctor(Doctor doctor) {
-		// TODO Auto-generated method stub, WHAT WE UPDATE HERE??, coge el id, busca el doctor con el mismo id
+	public void updateDoctor(Doctor doctor) {// WHAT IS UPDATED HERE?
+		// TODO Auto-generated method stub
+		/*try {
+			String sql = "UPDATE Doctors SET "
+			
+		}catch()
+		*/
 		
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(Speciality speciality_type){
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //problem with the speciality
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
-			String sql = "SELECT * FROM Doctors WHERE speciality LIKE ?";
+			String sql = "SELECT * FROM Doctors WHERE speciality_type LIKE ?";
 			PreparedStatement p;
 			p = connection.prepareStatement(sql);
 			p.setString(1, "%" + speciality_type + "%");
@@ -146,7 +166,7 @@ public class JDBCDoctorManager implements DoctorManager {
 				Integer id = rs.getInt("ID");
 				String doctorName = rs.getString("name");
 				String doctorSurname = rs.getString("surname");
-				Speciality doctorSpeciality = (Speciality)rs.getObject("speciality");
+				String doctorSpeciality = rs.getString("speciality_type");
 				Boolean inbox = rs.getBoolean("in_box");
 				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorSpeciality, inbox);
 				doctors.add(d);
@@ -166,15 +186,21 @@ public class JDBCDoctorManager implements DoctorManager {
 		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
 		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
 		Speciality s = new Speciality("Psychiatry");
+		conMan.getSpecialityManager().addSpeciality(s);
 		Doctor d;
 		d = new Doctor(1,"Jorge", "Fernandez", s, true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
 		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
 		docMan.addDoctor(d2);
-		//docMan.deleteDoctor(d2.getid());
-		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
-		
+		docMan.deleteDoctor(d2.getid());
+		docMan.changeStatus(1, false);
+		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s.getType());
+		Doctor d3 = docMan.getDoctor(1);
+		System.out.println(d3);
+		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez"); //SE ME METE EN BUCLE INFINITO?
+		System.out.println(doctors2);
+		//XQ NO SE ME IMPRIME EL APELLIDO?
 		conMan.closeConnection();								
 	}
 	
