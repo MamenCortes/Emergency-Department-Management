@@ -39,8 +39,16 @@ public class AddSpeciality extends FormTemplate {
 			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
-			resetPanel(); 
-			appMain.changeToManagerMenu(); 
+			String specType = specialityTextField.getText();
+			if(!specType.equals("")) {
+				appMain.conMan.getSpecialityManager().addSpeciality(new Speciality(specType));
+				resetPanel(); 
+				appMain.changeToManagerMenu(); 
+			}
+			else {
+				showErrorMessage("Insert a Speciality Type");
+			}
+			
 			//showErrorMessage(errorMessage); 
 		}
 	}

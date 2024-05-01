@@ -16,7 +16,7 @@ public class Application extends JFrame{
 	//JDBC Objects
 	public ConnectionManager conMan;
 	public JDBCPatientManager patientMan; 
-	public JDBCSpecialityManager specMan; 
+	//public JDBCSpecialityManager specMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -34,17 +34,17 @@ public class Application extends JFrame{
 	private SearchRoom searchRoom;
 	private ModifyRoom modifyRoom; 
 
-	//TODO Create Box and Triage Forms for updating Info
+
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
-	//TODO Add delete buttons in Modify Objects
-	//TODO Add Delete functionality in ModifyForms 
+	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor y admitPatient (implementar método update)
+	//TODO Add Create functionality in AddForms: falta addDoctor
 	//TODO Create General View
 	//TODO Create Nurse View
 	//TODO Create Doctor View
 	public Application() {
 		conMan = new ConnectionManager(); 
 		patientMan = new JDBCPatientManager(conMan); 
-		specMan = new JDBCSpecialityManager(conMan);
+		//specMan = new JDBCSpecialityManager(conMan);
 		appPanels = new ArrayList<JPanel>(); 
 		
 		
@@ -61,9 +61,7 @@ public class Application extends JFrame{
 		appPanels.add(addPatient); 
 		
 		//Example patient
-		Patient patient1 = patientMan.getPatient(3); 
-		System.out.println(patient1);
-		admitPatient = new AdmitPatient(patient1, this); 
+		admitPatient = new AdmitPatient(this); 
 		appPanels.add(admitPatient); 
 		
 		addDoctor = new AddDoctor(this);

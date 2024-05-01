@@ -366,7 +366,6 @@ public class FormPanel extends JPanel {
 	    
         roomType.addItem("Triage");
         roomType.addItem("Box");
-        roomType.addItem("Emergency Room");
         add(roomType, "grow, span, grow");
 	    
 	    JLabel specText = new JLabel("Speciality*");

@@ -28,7 +28,7 @@ public class ModifyDoctor extends FormTemplate {
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
 		speciality = new MyComboBox<String>(); 
-		specialities = appMain.specMan.getSpecialities(); 
+		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
 		//TODO Add box ComboBox
 		List<Integer> boxesList = new ArrayList<Integer>(); 
 		for (int i = 0; i<10; i++) {

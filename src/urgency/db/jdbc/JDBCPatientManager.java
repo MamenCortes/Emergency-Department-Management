@@ -138,7 +138,27 @@ public class JDBCPatientManager implements PatientManager {
 
 	@Override
 	public void updatePatient(Patient patient) {
-		// TODO Auto-generated method stub
+		try {
+			String template = "UPDATE Patients SET name = ?, surname = ?, weight = ?, height = ?, status = ?, "
+					+ "urgency = ?, sex = ?, birthdate = ? "
+					+ "WHERE id = ?";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(template);
+			pstmt.setString(1, patient.getName());
+			pstmt.setString(2, patient.getSurname());
+			pstmt.setFloat(3, patient.getWeight());
+			pstmt.setFloat(4, patient.getHeight());
+			pstmt.setString(5, patient.getStatus());
+			pstmt.setInt(6, patient.getUrgency());
+			pstmt.setString(7, patient.getSex());
+			pstmt.setDate(8, patient.getBirthDate());
+			pstmt.setInt(9, patient.getId());			
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.out.println("Error updating the patient");
+			e.printStackTrace();
+		}
 		
 	}
 
