@@ -73,7 +73,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, doctor.getName());
 			pstmt.setString(2, doctor.getSurname());
-			pstmt.setObject(3, doctor.getSpeciality_type());
+			pstmt.setString(3, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(4, doctor.getIn_box());
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -117,6 +117,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
 					   (Speciality)rs.getObject("speciality"),  rs.getBoolean("InBox"));
+			rs.close();
 			return d;
 		}catch(SQLException e) {
 			System.out.println("Error");
@@ -171,8 +172,8 @@ public class JDBCDoctorManager implements DoctorManager {
 		System.out.println("Doctor added");
 		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
 		docMan.addDoctor(d2);
-		docMan.deleteDoctor(d2.getid());
-		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
+		//docMan.deleteDoctor(d2.getid());
+		//List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
 		
 		conMan.closeConnection();								
 	}
