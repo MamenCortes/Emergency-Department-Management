@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import urgency.db.pojos.Doctor;
 import urgency.db.interfaces.DoctorManager;
 
 public class JDBCDoctorManager implements DoctorManager {
@@ -67,15 +66,14 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void addDoctor(Doctor doctor) {
 		// TODO Auto-generated method stub, IT IS ONLY MECESSARY THE NAME TO ADD A DOCTOR??, id.
 		try {
-			String template = "INSERT INTO Doctors (id, name, surname, speciality_type, in_box) VALUES "
-					+ "(?,?, ?, ?,?)";
+			String template = "INSERT INTO Doctors (name, surname, speciality_type, in_box) VALUES "
+					+ "(?,?,?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
-			pstmt.setInt(1, doctor.getid());
-			pstmt.setString(2, doctor.getName());
-			pstmt.setString(3, doctor.getSurname());
-			pstmt.setString(4, doctor.getSpeciality_type());
-			pstmt.setBoolean(5, doctor.getIn_box());
+			pstmt.setString(1, doctor.getName());
+			pstmt.setString(2, doctor.getSurname());
+			pstmt.setObject(3, doctor.getSpeciality_type());
+			pstmt.setBoolean(4, doctor.getIn_box());
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -117,7 +115,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
-					   rs.getString("speciality"),  rs.getBoolean("InBox"));
+					   (Speciality)rs.getObject("speciality"),  rs.getBoolean("InBox"));
 			return d;
 		}catch(SQLException e) {
 			System.out.println("Error");
@@ -146,8 +144,9 @@ public class JDBCDoctorManager implements DoctorManager {
 				Integer id = rs.getInt("ID");
 				String doctorName = rs.getString("name");
 				String doctorSurname = rs.getString("surname");
-				String doctorSpeciality = rs.getString("speciality");
-				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorSpeciality);
+				Speciality doctorSpeciality = (Speciality)rs.getObject("speciality");
+				Boolean inbox = rs.getBoolean("in_box");
+				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorSpeciality, inbox);
 				doctors.add(d);
 			}
 			rs.close();
@@ -162,8 +161,11 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager();
-		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan);
-		Doctor d = new Doctor(1, "Jorge", "Fernandez", "Traumatology", true);
+		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
+		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
+		Speciality s = new Speciality("Psychiatry");
+		Doctor d;
+		d = new Doctor("Jorge", "Fernandez", s, true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
 		
