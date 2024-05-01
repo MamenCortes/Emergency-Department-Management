@@ -40,23 +40,37 @@ public class JDBCBoxManager implements BoxManager {
 			}
 	}
 
-
 	@Override
 	public void addBox(Box box) {
-		try {
-			String sql = "INSERT INTO Boxes (available) VALUES (?)";
-			PreparedStatement pstmt;
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setBoolean(1,box.getAvailable()); 
-			pstmt.executeUpdate();
-			pstmt.close();
-			}
-		catch (SQLException e) {
-				System.out.println("Error");
-				e.printStackTrace();
-			}
-		
+	    try {
+	        JDBCSpecialityManager specialityManager = new JDBCSpecialityManager(conManager);
+	        List<String> existingSpecialities = specialityManager.getSpecialities();
+	        Speciality speciality = box.getSpeciality();
+	        if (speciality == null) {
+	            System.out.println("Speciality nula");
+	            return;
+	        }
+	        String speciality_type = speciality.getType();
+	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
+	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
+	            return;
+	        }
+	        
+	        int specialityId = existingSpecialities.indexOf(speciality_type);
+	        
+	        
+	        String sql = "INSERT INTO Boxes (available, speciality_type) VALUES (?, ?)";
+	        PreparedStatement pstmt = connection.prepareStatement(sql);
+	        pstmt.setBoolean(1, box.getAvailable());
+	        pstmt.setInt(2, specialityId);
+	        pstmt.executeUpdate();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
 	}
+	
 
 	@Override
 	public List<Box> getBoxes() {
@@ -135,11 +149,11 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box5);
 
 		
-		//conBox.addBox(box1);
+		conBox.addBox(box1);
 		//conBox.addBox(box2);
 		//conBox.addBox(box3);
 		//conBox.getBox(1);
-		conBox.getBoxes();
+		//conBox.getBoxes();
 		//conBox.deleteBox(1);
 		
 		
