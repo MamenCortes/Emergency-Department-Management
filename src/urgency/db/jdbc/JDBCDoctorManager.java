@@ -166,10 +166,10 @@ public class JDBCDoctorManager implements DoctorManager {
 		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
 		Speciality s = new Speciality("Psychiatry");
 		Doctor d;
-		d = new Doctor("Jorge", "Fernandez", s, true);
+		d = new Doctor(1,"Jorge", "Fernandez", s, true);
 		docMan.addDoctor(d);
 		System.out.println("Doctor added");
-		Doctor d2 = new Doctor("Maria", "Perez", s, false);
+		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
 		docMan.addDoctor(d2);
 		docMan.deleteDoctor(d2.getid());
 		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s);
