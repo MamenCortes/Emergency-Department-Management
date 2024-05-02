@@ -146,7 +146,6 @@ public class SearchRoom extends SearchTemplate {
 					showErrorMessage("No Box Selected");
 				}else {
 					resetPanel();
-					//TODO add BOX FORM
 					appMain.changeToModifyRoom(box);
 					//appMain.changeToManagerMenu();
 				}
@@ -156,7 +155,6 @@ public class SearchRoom extends SearchTemplate {
 					showErrorMessage("No Triage Selected");
 				}else {
 					resetPanel();
-					//TODO ADD Triage Form
 					appMain.changeToManagerMenu();
 					appMain.changeToModifyRoom(triage);
 				}
