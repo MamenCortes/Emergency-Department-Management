@@ -64,6 +64,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 		}
 	}
 
+	/*
 	@Override
 	public void assignDoctorSpeciality(int Doctor_id, String Speciality_type) {
 		//Try if it works correctly
@@ -81,7 +82,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 			System.out.println(e.getMessage());
 		}
 
-	}
+	}*/
 
 	@Override
 	public void assignBoxSpecility(int Box_id, String Speciality_type) {

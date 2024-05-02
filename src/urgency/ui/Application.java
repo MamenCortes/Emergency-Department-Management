@@ -33,14 +33,16 @@ public class Application extends JFrame{
 	private ModifyDoctor modifyDoctor; 
 	private SearchRoom searchRoom;
 	private ModifyRoom modifyRoom; 
+	private GeneralView generalView; 
 
 
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
 	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor y admitPatient (implementar método update)
 	//TODO Add Create functionality in AddForms: falta addDoctor
 	//TODO Create General View
-	//TODO Create Nurse View
+	//TODO Create Triage Nurse View
 	//TODO Create Doctor View
+	//TODO Speciality no se muestra en el Box cell
 	public Application() {
 		conMan = new ConnectionManager(); 
 		patientMan = new JDBCPatientManager(conMan); 
@@ -83,8 +85,11 @@ public class Application extends JFrame{
 		appPanels.add(searchRoom); 
 		modifyRoom = new ModifyRoom(this); 
 		appPanels.add(modifyRoom);
+		generalView = new GeneralView(this); 
+		appPanels.add(generalView); 
+		
 
-		setContentPane(logInPanel);
+		setContentPane(generalView);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {

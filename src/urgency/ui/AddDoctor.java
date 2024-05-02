@@ -40,8 +40,10 @@ public class AddDoctor extends FormTemplate {
 			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
-			resetPanel(); 
-			appMain.changeToManagerMenu(); 
+			if(createDoctor()) {
+				resetPanel(); 
+				appMain.changeToManagerMenu(); 
+			}
 		}
 	}
 	
@@ -64,9 +66,9 @@ public class AddDoctor extends FormTemplate {
 		
 		String specText = speciality.getSelectedItem().toString(); 
 		Speciality patientSpec = new Speciality(specText); 
-		/*Doctor doctor = new Doctor(name, surname, patientSpec);
-		appMain.conMan.getPatientMan().addPatient(doctor);
-		System.out.println(doctor);*/
+		Doctor doctor = new Doctor(name, surname, patientSpec);
+		appMain.conMan.getDocMan().addDoctor(doctor);
+		System.out.println(doctor);
 		return true; 
 	}
 	
