@@ -54,6 +54,17 @@ public class Doctor implements Serializable{
 		this.boxes = new ArrayList<>();
 	}
 
+	public Doctor(Integer id, String name, String surname, String type, Boolean in_box) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		//this.speciality_type= type; QUE PONGO
+		this.in_box = in_box;
+		this.patients = new ArrayList<>();
+		this.boxes = new ArrayList<>();
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);

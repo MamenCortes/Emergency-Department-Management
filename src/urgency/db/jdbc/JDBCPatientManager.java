@@ -128,6 +128,7 @@ public class JDBCPatientManager implements PatientManager {
 			
 			Patient p = new Patient(rs.getInt("id"), rs.getString("name"), rs.getString("surname"), rs.getFloat("weight"),  
 					    rs.getFloat("height"), rs.getString("status"), rs.getInt("urgency"), rs.getString("sex"), rs.getDate("birthdate"));
+			rs.close();
 			return p;
 		}catch(SQLException e) {
 			System.out.println("Error");
