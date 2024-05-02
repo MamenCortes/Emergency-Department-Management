@@ -89,7 +89,7 @@ public class Application extends JFrame{
 		appPanels.add(generalView); 
 		
 
-		setContentPane(generalView);
+		setContentPane(logInPanel);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {

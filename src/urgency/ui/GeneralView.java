@@ -133,7 +133,7 @@ public class GeneralView extends SearchTemplate{
 		if(boxList != null) {
 			Box box = boxList.getSelectedValue(); 
 			System.out.println(box);
-			List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality());
+			List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
 		}
 		
 	}

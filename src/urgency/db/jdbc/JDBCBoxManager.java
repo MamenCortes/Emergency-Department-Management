@@ -40,6 +40,7 @@ public class JDBCBoxManager implements BoxManager {
 			}
 	}
 
+	/*
 	@Override
 	public void addBox(Box box) {
 	    try {
@@ -70,7 +71,36 @@ public class JDBCBoxManager implements BoxManager {
 	        e.printStackTrace();
 	    }
 	}
+	*/
 	
+	@Override
+	public void addBox(Box box) {
+	    try {
+	        JDBCSpecialityManager specialityManager = new JDBCSpecialityManager(conManager);
+	        List<String> existingSpecialities = specialityManager.getSpecialities(); 
+	        Speciality speciality = box.getSpeciality();
+	        if (speciality == null) {
+	            System.out.println("Speciality nula");
+	            return; //Esto habría que manejarlo mejor lanzando excepciones
+	        }
+	        String speciality_type = speciality.getType();
+	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
+	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
+	            return;
+	        }
+	        
+	        
+	        String sql = "INSERT INTO Boxes (available, speciality_type) VALUES (?, ?)";
+	        PreparedStatement pstmt = connection.prepareStatement(sql);
+	        pstmt.setBoolean(1, box.getAvailable());
+	        pstmt.setString(2, speciality_type);
+	        pstmt.executeUpdate();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
+	}
 
 	@Override
 	public List<Box> getBoxes() {
