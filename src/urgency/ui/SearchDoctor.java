@@ -29,12 +29,12 @@ public class SearchDoctor extends SearchTemplate {
 		if(e.getSource() == searchButton) {
 			errorMessage.setVisible(false);
 			String input = searchByTextField.getText();  
-			List<Doctor> doctorsSubSet = new ArrayList<Doctor>(); 
-			for (Doctor doctor : randomDoctors) {
+			List<Doctor> doctorsSubSet = appMain.conMan.getDocMan().searchDoctorsBySurname(input);
+			/*for (Doctor doctor : randomDoctors) {
 				if(doctor.getSurname().equals(input)) {
 					doctorsSubSet.add(doctor); 
 				}
-			}
+			}*/
 			updateDoctorDefModel(doctorsSubSet);
 			if(doctorsSubSet.isEmpty()) {
 				showErrorMessage("No doctor found");

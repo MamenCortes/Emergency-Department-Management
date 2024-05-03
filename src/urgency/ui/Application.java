@@ -45,7 +45,7 @@ public class Application extends JFrame{
 	//TODO Speciality no se muestra en el Box cell
 	public Application() {
 		conMan = new ConnectionManager(); 
-		patientMan = new JDBCPatientManager(conMan); 
+		//patientMan = new JDBCPatientManager(conMan); 
 		//specMan = new JDBCSpecialityManager(conMan);
 		appPanels = new ArrayList<JPanel>(); 
 		

@@ -43,7 +43,6 @@ public class AddRoom extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
-			createRoom(); 
 			appMain.changeToManagerMenu();
 			resetPanel();
 		}else if(e.getSource() == applyChanges) {

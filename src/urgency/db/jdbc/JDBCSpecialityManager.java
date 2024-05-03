@@ -30,7 +30,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 
 	private void addSpecialities() {
 		List<Speciality> specialities = getSpecialities1(); 
-		if(specialities == null) {
+		if(specialities.isEmpty()) {
 			Speciality spec1 = new Speciality("Internal medicine"); 
 			addSpeciality(spec1);
 			Speciality spec2 = new Speciality("Family medicine"); 

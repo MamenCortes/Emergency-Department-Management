@@ -109,6 +109,7 @@ public class GeneralView extends SearchTemplate{
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane1.setPreferredSize(this.getPreferredSize());
         scrollPane1.addMouseListener(this);
+        System.out.println(appMain.conMan.getBoxManager().getBoxes());
         showBoxes(appMain.conMan.getBoxManager().getBoxes());
         
         scrollPane2 = new JScrollPane();
@@ -134,6 +135,8 @@ public class GeneralView extends SearchTemplate{
 			Box box = boxList.getSelectedValue(); 
 			System.out.println(box);
 			List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
+			System.out.println(doctors);
+			showDoctors(doctors);
 		}
 		
 	}

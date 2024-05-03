@@ -59,7 +59,7 @@ public class Doctor implements Serializable{
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
-		//this.speciality_type= type; QUE PONGO
+		this.speciality_type= new Speciality(type); //pones esto
 		this.in_box = in_box;
 		this.patients = new ArrayList<>();
 		this.boxes = new ArrayList<>();
