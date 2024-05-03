@@ -63,6 +63,7 @@ public class ManagerMenu extends MenuTemplate {
 			appMenu.changeToSearchRoom();
 			
 		}else if(e.getSource()==generalViewButton) {
+			appMenu.changeToGeneralView();
 			
 		}else if(e.getSource()==logOutButton) {
 			appMenu.changeToUserLogIn();

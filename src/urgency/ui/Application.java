@@ -39,7 +39,7 @@ public class Application extends JFrame{
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
 	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor y admitPatient (implementar método update)
 	//TODO Add Create functionality in AddForms: falta addDoctor
-	//TODO Create General View
+	//TODO Solve getBoxes method in Box 
 	//TODO Create Triage Nurse View
 	//TODO Create Doctor View
 	//TODO Speciality no se muestra en el Box cell
@@ -194,6 +194,11 @@ public class Application extends JFrame{
 		hideAllPanels();
 		modifyRoom.setVisible(true);
 		this.setContentPane(modifyRoom); 
+	}
+	public void changeToGeneralView() {
+		hideAllPanels();
+		generalView.setVisible(true);
+		this.setContentPane(generalView); 
 	}
 
 }

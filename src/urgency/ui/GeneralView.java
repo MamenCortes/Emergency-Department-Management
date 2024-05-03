@@ -30,6 +30,11 @@ public class GeneralView extends SearchTemplate{
 	private static final long serialVersionUID = 1760715007022398845L;
 	private Application appMain;
 	private JScrollPane scrollPane2;
+	private final Font contentFont = new Font("sansserif", 1, 12);
+	private final Color contentColor = new Color(122, 140, 141);
+    private final Color darkGreen = new Color(24, 116, 67);
+	private MyButton assignButton; 
+	private JLabel explanationText2; 
 	
 	public GeneralView(Application appMain) {
 		this.appMain = appMain;
@@ -37,7 +42,7 @@ public class GeneralView extends SearchTemplate{
 	} 
 	
 	protected void initGeneralView() {
-		this.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 3, debug", "[][]5[][]", "[][][][][][][][][][]"));
+		this.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 3", "[][]5[][]", "[][][][][][][][][][][][]"));
 		//Add Title
 		title = new JLabel("Assign doctors to boxes");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -47,63 +52,6 @@ public class GeneralView extends SearchTemplate{
 		title.setIcon(icon);
 		add(title, "cell 0 0 3 1, alignx left");
 		
-		
-		
-		/*
-		
-		//Initialize search panel
-		JLabel typeTitle = new JLabel("Select Type"); 
-	    typeTitle.setFont(titleFont);
-	    typeTitle.setForeground(titleColor);
-	    add(typeTitle, "cell 0 1 2 1, alignx center, grow");
-	    
-	    typeCB = new MyComboBox<String>(); 
-        typeCB.addItem("Triage");
-        typeCB.addItem("Box");
-        typeCB.addActionListener(this);
-        add(typeCB, "cell 0 2 2 1, alignx center, grow");
-	    
-	    //
-		JLabel idTitle = new JLabel("Search by Room ID"); 
-	    idTitle.setFont(titleFont);
-	    idTitle.setForeground(titleColor);
-	    add(idTitle, "cell 0 3 2 1, alignx center, grow");
-	    
-	    searchByTextField = new MyTextField("ex. Doe..."); 
-	    searchByTextField.setBackground(Color.white);
-	    add(searchByTextField, "cell 0 4 2 1, alignx center, grow");
-	    
-        cancelButton = new MyButton("CANCEL"); 
-        cancelButton.setBackground(new Color(7, 164, 121));
-        cancelButton.setForeground(new Color(250, 250, 250));
-        cancelButton.addActionListener(this);
-	    add(cancelButton, "cell 0 5, left, gapy 5, grow");
-	    
-		searchButton = new MyButton("SEARCH"); 
-        searchButton.setBackground(new Color(7, 164, 121));
-        searchButton.setForeground(new Color(250, 250, 250));
-        searchButton.addActionListener(this);
-	    add(searchButton, "cell 1 5, right, gapy 5, grow");
-	    
-		openFormButton = new MyButton("OPEN FILE"); 
-        openFormButton.setBackground(new Color(7, 164, 121));
-        openFormButton.setForeground(new Color(250, 250, 250));
-        openFormButton.addActionListener(this);
-	    add(openFormButton, "cell 0 6, center, gapy 5, span 2, grow");
-	    openFormButton.setVisible(false);
-	    
-        errorMessage = new JLabel(); 
-	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
-	    errorMessage.setForeground(Color.red);
-	    errorMessage.setText("Error message test");
-	    this.add(errorMessage, "cell 0 7, span 2, left"); 
-	    errorMessage.setVisible(false); */
-			    
-	    showEmptyScrollPane();
-	}
-	
-	@Override
-    protected void showEmptyScrollPane() {
         scrollPane1 = new JScrollPane();
         scrollPane1.setOpaque(false);
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -111,6 +59,17 @@ public class GeneralView extends SearchTemplate{
         scrollPane1.addMouseListener(this);
         System.out.println(appMain.conMan.getBoxManager().getBoxes());
         showBoxes(appMain.conMan.getBoxManager().getBoxes());
+        
+		JLabel explanationText = new JLabel("Select A Box"); 
+	    explanationText.setFont(contentFont);
+	    explanationText.setForeground(contentColor);
+	    explanationText.setAlignmentY(CENTER_ALIGNMENT);
+	    add(explanationText, "cell 0 1 1 1, alignx center");
+	    
+		explanationText2 = new JLabel("Select maximum 3 doctors using ctrl"); 
+	    explanationText2.setFont(contentFont);
+	    explanationText2.setForeground(contentColor);
+	    add(explanationText2, "cell 2 1 1 1, alignx center");
         
         scrollPane2 = new JScrollPane();
         scrollPane2.setOpaque(false);
@@ -120,18 +79,68 @@ public class GeneralView extends SearchTemplate{
         showDoctors(appMain.conMan.getDocMan().getDoctorsBySpeciality(null));
         
         //Mostrar el panel en una ventana emergente
-        add(scrollPane1,  "cell 0 1 1 8, grow, gap 10");
-        add(scrollPane2,  "cell 2 1 1 8, grow, gap 10");
-    }
+        add(scrollPane1,  "cell 0 2 1 8, grow, gap 10");
+        add(scrollPane2,  "cell 2 2 1 8, grow, gap 10");
+		
+        cancelButton = new MyButton("GO BACK"); 
+        cancelButton.setBackground(new Color(7, 164, 121));
+        cancelButton.setForeground(new Color(250, 250, 250));
+        cancelButton.addActionListener(this);
+	    add(cancelButton, "cell 0 10, center, gapy 5, gapx 10, grow");
+	    
+	    assignButton = new MyButton("ASSIGN"); 
+        assignButton.setBackground(new Color(7, 164, 121));
+        assignButton.setForeground(new Color(250, 250, 250));
+        assignButton.addActionListener(this);
+	    add(assignButton, "cell 2 10, center, gapy 5, gapx 10, grow");
+	    assignButton.setVisible(false);
+			    
+	}
+
+	@Override
+	protected void showErrorMessage(String text) {
+		explanationText2.setText(text);
+		explanationText2.setForeground(Color.RED);
+	}
+	
+	private void hideErrorMessage() {
+		explanationText2.setText("Select maximum 3 doctors using ctrl");
+		explanationText2.setForeground(contentColor);
+	}
+	
+	private void showFeedbackMessage(String text) {
+		explanationText2.setText(text);
+		explanationText2.setForeground(darkGreen);
+	}
+
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == assignButton) {
+			List<Doctor> doctors = doctorList.getSelectedValuesList(); 
+			Integer boxId = boxList.getSelectedValue().getId(); 
+			if(doctors.size()>3) {
+				showErrorMessage("More than 3 doctors cannot be selected");
+			}else if(doctors.size() == 0){
+				showErrorMessage("Select at least 1 doctor to assign to Box "+boxId);
+			}else {
+				showFeedbackMessage("Doctors assigned to Box "+boxId);
+				for (Doctor doctor : doctors) {
+					appMain.conMan.getDocMan().assignBox(doctor.getid(), boxId);
+				}
+				showDoctors(appMain.conMan.getDocMan().getDoctorsBySpeciality(boxList.getSelectedValue().getSpeciality().getType()));
+			}
+		}else if(e.getSource() == cancelButton) {
+			appMain.changeToManagerMenu();
+		}
 
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(boxList != null) {
+		hideErrorMessage();
+		assignButton.setVisible(true);
+		if(e.getSource() == boxList) {
 			Box box = boxList.getSelectedValue(); 
 			System.out.println(box);
 			List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
@@ -152,7 +161,7 @@ public class GeneralView extends SearchTemplate{
         }
         
         doctorList = new JList<Doctor>(doctorDefListModel);
-        doctorList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        doctorList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         doctorList.setCellRenderer(new DoctorCell());
         doctorList.addMouseListener(this);
         scrollPane2.setViewportView(doctorList);

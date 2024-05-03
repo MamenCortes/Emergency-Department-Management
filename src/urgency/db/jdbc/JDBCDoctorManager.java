@@ -3,6 +3,7 @@ package urgency.db.jdbc;
 import urgency.db.pojos.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, Box_id);
 			pstmt.setInt(2, Doctor_id);
+			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
 			pstmt.executeUpdate();
 			System.out.println("Doctor assigned to box");
 			pstmt.close();
