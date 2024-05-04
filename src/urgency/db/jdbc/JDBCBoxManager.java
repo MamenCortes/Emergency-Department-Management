@@ -136,7 +136,7 @@ public class JDBCBoxManager implements BoxManager {
 	
 	@Override
 	public Box getBox(int id) {
-	    String sql = "SELECT Boxes.*, Specialities.type AS speciality_type FROM Boxes " +
+	    String sql = "SELECT Boxes.* FROM Boxes " +
                 "LEFT JOIN Specialities ON Boxes.speciality_type = Specialities.type WHERE Boxes.id = ?";
 	    try (PreparedStatement st = connection.prepareStatement(sql)) {
 	        st.setInt(1, id);

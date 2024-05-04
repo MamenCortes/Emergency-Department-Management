@@ -34,6 +34,10 @@ public class Application extends JFrame{
 	private GeneralView generalView; 
 	private NurseView nurseView; 
 	private PatientForm patientForm; 
+	private DoctorView doctorView; 
+	
+	//For tests
+	private ActorsMenu actorsMenu; 
 
 
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
@@ -41,7 +45,8 @@ public class Application extends JFrame{
 		//y PatientForm
 	//TODO Add Create functionality in AddForms: falta addDoctor
 	//TODO Solve getBoxes method in Box 
-	//TODO Create Doctor View
+	//TODO Create Patient record Cell and solve DoctorView
+	//TODO addFunctionality to patientForm
 
 	public Application() {
 		conMan = new ConnectionManager(); 
@@ -50,6 +55,12 @@ public class Application extends JFrame{
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 602, 436);
+		
+		//For tests
+		actorsMenu = new ActorsMenu(this); 
+		appPanels.add(actorsMenu); 
+		////////////////////
+		
 		logInPanel = new UserLogIn(this); 
 		appPanels.add(logInPanel); 
 		logInPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,9 +102,10 @@ public class Application extends JFrame{
 		appPanels.add(nurseView); 
 		patientForm = new PatientForm(this); 
 		appPanels.add(patientForm); 
-		
+		doctorView = new DoctorView(this); 
+		appPanels.add(doctorView);		
 
-		setContentPane(logInPanel);
+		setContentPane(actorsMenu);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -133,9 +145,13 @@ public class Application extends JFrame{
 	}
 	
 	public void changeToUserLogIn() {
+		/*
 		hideAllPanels();
 		logInPanel.setVisible(true);
-		this.setContentPane(logInPanel);
+		this.setContentPane(logInPanel);*/
+		hideAllPanels();
+		actorsMenu.setVisible(true);
+		this.setContentPane(actorsMenu);
 	}
 	
 	public void changeToManagerMenu() {
@@ -222,5 +238,19 @@ public class Application extends JFrame{
 		patientForm.setVisible(true);
 		this.setContentPane(patientForm); 
 	}
+	public void changeToDoctorView(Doctor doctor) {
+		doctorView.updateDoctorPanel(doctor);
+		hideAllPanels();
+		doctorView.setVisible(true);
+		this.setContentPane(doctorView); 
+	}
+	public void changeToDoctorView() {
+		hideAllPanels();
+		doctorView.setVisible(true);
+		this.setContentPane(doctorView); 
+	}
+	
+	
+	
 
 }

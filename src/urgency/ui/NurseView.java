@@ -44,7 +44,6 @@ public class NurseView extends SearchTemplate{
 		cover = new PanelCoverForMenu(); 
 		add(cover, "cell 0 0, grow"); 
 		initSelectPanel(); 
-		//TODO init nurse view panel
 		
 	}
 	
@@ -93,7 +92,7 @@ public class NurseView extends SearchTemplate{
 	
 	private void initNurseView() {
 		
-		cover.setTitle("Urgency Management: TRIAGE "+triage.getId());
+		cover.setTitle("TRIAGE "+triage.getId());
 		
 		nurseViewPanel = new JPanel(); 
 		nurseViewPanel.setLayout(new MigLayout("fill, wrap 3", "[10%][80%][10%]", "[][][][]"));
@@ -176,6 +175,7 @@ public class NurseView extends SearchTemplate{
 		    add(selectPanel, "cell 0 1 0 11, grow");
 			triage = null;
 			patient = null; 
+			patientDefListModel.removeAllElements();
 		}
 
 	}
