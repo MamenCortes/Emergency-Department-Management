@@ -15,8 +15,6 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	public JDBCPatientManager patientMan; 
-	//public JDBCSpecialityManager specMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -34,19 +32,19 @@ public class Application extends JFrame{
 	private SearchRoom searchRoom;
 	private ModifyRoom modifyRoom; 
 	private GeneralView generalView; 
+	private NurseView nurseView; 
+	private PatientForm patientForm; 
 
 
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
-	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor y admitPatient (implementar método update)
+	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor, admitPatient (implementar método update)
+		//y PatientForm
 	//TODO Add Create functionality in AddForms: falta addDoctor
 	//TODO Solve getBoxes method in Box 
-	//TODO Create Triage Nurse View
 	//TODO Create Doctor View
-	//TODO Speciality no se muestra en el Box cell
+
 	public Application() {
 		conMan = new ConnectionManager(); 
-		//patientMan = new JDBCPatientManager(conMan); 
-		//specMan = new JDBCSpecialityManager(conMan);
 		appPanels = new ArrayList<JPanel>(); 
 		
 		
@@ -87,6 +85,12 @@ public class Application extends JFrame{
 		appPanels.add(modifyRoom);
 		generalView = new GeneralView(this); 
 		appPanels.add(generalView); 
+		nurseView = new NurseView(this); 
+		appPanels.add(nurseView); 
+		nurseView = new NurseView(this); 
+		appPanels.add(nurseView); 
+		patientForm = new PatientForm(this); 
+		appPanels.add(patientForm); 
 		
 
 		setContentPane(logInPanel);
@@ -196,9 +200,27 @@ public class Application extends JFrame{
 		this.setContentPane(modifyRoom); 
 	}
 	public void changeToGeneralView() {
+		generalView.updateView();
 		hideAllPanels();
 		generalView.setVisible(true);
 		this.setContentPane(generalView); 
+	}
+	public void changeToNurseView() {
+		hideAllPanels();
+		nurseView.setVisible(true);
+		this.setContentPane(nurseView); 
+	}
+	public void changeToPatientNurseForm(Patient patient) {
+		patientForm.patientNurseForm(patient); 
+		hideAllPanels();
+		patientForm.setVisible(true);
+		this.setContentPane(patientForm); 
+	}
+	public void changeToPatientDoctorFor(Patient patient) {
+		patientForm.patientDoctorForm(patient); 
+		hideAllPanels();
+		patientForm.setVisible(true);
+		this.setContentPane(patientForm); 
 	}
 
 }

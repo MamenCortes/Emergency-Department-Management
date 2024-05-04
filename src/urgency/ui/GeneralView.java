@@ -167,4 +167,9 @@ public class GeneralView extends SearchTemplate{
         scrollPane2.setViewportView(doctorList);
 
     }
+	
+	public void updateView() {
+		updateBoxDefModel(appMain.conMan.getBoxManager().getBoxes());
+		doctorDefListModel.removeAllElements(); 
+	}
 }

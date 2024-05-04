@@ -129,7 +129,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
             for (Patient patient : patients) { 
                 patientDefListModel.addElement(patient);
                 
-    		}
+    		} 
         }
 
         

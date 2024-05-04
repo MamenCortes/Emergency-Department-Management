@@ -36,6 +36,8 @@ public class FormPanel extends JPanel {
 	private JDateChooser dateChooser; 
 	private MyComboBox<String> emergency; 
 	private MyComboBox<Integer> assignedBox; 
+	private MyComboBox<Integer> emergencyCB;
+	private MyTextField comments; 
 
 	public FormPanel() {
 		initPanel(); 
@@ -115,7 +117,7 @@ public class FormPanel extends JPanel {
 	}
 	
 	/**
-	 * Constructor for Patient Form
+	 * Panel Form for Patient's general data in Recepcionist's View
 	 * @param Title: a String with the title of the panel
 	 * @param Name: A MyTextField to input the name of the patient
 	 * @param Surname: A MyTextField to input the surname of the patient
@@ -180,6 +182,7 @@ public class FormPanel extends JPanel {
             JTextFieldDateEditor txtFld = (JTextFieldDateEditor) dateEditor;
             txtFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
             txtFld.setBackground(textFieldBg);
+            txtFld.setDisabledTextColor(Color.decode("#7A8C8D").darker());
             txtFld.addPropertyChangeListener("foreground", event -> {
                 if (Color.BLACK.equals(event.getNewValue())) {
                     txtFld.setForeground(Color.decode("#7A8C8D"));
@@ -201,6 +204,7 @@ public class FormPanel extends JPanel {
         add(emergency, "grow, skip 1, span");
 
 	}
+
 	
 	/**
 	 * Constructor for partial Doctor Form
@@ -382,17 +386,160 @@ public class FormPanel extends JPanel {
         add(speciality, "grow, span");
 	}
 
+	/**
+	 * Panel Form for Physiological Data of patients
+	 * @param string
+	 * @param weight2
+	 * @param height2
+	 * @param emergencyCB
+	 */
+	public FormPanel(String Title, MyTextField weight, MyTextField height, MyComboBox<Integer> EmergencyCB) {
+initPanel(); 
+	    
+	    JLabel title1 = new JLabel(Title); 
+	    title1.setFont(titleFont);
+	    title1.setForeground(titleColor);
+	    add(title1, "cell 0 0, grow");
+	    
+	    //Name and surname
+	    JLabel weightText = new JLabel("Weight");
+	    weightText.setFont(contentFont);
+	    weightText.setForeground(contentColor);
+	    add(weightText, "skip 1, grow");
+	    
+	    JLabel heightText = new JLabel("Height");
+	    heightText.setFont(contentFont);
+	    heightText.setForeground(contentColor);
+	    add(heightText, "grow");
+	    
+	    this.weight = weight; 
+	    this.weight.setHint("Weight*"); 
+	    add(this.weight, "grow");
+	    
+	    this.height = height; 
+	    this.height.setHint("Height*");
+	    add(this.height, "grow");
+	    
+        JLabel emergencyText = new JLabel("Urgency*");
+	    emergencyText.setFont(contentFont);
+	    emergencyText.setForeground(contentColor);
+	    add(emergencyText, "grow");
+        
+	    emergencyCB = EmergencyCB; 
+	    emergencyCB.addItem(1);
+        emergencyCB.addItem(2);
+        emergencyCB.addItem(3);
+        emergencyCB.addItem(4);
+        emergencyCB.addItem(5);
+        add(emergencyCB, "grow, skip 1, span");
+	}
+
+	
+	/**
+	 * Panel Form for Patient's general data in Nurse and Doctor's View
+	 * @param string
+	 * @param name2
+	 * @param surname2
+	 * @param sex2
+	 * @param birthDate
+	 */
+	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> Sex,
+			JDateChooser DateChooser) {
+		initPanel(); 
+	    
+	    JLabel title1 = new JLabel(Title); 
+	    title1.setFont(titleFont);
+	    title1.setForeground(titleColor);
+	    add(title1, "cell 0 0, grow");
+	    
+	    //Name and surname
+	    JLabel nameText = new JLabel("Name");
+	    nameText.setFont(contentFont);
+	    nameText.setForeground(contentColor);
+	    add(nameText, "skip 1, grow");
+	    
+	    JLabel surnameText = new JLabel("Surname");
+	    surnameText.setFont(contentFont);
+	    surnameText.setForeground(contentColor);
+	    add(surnameText, "grow");
+	    
+	    name = Name; 
+	    name.setHint("Name*"); 
+	    add(name, "grow");
+	    
+	    surname = Surname; 
+	    surname.setHint("Surname*");
+	    add(surname, "grow");
+	    
+	    //Sex and dateOfBirth
+	    JLabel sexText = new JLabel("Sex*");
+	    sexText.setFont(contentFont);
+	    sexText.setForeground(contentColor);
+	    add(sexText, "grow");
+	    
+	    JLabel spec = new JLabel("Date of Birth*");
+	    spec.setFont(contentFont);
+	    spec.setForeground(contentColor);
+	    add(spec, "grow");
+	    
+	    sex =Sex; 
+	    sex.addItem("...");
+        sex.addItem("Man");
+        sex.addItem("Woman");
+        add(sex, "grow");
+	    
+        //https://datojava.blogspot.com/2015/11/jcalendarJavaSwingEjemploTutorial.html
+        dateChooser = DateChooser;
+        for( Component c : dateChooser.getComponents()){
+            ((JComponent)c).setBackground(textFieldBg); 
+            }
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+        dateChooser.getJCalendar().setMaxSelectableDate(new Date());
+        
+        IDateEditor dateEditor = dateChooser.getDateEditor();
+        if (dateEditor instanceof JTextFieldDateEditor) {
+            JTextFieldDateEditor txtFld = (JTextFieldDateEditor) dateEditor;
+            txtFld.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            txtFld.setBackground(textFieldBg);
+            txtFld.setDisabledTextColor(Color.decode("#7A8C8D").darker());
+            txtFld.addPropertyChangeListener("foreground", event -> {
+                if (Color.BLACK.equals(event.getNewValue())) {
+                    txtFld.setForeground(Color.decode("#7A8C8D"));
+                }
+            });
+        }
+
+        add(dateChooser, "grow"); 
+	}
+
+	/**
+	 * Panel Form for Patient's Comments inDoctor's View
+	 * @param comments
+	 * @param string
+	 */
+	public FormPanel(String Title, MyTextField comments, MyComboBox<String> nextStep) {
+		initPanel(); 
+	    
+	    JLabel title1 = new JLabel(Title); 
+	    title1.setFont(titleFont);
+	    title1.setForeground(titleColor);
+	    add(title1, "cell 0 0, grow");
+	    
+	    
+	    this.comments = comments; 
+	    this.comments.setHint("Comments*"); 
+	    add(this.comments, "cell 0 1 2 0, grow");
+	    
+	    JLabel nextStepText = new JLabel("Next Step*");
+	    nextStepText.setFont(contentFont);
+	    nextStepText.setForeground(contentColor);
+	    add(nextStepText, "grow");
+	    add(nextStep, "skip 1, grow, span");
+	    
+	}
+
 	public void initPanel() {
 		this.setBackground(Color.white);
 		this.setLayout(new MigLayout("fill, inset 10, gap 5, wrap 2", "[][]", "[][][][][][][]push"));
-		
-	    /*JScrollPane scrollPane1 = new JScrollPane();
-	    scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	    scrollPane1.setViewportView(this);
-	    JScrollBar sb = new JScrollBar();
-        sb.setUnitIncrement(30);
-        sb.setForeground(new Color(180, 180, 180));
-        scrollPane1.setVerticalScrollBar(sb);
-        add(scrollPane1); */
 	}
 }

@@ -95,7 +95,7 @@ public class AdmitPatient extends FormTemplate {
 		String name = this.name.getText(); 
 		String surname = this.surname.getText(); 
 		String sex = this.sex.getSelectedItem().toString();
-		
+		 
 		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
 			showErrorMessage("Please complete all fields");
 			return false;
