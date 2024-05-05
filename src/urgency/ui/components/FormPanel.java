@@ -402,12 +402,12 @@ initPanel();
 	    add(title1, "cell 0 0, grow");
 	    
 	    //Name and surname
-	    JLabel weightText = new JLabel("Weight");
+	    JLabel weightText = new JLabel("Weight (g)");
 	    weightText.setFont(contentFont);
 	    weightText.setForeground(contentColor);
 	    add(weightText, "skip 1, grow");
 	    
-	    JLabel heightText = new JLabel("Height");
+	    JLabel heightText = new JLabel("Height (m)");
 	    heightText.setFont(contentFont);
 	    heightText.setForeground(contentColor);
 	    add(heightText, "grow");

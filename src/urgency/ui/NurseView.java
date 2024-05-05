@@ -160,7 +160,7 @@ public class NurseView extends SearchTemplate{
 			if(patient == null) {
 				showErrorMessage("Please select a patient");
 			}else {
-				appMain.changeToPatientDoctorFor(patient);
+				appMain.changeToPatientNurseForm(patient);
 			}
 		}
 

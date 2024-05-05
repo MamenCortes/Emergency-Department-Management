@@ -6,6 +6,7 @@ import java.util.List;
 
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.Speciality;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 import urgency.ui.components.MyComboBox;
@@ -46,16 +47,21 @@ public class ModifyDoctor extends FormTemplate {
 		if(doctor != null) {
 			name.setText(doctor.getName());
 			surname.setText(doctor.getSurname());
-			speciality.getModel().setSelectedItem(doctor.getSpeciality_type());
+			speciality.getModel().setSelectedItem(doctor.getSpeciality_type().getType()); 
 			List<Box> boxesList = doctor.getBoxes(); 
 			if(!boxesList.isEmpty()) {
 				boxes.getModel().setSelectedItem(boxesList.get(boxesList.size()-1).getId());
+			}else {
+				boxes.getModel().setSelectedItem("None");
 			}
+			boxes.setEnabled(false);
 		}else {
 			name.setText("Jane");
 			surname.setText("Doe");
 			speciality.setSelectedItem("None");
-			boxes.setSelectedItem(1);
+			//boxes.setSelectedItem(null);
+			boxes.getModel().setSelectedItem("None");
+			boxes.setEnabled(false);
 		}
 
 	}
@@ -73,9 +79,10 @@ public class ModifyDoctor extends FormTemplate {
 			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
-			resetPanel(); 
-			//TODO implement methods to modify doctor
-			appMain.changeToManagerMenu(); 
+			if(modifyDoctor()) {
+				resetPanel(); 
+				appMain.changeToManagerMenu();
+			} 
 		}else if(e.getSource() == deleteButton) {
 			appMain.conMan.getDocMan().deleteDoctor(doctor.getid());
 		}
@@ -88,6 +95,22 @@ public class ModifyDoctor extends FormTemplate {
 		speciality.setSelectedItem(null); 
 		boxes.setSelectedItem(null);
 		
+	}
+	
+	private Boolean modifyDoctor() {
+		String name = this.name.getText(); 
+		String surname = this.surname.getText(); 
+		
+		if(name.equals("")||surname.equals("")||speciality.getSelectedItem()==null){
+			showErrorMessage("Please complete all fields");
+			return false;
+		}
+		
+		String specText = speciality.getSelectedItem().toString(); 
+		Speciality patientSpec = new Speciality(specText); 
+		Doctor doctor = new Doctor(name, surname, patientSpec);
+		appMain.conMan.getDocMan().updateDoctor(doctor);
+		return true; 
 	}
 	
 	

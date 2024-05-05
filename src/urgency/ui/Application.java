@@ -41,12 +41,10 @@ public class Application extends JFrame{
 
 
 	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
-	//TODO Add Delete functionality in ModifyForms: falta modifyDoctor, admitPatient (implementar método update)
-		//y PatientForm
-	//TODO Add Create functionality in AddForms: falta addDoctor
+	//TODO Add Delete functionality in ModifyForms: admitPatient (implementar método update)
+		//y PatientForm implementar PatientBox.setComments()
 	//TODO Solve getBoxes method in Box 
 	//TODO Create Patient record Cell and solve DoctorView
-	//TODO addFunctionality to patientForm
 
 	public Application() {
 		conMan = new ConnectionManager(); 

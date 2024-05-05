@@ -32,7 +32,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 	private JLabel option2; 
 	protected String option2Text =  "    Medical Details"; 
 	private JLabel option3; 
-	protected String option3Text = "    Urgency Details";
+	protected String option3Text = "    Diagnosis Details";
 	private ArrayList<JLabel> optionTexts; 
 	private ArrayList<JPanel> forms; 
 	protected JPanel form1; 
@@ -176,13 +176,11 @@ public class FormTemplate extends JPanel implements ActionListener{
 			add(nextButton, "cell 3 7, right, gapy 5");
 		}
         
-        
-        
         errorMessage = new JLabel(); 
 	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
 	    errorMessage.setForeground(Color.red);
 	    errorMessage.setText("Error message test");
-	    this.add(errorMessage, "span, left"); 
+	    this.add(errorMessage, "cell 0 8, span, left"); 
 	    errorMessage.setVisible(false); 
         
 	}
@@ -249,8 +247,6 @@ public class FormTemplate extends JPanel implements ActionListener{
     			add(backButton, "cell 1 7, left, gapx 10, gapy 5");
     		}
     		changePanel(); 
-
-    		
     		}
     	
     }
@@ -307,6 +303,7 @@ public class FormTemplate extends JPanel implements ActionListener{
     
     protected void resetPanel() {
     	this.removeAll();
+    	panelShowed = 0;
     }
     
 

@@ -1,6 +1,7 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.sql.Date;
 
 import javax.swing.JTextArea;
 
@@ -42,6 +43,7 @@ public class PatientForm extends FormTemplate{
 
 	public void patientDoctorForm(Patient Patient) {
 		this.patient = Patient;
+		this.option3Text ="    Diagnosis details";
 		this.titleText = "Patient information"; 
 		
 		initGeneralInfoPanel();
@@ -99,12 +101,27 @@ public class PatientForm extends FormTemplate{
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
-			if(form3 == null) {
+			if(form3 == null) { //nurse patient form
 				appMain.changeToNurseView();
-			}else {
+			}else { //doctor patient form
 				appMain.changeToDoctorView();
 			}
 			resetPanel();
+			
+		}if(e.getSource() == applyChanges) {
+			if(form3 == null) { //nurse patient form
+				if(updatePatient()) {
+					appMain.changeToNurseView();
+					resetPanel();
+				}
+				
+			}else { //doctor patient form
+				if(updatePatient()) {
+					appMain.changeToDoctorView();
+					resetPanel();
+				}
+
+			}
 			
 		}
 	}
@@ -116,6 +133,49 @@ public class PatientForm extends FormTemplate{
 		form2 = null; 
 		form3 = null; 
 		patient = null; 
+		//applyChanges.setVisible(false);
+	}
+	
+	private Boolean updatePatient() {
+
+		//Name, surname, dateOfBirth and sex are disabled.
+
+		Integer emergency = (Integer) emergencyCB.getSelectedItem();
+		if(emergency == null) {
+			showErrorMessage("Select Emergency"); 
+			return false; 
+		}
+
+		Float weightNum;
+		Float heightNum;
+		try {
+			weightNum = Float.valueOf(weight.getText());
+			heightNum = Float.valueOf(height.getText());
+		}catch (NumberFormatException e) {
+			showErrorMessage("Wrong weight and height");
+			return false; 
+		}
+
+		patient.setWeight(weightNum);
+		patient.setHeight(heightNum);
+		patient.setUrgency(emergency);
+		
+		if(form3 != null) {
+			String status = nextStep.getSelectedItem().toString(); 
+			if(status.equals("Discharge")) {
+				patient.setStatus("discharged");
+			}else if(status.equals("Hospitalize")) {
+				patient.setStatus("hospitalized");
+			}else {
+				showErrorMessage("Select the Patient's Urgency");
+			}
+			
+			//TODO Comments
+		}
+		
+		appMain.conMan.getPatientMan().updatePatient(patient);
+		System.out.println(patient);
+		return true; 
 	}
 	
 
