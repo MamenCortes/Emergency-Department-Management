@@ -39,6 +39,7 @@ public class ConnectionManager {
 			connection = DriverManager.getConnection("jdbc:sqlite:./db/EmergencyDB.db"); //The folder must exist. If the database doesn't exist, it will be created. 
 			connection.createStatement().execute("PRAGMA foreign_keys=ON");
 			System.out.println("Connection and table created");
+			this.createTables();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,22 +99,23 @@ public class ConnectionManager {
 					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);
 			createTables1.close();
+
+			Statement createTables3 = connection.createStatement();
+			String createSpecialities = "CREATE TABLE IF NOT EXISTS Specialities ( "
+					+ " type TEXT PRIMARY KEY)";
+			createTables3.executeUpdate(createSpecialities);
+			createTables3.close();
 			
 			Statement createTables2 = connection.createStatement();
 			String createDoctors = "CREATE TABLE IF NOT EXISTS Doctors ( "
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
-					+ " speciality_type TEXT NOT NULL REFERENCES Speciality(type) ON DELETE RESTRICT,"
-					+ " in_box Boolean NOT NULL)";
+					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT,"
+					+ " in_box Boolean NOT NULL)"; 
 			createTables2.executeUpdate(createDoctors);
 			createTables2.close();
 			
-			Statement createTables3 = connection.createStatement();
-			String createSpecialities = "CREATE TABLE IF NOT EXISTS Specialities ( "
-					+ " type TEXT PRIMARY KEY)";
-			createTables3.executeUpdate(createSpecialities);
-			createTables3.close();
 			
 			Statement createTables4 = connection.createStatement();
 			String createTriages = "CREATE TABLE IF NOT EXISTS Triages ("

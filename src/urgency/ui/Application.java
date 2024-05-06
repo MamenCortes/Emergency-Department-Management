@@ -1,10 +1,6 @@
 package urgency.ui;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,7 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import urgency.db.jdbc.*;
 import urgency.db.pojos.*;
-import urgency.ui.components.*;
+
 
 public class Application extends JFrame{
 
@@ -36,11 +32,15 @@ public class Application extends JFrame{
 	private SearchDoctor searchDoctor; 
 	private ModifyDoctor modifyDoctor; 
 	private SearchRoom searchRoom;
+	private ModifyRoom modifyRoom; 
 
-
-	/**
-	 * Create the frame.
-	 */
+	//TODO Create Box and Triage Forms for updating Info
+	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
+	//TODO Add delete buttons in Modify Objects
+	//TODO Add Delete functionality in ModifyForms 
+	//TODO Create General View
+	//TODO Create Nurse View
+	//TODO Create Doctor View
 	public Application() {
 		conMan = new ConnectionManager(); 
 		patientMan = new JDBCPatientManager(conMan); 
@@ -83,8 +83,10 @@ public class Application extends JFrame{
 		appPanels.add(modifyDoctor);
 		searchRoom = new SearchRoom(this); 
 		appPanels.add(searchRoom); 
+		modifyRoom = new ModifyRoom(this); 
+		appPanels.add(modifyRoom);
 
-		setContentPane(searchRoom);
+		setContentPane(logInPanel);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -172,6 +174,23 @@ public class Application extends JFrame{
 		this.setContentPane(modifyDoctor); 
 	}
 	
-
+	public void changeToSearchRoom() {
+		hideAllPanels();
+		searchRoom.setVisible(true);
+		this.setContentPane(searchRoom); 
+	}
+	
+	public void changeToModifyRoom(Box box) {
+		modifyRoom.showRoomData(box);
+		hideAllPanels();
+		modifyRoom.setVisible(true);
+		this.setContentPane(modifyRoom); 
+	}
+	public void changeToModifyRoom(Triage triage) {
+		modifyRoom.showRoomData(triage);
+		hideAllPanels();
+		modifyRoom.setVisible(true);
+		this.setContentPane(modifyRoom); 
+	}
 
 }

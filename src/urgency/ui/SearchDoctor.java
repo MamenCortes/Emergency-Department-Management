@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import urgency.db.pojos.Doctor;
-import urgency.db.pojos.Patient;
 import urgency.ui.components.SearchTemplate;
 
 public class SearchDoctor extends SearchTemplate {
@@ -28,11 +27,10 @@ public class SearchDoctor extends SearchTemplate {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchButton) {
 			errorMessage.setVisible(false);
-			String input = idTextField.getText();  
-			//TODO search Doctor By surname
+			String input = searchByTextField.getText();  
 			List<Doctor> doctorsSubSet = new ArrayList<Doctor>(); 
 			for (Doctor doctor : randomDoctors) {
-				if(doctor.getName().equals(input)) {
+				if(doctor.getSurname().equals(input)) {
 					doctorsSubSet.add(doctor); 
 				}
 			}
@@ -58,15 +56,16 @@ public class SearchDoctor extends SearchTemplate {
 	}
 	
     protected List<Doctor> createRandomDoctors() {
-    	//TODO solve doctor constructor
     	List<Doctor> doctors = new ArrayList<Doctor>(); 
     	String[] names = {"Pepe", "Juan", "María", "Fulanita", "Marta", "Eustaquio", "Camino", "Cristina"};
+    	String[] surnames = {"Palomo", "Navarro", "Blanco", "De las fuentes", "Vazquez", "Rodriguez", "Lopez", "Gamarra"};
     	ArrayList<String> specialities = (ArrayList<String>) appMain.specMan.getSpecialities(); 
     	
     	for(int i = 0; i<20; i++) {
     		int rd1 = ThreadLocalRandom.current().nextInt(0, names.length);
+    		int rd2 = ThreadLocalRandom.current().nextInt(0, surnames.length);
     		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		//doctors.add(new Doctor(names[rd1], specialities.get(rd3))); 
+    		doctors.add(new Doctor(i, names[rd1], surnames[rd2],specialities.get(rd3))); 
     	}
     	
 		return doctors;

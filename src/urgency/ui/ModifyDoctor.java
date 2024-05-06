@@ -3,11 +3,9 @@ package urgency.ui;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
-import urgency.db.pojos.Patient;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 import urgency.ui.components.MyComboBox;
@@ -37,23 +35,25 @@ public class ModifyDoctor extends FormTemplate {
 			boxesList.add(i); 
 		}
 		boxes = new MyComboBox<Integer>(); 
+		
 		form1 = new FormPanel("Modify Existant Doctor", name, surname, speciality, specialities, boxes, boxesList); 
 		initPatientForm(); 
 		showDoctorData();
+		deleteButton.setVisible(true);
 	}
 	
 	private void showDoctorData() {
 		if(doctor != null) {
 			name.setText(doctor.getName());
-			//surname.setText(doctor.getSurname());
-			speciality.setSelectedItem(doctor.getSpeciality_type());
+			surname.setText(doctor.getSurname());
+			speciality.getModel().setSelectedItem(doctor.getSpeciality_type());
 			List<Box> boxesList = doctor.getBoxes(); 
 			if(!boxesList.isEmpty()) {
-				boxes.setSelectedItem(boxesList.get(boxesList.size()-1).getId());
+				boxes.getModel().setSelectedItem(boxesList.get(boxesList.size()-1).getId());
 			}
 		}else {
-			name.setText("Jane Doe");
-			//surname.setText(doctor.getSurname());
+			name.setText("Jane");
+			surname.setText("Doe");
 			speciality.setSelectedItem("None");
 			boxes.setSelectedItem(1);
 		}
@@ -70,11 +70,28 @@ public class ModifyDoctor extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
+			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
+			resetPanel(); 
+			//TODO implement methods to modify doctor
 			appMain.changeToManagerMenu(); 
+		}else if(e.getSource() == deleteButton) {
+			appMain.conMan.getDocMan().deleteDoctor(doctor.getid());
 		}
 	}
+	
+	@Override
+	protected void resetPanel() {
+		name.setText(null); 
+		surname.setText(null);
+		speciality.setSelectedItem(null); 
+		boxes.setSelectedItem(null);
+		
+	}
+	
+	
+
 	
 
 }

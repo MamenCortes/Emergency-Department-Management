@@ -27,7 +27,7 @@ public class JDBCBoxManager implements BoxManager {
 	@Override
 	public void deleteBox(int id) {
 		try {
-			String sql = "DELETE FROM Box WHERE id = ?";
+			String sql = "DELETE FROM Boxes WHERE id = ?";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1,id); 
@@ -70,7 +70,8 @@ public class JDBCBoxManager implements BoxManager {
 			while (rs.next()) {
 				Integer id = rs.getInt("ID");
 				Boolean availability = rs.getBoolean("Available");
-				String speciality = rs.getString("speciality");
+				String specialityName = rs.getString("speciality_type");
+	            Speciality speciality = new Speciality(specialityName);
 				Box b = new Box(id, availability, speciality);
 				boxes.add(b);
 			}
@@ -85,58 +86,64 @@ public class JDBCBoxManager implements BoxManager {
 
 	@Override
 	public Patient getPatientInBox(int Box_id) {
-		try {
-	        String sql = "SELECT * FROM Patients WHERE Box_id = ?";
-	        PreparedStatement p;
-			p = connection.prepareStatement(sql);
-			p.setInt(1, Box_id);
-			ResultSet rs = p.executeQuery();
-
-	        if (rs.next()) {
-	        	Integer id = rs.getInt("ID");
-				String namePatient = rs.getString("name");
-				String surnamePatient = rs.getString("surname");
-				Float weight = rs.getFloat("weight");
-				Float height = rs.getFloat("height");
-				String status = rs.getString("status");
-				Integer urgency = rs.getInt("urgency");
-				String sex = rs.getString("sex");
-				Date birthDate = rs.getDate("birthdate");
-				
-				rs.close();
-				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
-	            return newPatient;
-	        } else {
-	        	rs.close();
-	            return null;
-	        }
-	    } catch (SQLException e) {
-	        System.out.println("Error en la base de datos");
-	        e.printStackTrace();
-	        return null;
-	    }
+		return null;
 	}
 
+	
 	@Override
 	public Box getBox(int id) {
-		try {
-			String sql = "SELECT * FROM Boxes WHERE id = " + id;
-			Statement st;
-			st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			rs.next();
-			Box b = new Box (rs.getInt("ID"), rs.getBoolean("Available"), rs.getString("speciality"));
-			rs.close(); 
-			return b;
-		} catch (SQLException e) {
-			System.out.println("Error");
-			e.printStackTrace();
-			return null; 
-		}
+	    String sql = "SELECT Boxes.*, Specialities.type AS speciality_type FROM Boxes " +
+                "LEFT JOIN Specialities ON Boxes.speciality_type = Specialities.type WHERE Boxes.id = ?";
+	    try (PreparedStatement st = connection.prepareStatement(sql)) {
+	        st.setInt(1, id);
+	        try (ResultSet rs = st.executeQuery()) {
+	            if (rs.next()) {
+	                Integer boxId = rs.getInt("id");
+	                boolean available = rs.getBoolean("available");
+	                String specialityName = rs.getString("speciality_type");
+	                Speciality speciality = new Speciality(specialityName);         
+	                Box b = new Box(boxId, available, speciality);
+	                rs.close();
+	                return b;
+
+
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error retrieving box");
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
 
+	public static void main (String [] args) {
+		ConnectionManager conManager = new ConnectionManager();
+		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
+		
+	
+		Box box1 = new Box(1, true, null);
+		Box box2 = new Box(2, true, null);
+		Box box3 = new Box(3, false, null);
+		Box box4 = new Box(4, true, null);
+		Box box5 = new Box(5, false, null);
+		
+		
+		System.out.print(box1);
+		System.out.print(box2);
+		System.out.print(box3);
+		System.out.print(box4);
+		System.out.print(box5);
 
-
+		
+		//conBox.addBox(box1);
+		//conBox.addBox(box2);
+		//conBox.addBox(box3);
+		//conBox.getBox(1);
+		conBox.getBoxes();
+		//conBox.deleteBox(1);
+		
+		
+	}
 	
 	
 }

@@ -21,7 +21,7 @@ public class SearchPatients extends SearchTemplate {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchButton) {
 			errorMessage.setVisible(false);
-			String input = idTextField.getText();  
+			String input = searchByTextField.getText();  
 			System.out.println(input);
 			List<Patient> patients = appMain.patientMan.searchPatientsBySurname(input); 
 			updatePatientDefModel(patients);

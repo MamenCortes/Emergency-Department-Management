@@ -3,26 +3,15 @@ package urgency.ui.components;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.TextField;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JComponent;
 
 import com.toedter.calendar.IDateEditor;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -36,7 +25,6 @@ public class FormPanel extends JPanel {
 	private final Color contentColor = new Color(24, 116, 67); //Verde oscuro
 	private final Color titleColor = new Color(7, 164, 121); //Más azulado
     private Color textFieldBg = new Color(230, 245, 241); 
-	private ArrayList<JTextField> textFields;
 	
 	private MyTextField name; 
 	private MyTextField surname; 
@@ -50,7 +38,6 @@ public class FormPanel extends JPanel {
 	private MyComboBox<Integer> assignedBox; 
 
 	public FormPanel() {
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel("General Info"); 
@@ -137,7 +124,6 @@ public class FormPanel extends JPanel {
 	 * @param Emergency: A MyComboBox<String> to input the level of emergency. (Low/High)
 	 */
 	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> Sex, JDateChooser DateChooser, MyComboBox<String> Emergency) {
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -225,7 +211,6 @@ public class FormPanel extends JPanel {
 	 * @param specialitiesList
 	 */
 	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList) {
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -279,7 +264,6 @@ public class FormPanel extends JPanel {
 	 */
 	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList, MyComboBox<Integer> assignedBox, List<Integer> boxesIds) {
 		//Create a ComboBox from all the possible Boxes
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -339,7 +323,6 @@ public class FormPanel extends JPanel {
 	 * @param speciality
 	 */
 	public FormPanel(String Title, MyTextField speciality) {
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -360,7 +343,7 @@ public class FormPanel extends JPanel {
 	}
 
 	/**
-	 * Constructor for Box Form
+	 * Constructor to add new Room
 	 * @param Title
 	 * @param roomType
 	 * @param speciality2
@@ -368,7 +351,6 @@ public class FormPanel extends JPanel {
 	 */
 	public FormPanel(String Title, MyComboBox<String> roomType, MyComboBox<String> speciality2,
 			List<String> specialityList) {
-		textFields = new ArrayList<JTextField>(); 
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -395,7 +377,8 @@ public class FormPanel extends JPanel {
 	    List<String> specialitiesList = specialityList; 
 	    speciality = speciality2; 
         for (String string : specialitiesList) {
-			speciality.addItem(string);
+			//speciality.addItem(string);
+        	speciality.addItem(string);
 		}
         add(speciality, "grow, span");
 	}
