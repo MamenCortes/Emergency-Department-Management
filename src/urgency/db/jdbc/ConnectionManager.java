@@ -27,8 +27,8 @@ public class ConnectionManager {
 		this.triageManager = new JDBCTriageManager(this); 
 		this.patientMan = new JDBCPatientManager(this); 
 		this.boxManager = new JDBCBoxManager(this); 
-		
 		this.specialityManager = new JDBCSpecialityManager(this); 
+		createTables();
 	}
 
 	//Creates a connection with the database

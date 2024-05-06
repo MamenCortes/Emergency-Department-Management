@@ -74,6 +74,29 @@ public class Patient implements Serializable{
 		this.boxes = new ArrayList<Box>(); 
 		this.triages = new ArrayList<Triage>(); 
 	}
+	
+	/**
+	 * @param id = ID of the patient
+	 * @param name = name of the patient
+	 * @param surname = surname of the patient
+	 * @param status = Accepted values: waiting, assisted, emergency room, discharged or hospitalized
+	 * @param urgency = a number from 1-5 indicating the urgency based on patient's physical state
+	 * @param sex = sex of the patient. Accepted values:  Man or Woman
+	 * @param birthDate = the Birth Date of the patient, type LocalDate: YYYY-MM-DD
+	 */
+	public Patient(Integer id, String name, String surname, String status, Integer urgency, String sex, Date birthDate) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.status = status;
+		this.urgency = urgency;
+		this.sex = sex;
+		this.birthDate = birthDate;
+		
+		this.specialities = new ArrayList<Speciality>(); 
+		this.boxes = new ArrayList<Box>(); 
+		this.triages = new ArrayList<Triage>(); 
+	}
 
 
 	@Override

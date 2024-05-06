@@ -30,13 +30,13 @@ public class ModifyRoom extends FormTemplate {
 		this.appMain = appMain; 
 		
 		speciality = new MyComboBox<String>(); 
-		specialities = appMain.specMan.getSpecialities(); 
-		this.titleText += "Add Room"; 
+		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
+		this.titleText += "Modify Room"; 
 		
 		roomType = new MyComboBox<String>(); 
 		roomType.addActionListener(this);
 		
-		form1 = new FormPanel("Add Room", roomType, speciality, specialities); 
+		form1 = new FormPanel("Modify Room", roomType, speciality, specialities); 
 		initPatientForm(); 
 		
 		idText = new JLabel("ID: "); 
@@ -61,9 +61,12 @@ public class ModifyRoom extends FormTemplate {
 	public void showRoomData(Triage triage) {
 		this.triage = triage; 
 		speciality.setEnabled(false); 
+		speciality.setSelectedItem(null);
+		appMain.changeToManagerMenu(); 
 		roomType.setSelectedItem("Triage");
 		roomType.setEnabled(false);
 		idText.setText("ID: "+triage.getId()); 
+		
 
 	}
 	
@@ -95,6 +98,7 @@ public class ModifyRoom extends FormTemplate {
 			}else if(triage != null) {
 				appMain.conMan.getTriageManager().deleteTriage(triage.getId());
 			}
+			appMain.changeToManagerMenu();
 		}
 	}
 	
@@ -102,7 +106,6 @@ public class ModifyRoom extends FormTemplate {
 	protected void resetPanel() {
 		speciality.setSelectedItem(null);
 		roomType.setSelectedItem(null);
-		deleteButton.setVisible(false);
 		box = null; 
 		triage = null; 
 	}

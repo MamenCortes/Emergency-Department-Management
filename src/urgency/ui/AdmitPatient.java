@@ -1,6 +1,7 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.sql.Date;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -36,6 +37,23 @@ public class AdmitPatient extends FormTemplate {
 		
 	}
 	
+	public AdmitPatient(Application appMain) {
+		this.option2Text = null; 
+		this.option3Text = null; 
+		this.appMain = appMain; 
+		
+		this.titleText = "Admit Patient"; 
+		name = new MyTextField(); 
+		surname = new MyTextField(); 
+		sex = new MyComboBox<String>(); 
+		emergency = new MyComboBox<String>(); 
+		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
+		
+		form1 = new FormPanel("Admit Patient", name, surname, sex, birthDate, emergency); 
+		initPatientForm(); 
+		applyChanges.setText("ADMIT");
+	}
+	
 	private void showPatientData() {
 		name.setText(patient.getName());
 		surname.setText(patient.getSurname());
@@ -51,16 +69,53 @@ public class AdmitPatient extends FormTemplate {
 	public void actionPerformed(ActionEvent e) {
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
+			resetPanel(); 
 			appMain.changeToRecepcionistMenu();
 		}else if(e.getSource() == applyChanges) {
-			appMain.changeToRecepcionistMenu();
+			if(updatePatient()) {
+				resetPanel(); 
+				appMain.changeToRecepcionistMenu();
+			}
 		}
+	}
+	
+	@Override
+	protected void resetPanel() {
+		super.resetPanel();
+		emergency.setSelectedItem(null);
 	}
 	
 	public void updatePanelWith(Patient patient) {
 		this.patient = patient; 
 		showPatientData();
 		errorMessage.setVisible(false);
+	}
+	
+	private Boolean updatePatient() {
+		String name = this.name.getText(); 
+		String surname = this.surname.getText(); 
+		String sex = this.sex.getSelectedItem().toString();
+		 
+		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
+			showErrorMessage("Please complete all fields");
+			return false;
+		}
+		
+		Date date = new Date(birthDate.getDate().getTime());
+
+		String emergencyString = this.emergency.getSelectedItem().toString();
+		Integer emergency = 0;
+		if (emergencyString.equals("Low")) {
+			emergency = 1; 
+		}else if(emergencyString.equals("High")){
+			emergency = 5; 
+		}
+		Integer id = patient.getId();
+		System.out.println(patient.getId());
+		Patient patient = new Patient(id, name, surname, "waiting", emergency, sex, date);
+		appMain.conMan.getPatientMan().updatePatient(patient);;
+		System.out.println(patient);
+		return true; 
 	}
 	
 

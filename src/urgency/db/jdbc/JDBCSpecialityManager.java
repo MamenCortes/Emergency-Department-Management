@@ -25,8 +25,28 @@ public class JDBCSpecialityManager implements SpecialityManager {
 	public JDBCSpecialityManager(ConnectionManager conManager) {
 		this.conManager = conManager; 
 		this.connection = conManager.getConnection(); 
+		addSpecialities();
 	}
 
+	private void addSpecialities() {
+		List<Speciality> specialities = getSpecialities1(); 
+		if(specialities.isEmpty()) {
+			Speciality spec1 = new Speciality("Internal medicine"); 
+			addSpeciality(spec1);
+			Speciality spec2 = new Speciality("Family medicine"); 
+			addSpeciality(spec2);
+			Speciality spec3 = new Speciality("Emergency medicine"); 
+			addSpeciality(spec3);
+			Speciality spec4 = new Speciality("Obstetrics and gynecology");
+			addSpeciality(spec4);
+			Speciality spec5 = new Speciality("Pediatrics");
+			addSpeciality(spec5);
+			Speciality spec6 = new Speciality("Psychiatry");
+			addSpeciality(spec6);
+			System.out.println("Speciality inserted");
+		}
+	}
+	
 	@Override
 	public void assignPatientSpeciality(int Patient_id, String Speciality_type) {
 		try {
@@ -44,6 +64,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 		}
 	}
 
+	/*
 	@Override
 	public void assignDoctorSpeciality(int Doctor_id, String Speciality_type) {
 		//Try if it works correctly
@@ -61,7 +82,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 			System.out.println(e.getMessage());
 		}
 
-	}
+	}*/
 
 	@Override
 	public void assignBoxSpecility(int Box_id, String Speciality_type) {
@@ -93,6 +114,26 @@ public class JDBCSpecialityManager implements SpecialityManager {
 				String type = rs.getString("type");
 				specialities.add(type);
 			}
+			rs.close();
+			stmt.close(); 
+		} catch (SQLException e) {
+			System.out.println("Error retrieving the specialities");
+			System.out.println(e.getMessage());
+		}
+		return specialities;
+	}
+	
+	public List<Speciality> getSpecialities1() {
+		List<Speciality> specialities = new ArrayList<Speciality>(); 
+		try {
+			Statement stmt = connection.createStatement();
+			String sql = "SELECT Type FROM Specialities";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String type = rs.getString("type");
+				specialities.add(new Speciality(type));
+			}
+			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
 			System.out.println("Error retrieving the specialities");
@@ -109,8 +150,9 @@ public class JDBCSpecialityManager implements SpecialityManager {
 			prep.setString(1, speciality.getType());
 			prep.executeUpdate();
 			prep.close();
+			System.out.println(speciality.getType()+" inserted");
 		} catch (SQLException e) {
-			System.out.println("Error assigning the speciality to a Box");
+			System.out.println("Error inserting a Speciality");
 			System.out.println(e.getMessage());
 		}
 	}

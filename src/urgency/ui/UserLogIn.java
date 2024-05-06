@@ -72,7 +72,8 @@ public class UserLogIn extends JPanel implements ActionListener{
 			}
 		}else if(e.getSource() == applyLogIn) {
 			//System.out.println("LogIn");
-			appMenu.changeToRecepcionistMenu();
+			//appMenu.changeToRecepcionistMenu();
+			appMenu.changeToNurseView();
 			
 		}else if(e.getSource() == applyRegister) {
 			//System.out.println("Register");

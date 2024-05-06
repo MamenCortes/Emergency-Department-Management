@@ -23,7 +23,7 @@ public class SearchPatients extends SearchTemplate {
 			errorMessage.setVisible(false);
 			String input = searchByTextField.getText();  
 			System.out.println(input);
-			List<Patient> patients = appMain.patientMan.searchPatientsBySurname(input); 
+			List<Patient> patients = appMain.conMan.getPatientMan().searchPatientsBySurname(input); 
 			updatePatientDefModel(patients);
 			if(patients.isEmpty()) {
 				showErrorMessage("No patient found");

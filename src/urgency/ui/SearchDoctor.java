@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.Speciality;
 import urgency.ui.components.SearchTemplate;
 
 public class SearchDoctor extends SearchTemplate {
@@ -18,8 +19,8 @@ public class SearchDoctor extends SearchTemplate {
 		initSearchTemplate();
 		this.appMain = appMain; 
 		title.setText("Search Doctor");
-		randomDoctors = createRandomDoctors(); 
-		System.out.println(randomDoctors);
+		//randomDoctors = createRandomDoctors(); 
+		//System.out.println(randomDoctors);
 		showDoctors(null);
 	}
 	
@@ -28,12 +29,12 @@ public class SearchDoctor extends SearchTemplate {
 		if(e.getSource() == searchButton) {
 			errorMessage.setVisible(false);
 			String input = searchByTextField.getText();  
-			List<Doctor> doctorsSubSet = new ArrayList<Doctor>(); 
-			for (Doctor doctor : randomDoctors) {
+			List<Doctor> doctorsSubSet = appMain.conMan.getDocMan().searchDoctorsBySurname(input);
+			/*for (Doctor doctor : randomDoctors) {
 				if(doctor.getSurname().equals(input)) {
 					doctorsSubSet.add(doctor); 
 				}
-			}
+			}*/
 			updateDoctorDefModel(doctorsSubSet);
 			if(doctorsSubSet.isEmpty()) {
 				showErrorMessage("No doctor found");
@@ -59,13 +60,13 @@ public class SearchDoctor extends SearchTemplate {
     	List<Doctor> doctors = new ArrayList<Doctor>(); 
     	String[] names = {"Pepe", "Juan", "María", "Fulanita", "Marta", "Eustaquio", "Camino", "Cristina"};
     	String[] surnames = {"Palomo", "Navarro", "Blanco", "De las fuentes", "Vazquez", "Rodriguez", "Lopez", "Gamarra"};
-    	ArrayList<String> specialities = (ArrayList<String>) appMain.specMan.getSpecialities(); 
+    	ArrayList<String> specialities = (ArrayList<String>) appMain.conMan.getSpecialityManager().getSpecialities(); 
     	
     	for(int i = 0; i<20; i++) {
     		int rd1 = ThreadLocalRandom.current().nextInt(0, names.length);
     		int rd2 = ThreadLocalRandom.current().nextInt(0, surnames.length);
     		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		doctors.add(new Doctor(i, names[rd1], surnames[rd2],specialities.get(rd3))); 
+    		doctors.add(new Doctor(names[rd1], surnames[rd2],new Speciality(specialities.get(rd3)), false));
     	}
     	
 		return doctors;
