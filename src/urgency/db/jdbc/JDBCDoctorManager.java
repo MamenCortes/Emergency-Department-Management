@@ -35,6 +35,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Error in asingning the doctor to the box");
 			e.printStackTrace();
 		}
 		  
@@ -53,7 +54,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		System.out.println("Doctor deleted");
 		pstmt.close();
 	} catch (SQLException e) {
-		System.out.println("Error in the database");
+		System.out.println("Error in deleting the doctor.");
 		e.printStackTrace();
 	}
 
@@ -73,7 +74,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		System.out.println("Status changed");
 		pstmt.close();
 	} catch (SQLException e) {
-		System.out.println("Error in the database");
+		System.out.println("Error in changing the status.");
 		e.printStackTrace();
 	}
 		
@@ -95,7 +96,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
-			System.out.println("Error in the database");
+			System.out.println("Error in adding the doctor.");
 			e.printStackTrace();
 		}
 		
@@ -143,7 +144,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			rs.close();
 			return d;
 		}catch(SQLException e) {
-			System.out.println("Error");
+			System.out.println("Error in getting the doctor.");
 			e.printStackTrace();
 		}
 		return null;
@@ -163,7 +164,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
-			System.out.println("Error");
+			System.out.println("Error in updating the doctor.");
 			e.printStackTrace();
 		}
 		
@@ -191,7 +192,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			rs.close();
 			p.close();
 		} catch (SQLException e) {
-			System.out.println("Error in the database");
+			System.out.println("Error in getting the doctor by the speciality.");
 			e.printStackTrace();
 		}
 		return doctors;
