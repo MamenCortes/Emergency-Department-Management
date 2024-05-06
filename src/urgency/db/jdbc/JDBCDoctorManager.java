@@ -111,9 +111,15 @@ public class JDBCDoctorManager implements DoctorManager {
 			search.setString(1, "%" + surname + "%");
 			ResultSet rs = search.executeQuery();
 			while(rs.next()) {
-				Integer id = rs.getInt("ID");
-				Doctor d = getDoctor(id);
-				doctors.add(d);
+				Doctor doctor = new Doctor();
+				    doctor.setid(rs.getInt("ID"));
+	                doctor.setName(rs.getString("name"));
+	                doctor.setSurname(surname);
+	                Speciality speciality = new Speciality();
+	                speciality.setType(rs.getString("speciality_type"));
+	                doctor.setSpeciality_type(speciality);
+	                doctor.setIn_box(rs.getBoolean("in_box"));
+	                doctors.add(doctor);				
 			}
 			return doctors;
 		} catch (SQLException e) {
@@ -124,7 +130,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) { //problema con especialidad, tipo speciality o string
+	public Doctor getDoctor(int id) {
 		// TODO Auto-generated method stub
 		try {
 			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
@@ -144,18 +150,27 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void updateDoctor(Doctor doctor) {// WHAT IS UPDATED HERE?
+	public void updateDoctor(Doctor doctor) { 
 		// TODO Auto-generated method stub
-		/*try {
-			String sql = "UPDATE Doctors SET "
-			
-		}catch()
-		*/
+		try {
+			String sql = "UPDATE Doctors SET name=?, surname=?, speciality_type=?, in_box=?";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, doctor.getName());
+			pstmt.setString(2, doctor.getSurname());
+			pstmt.setString(3, doctor.getSpeciality_type().getType());
+			pstmt.setBoolean(4,  doctor.getIn_box());
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch(SQLException e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //problem with the speciality
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ 
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
@@ -188,7 +203,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
 		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
 		Speciality s = new Speciality("Psychiatry");
-		conMan.getSpecialityManager().addSpeciality(s);
+		spe.addSpeciality(s);
 		Doctor d;
 		d = new Doctor(1,"Jorge", "Fernandez", s, true);
 		docMan.addDoctor(d);
@@ -200,9 +215,12 @@ public class JDBCDoctorManager implements DoctorManager {
 		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s.getType());
 		Doctor d3 = docMan.getDoctor(1);
 		System.out.println(d3);
-		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez"); //SE ME METE EN BUCLE INFINITO?
+		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez");
 		System.out.println(doctors2);
-		//XQ NO SE ME IMPRIME EL APELLIDO?
+		d2.setName("Juan");
+		docMan.updateDoctor(d2);
+		System.out.println(d2);
+		
 		conMan.closeConnection();								
 	}
 	
