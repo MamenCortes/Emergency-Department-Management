@@ -103,8 +103,8 @@ public class NurseView extends SearchTemplate{
 		errorMessage.setVisible(false);
         //showPatients();
 		
-		//patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
-		patient = appMain.conMan.getPatientMan().getPatient(1);
+		patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
+		//patient = appMain.conMan.getPatientMan().getPatient(1);
 		System.out.println("Patient in triage "+triage.getId()+": "+patient);
 		
 		if(patient != null) {
