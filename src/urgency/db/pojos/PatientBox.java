@@ -15,6 +15,18 @@ public class PatientBox implements Serializable {
 	public PatientBox() {
 		super();
 	}
+	
+
+	public PatientBox(Patient patient, Box box, Date date, String comments) {
+		super();
+		this.patient = patient;
+		this.box = box;
+		this.date = date;
+		this.comments = comments;
+	}
+
+
+
 
 	@Override
 	public int hashCode() {

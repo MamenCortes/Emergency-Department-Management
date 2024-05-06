@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,39 +40,7 @@ public class JDBCBoxManager implements BoxManager {
 				e.printStackTrace();
 			}
 	}
-
-	/*
-	@Override
-	public void addBox(Box box) {
-	    try {
-	        JDBCSpecialityManager specialityManager = new JDBCSpecialityManager(conManager);
-	        List<String> existingSpecialities = specialityManager.getSpecialities();
-	        Speciality speciality = box.getSpeciality();
-	        if (speciality == null) {
-	            System.out.println("Speciality nula");
-	            return;
-	        }
-	        String speciality_type = speciality.getType();
-	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
-	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
-	            return;
-	        }
-	        
-	        int specialityId = existingSpecialities.indexOf(speciality_type);
-	        
-	        
-	        String sql = "INSERT INTO Boxes (available, speciality_type) VALUES (?, ?)";
-	        PreparedStatement pstmt = connection.prepareStatement(sql);
-	        pstmt.setBoolean(1, box.getAvailable());
-	        pstmt.setInt(2, specialityId);
-	        pstmt.executeUpdate();
-	        pstmt.close();
-	    } catch (SQLException e) {
-	        System.out.println("Error");
-	        e.printStackTrace();
-	    }
-	}
-	*/
+	
 	
 	@Override
 	public void addBox(Box box) {
@@ -81,8 +50,8 @@ public class JDBCBoxManager implements BoxManager {
 	        Speciality speciality = box.getSpeciality();
 	        if (speciality == null) {
 	            System.out.println("Speciality nula");
-	            return; //Esto habría que manejarlo mejor lanzando excepciones
-	        }
+	            return; 
+	        }   
 	        String speciality_type = speciality.getType();
 	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
 	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
@@ -127,10 +96,62 @@ public class JDBCBoxManager implements BoxManager {
 
 
 	@Override
-	public Patient getPatientInBox(int Box_id) {
-		return null;
+	public PatientBox getPatientInBox(int Box_id) {
+	    PatientBox pb = null;;
+		try {
+			String sql = "SELECT Patients.id, Patients.name, Patients.surname, Patients.weight, Patients.height, Patients.status, Patients.urgency, Patients.sex, Patients.birthDate, "
+                    + "PatientBox.date AS boxDate, PatientBox.comments " 
+                    + "FROM Patients JOIN PatientBox ON Patients.id = PatientBox.patient_id " 
+                    + "JOIN Boxes ON Boxes.id = PatientBox.box_id " 
+                    + "WHERE Boxes.id = ? ORDER BY Patients.birthDate DESC";
+			
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, Box_id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			Integer id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			Integer weight = rs.getInt("weight");
+			Integer height = rs.getInt("height");
+			String status = rs.getString("status");
+			Integer urgency = rs.getInt("urgency");
+			String sex = rs.getString("sex");
+			Date birthDate = rs.getDate("birthDate");
+			Date boxDate = rs.getDate("boxDate");
+            String comments = rs.getString("comments");
+			
+			Patient patient = new Patient(id, name, surname, weight, height, status, urgency, sex, birthDate);
+			
+            pb = new PatientBox(patient, getBox(Box_id), boxDate, comments);
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} 
+		return pb; 
 	}
-
+	
+	
+	public void assignPatientToBox(int Box_id, int Patient_id) {
+		try {
+			String sql = "INSERT INTO PatientBox (patient_id, box_id, date) VALUES (?,?,?)"; 
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, Box_id);
+			pstmt.setInt(2, Patient_id);
+			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch (SQLException e) {
+			System.out.println("Error");
+			e.printStackTrace();
+		} 
+	}
+	
+	
 	
 	@Override
 	public Box getBox(int id) {
@@ -181,8 +202,9 @@ public class JDBCBoxManager implements BoxManager {
 		//conBox.addBox(box2);
 		//conBox.addBox(box3);
 		//conBox.getBox(1);
-		conBox.getBoxes(1);
+		//conBox.getBoxes(1);
 		//conBox.deleteBox(1);
+		
 		
 		
 	}
