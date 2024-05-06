@@ -168,8 +168,6 @@ public class JDBCBoxManager implements BoxManager {
 	                Box b = new Box(boxId, available, speciality);
 	                rs.close();
 	                return b;
-
-
 	            }
 	        }
 	    } catch (SQLException e) {
@@ -204,6 +202,8 @@ public class JDBCBoxManager implements BoxManager {
 		//conBox.getBox(1);
 		//conBox.getBoxes(1);
 		//conBox.deleteBox(1);
+		//conBox.assignPatientToBox(1, 1);
+		//conBox.getPatientInBox(1);
 		
 		
 		
