@@ -103,28 +103,26 @@ public class JDBCBoxManager implements BoxManager {
 	}
 
 	@Override
-	public List<Box> getBoxes() {
-		List<Box> boxes = new ArrayList<Box>();
-
-		try {
-			String sql = "SELECT * FROM Boxes";
-			Statement st;
-			st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("ID");
-				Boolean availability = rs.getBoolean("Available");
-				String specialityName = rs.getString("speciality_type");
-	            Speciality speciality = new Speciality(specialityName);
-				Box b = new Box(id, availability, speciality);
-				boxes.add(b);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("Error in the database");
-			e.printStackTrace();
-		}
-		return boxes;
+	public List<Box> getBoxes(int speciality_type) {
+	    List<Box> boxes = new ArrayList<>();
+	    String sql = "SELECT * FROM Boxes WHERE speciality_type = ?";
+	    try (PreparedStatement st = connection.prepareStatement(sql)) {
+	        st.setInt(1, speciality_type);
+	        try (ResultSet rs = st.executeQuery()) {
+	            while (rs.next()) {
+	                Integer boxId = rs.getInt("id");
+	                boolean available = rs.getBoolean("available");
+	                String specialityName = rs.getString("speciality_type");
+	                Speciality speciality = new Speciality(specialityName);         
+	                Box b = new Box(boxId, available, speciality);
+	                boxes.add(b);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
+	    return boxes;
 	}
 
 
@@ -179,11 +177,11 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box5);
 
 		
-		conBox.addBox(box1);
+		//conBox.addBox(box1);
 		//conBox.addBox(box2);
 		//conBox.addBox(box3);
 		//conBox.getBox(1);
-		//conBox.getBoxes();
+		conBox.getBoxes(1);
 		//conBox.deleteBox(1);
 		
 		
