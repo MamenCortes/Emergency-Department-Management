@@ -92,6 +92,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.setString(2, doctor.getSurname());
 			pstmt.setString(3, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(4, doctor.getIn_box());
+			System.out.println("Doctor added");
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -119,7 +120,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	                speciality.setType(rs.getString("speciality_type"));
 	                doctor.setSpeciality_type(speciality);
 	                doctor.setIn_box(rs.getBoolean("in_box"));
-	                doctors.add(doctor);				
+	                doctors.add(doctor);
 			}
 			return doctors;
 		} catch (SQLException e) {
@@ -141,6 +142,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
+			System.out.println("Doctor has been got");
 			return d;
 		}catch(SQLException e) {
 			System.out.println("Error in getting the doctor.");
@@ -150,7 +152,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void updateDoctor(Doctor doctor) { 
+	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
 			String sql = "UPDATE Doctors SET name=?, surname=?, speciality_type=?, in_box=?";
@@ -160,6 +162,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.setString(2, doctor.getSurname());
 			pstmt.setString(3, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(4,  doctor.getIn_box());
+			System.out.println("Doctor updated.");
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
