@@ -20,8 +20,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void assignBox(int Doctor_id, int Box_id) { //habria q pasarle el date?
-		//ESTE METODO ES NECESARIO O DONDE SE UTILIZA?
+	public void assignBox(int Doctor_id, int Box_id) {
 		// TODO Auto-generated method stub
 		try {
 			String sql = "INSERT INTO BoxDoctor (box_id, doctor_id, date) VALUES (?,?,?)";
@@ -103,7 +102,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> searchDoctorsBySurname(String surname) {
+	public List<Doctor> searchDoctorsBySurname(String surname) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
@@ -204,22 +203,39 @@ public class JDBCDoctorManager implements DoctorManager {
 		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
 		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
 		Speciality s = new Speciality("Psychiatry");
+		
 		spe.addSpeciality(s);
+		
 		Doctor d;
+		
 		d = new Doctor(1,"Jorge", "Fernandez", s, true);
+		
 		docMan.addDoctor(d);
+		
 		System.out.println("Doctor added");
+		
 		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
+		
 		docMan.addDoctor(d2);
+		
 		docMan.deleteDoctor(d2.getid());
+		
 		docMan.changeStatus(1, false);
+		
 		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s.getType());
+		
 		Doctor d3 = docMan.getDoctor(1);
+		
 		System.out.println(d3);
+		
 		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez");
+		
 		System.out.println(doctors2);
+		
 		d2.setName("Juan");
+		
 		docMan.updateDoctor(d2);
+		
 		System.out.println(d2);
 		
 		conMan.closeConnection();								
