@@ -24,8 +24,9 @@ public class JDBCSpecialityManager implements SpecialityManager {
 	
 	public JDBCSpecialityManager(ConnectionManager conManager) {
 		this.conManager = conManager; 
-		this.connection = conManager.getConnection(); 
-		addSpecialities();
+		this.connection = conManager.getConnection();
+		addSpecialities(); //las especialidades solo se añaden una vez en la aplicacion
+		//no puede ser q se añadan constantemente xq da error en doctor
 	}
 
 	private void addSpecialities() {

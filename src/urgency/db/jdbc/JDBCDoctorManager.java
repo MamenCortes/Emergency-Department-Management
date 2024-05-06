@@ -203,11 +203,11 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager();
-		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
-		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
-		Speciality s = new Speciality("Psychiatry");
+		DoctorManager docMan = conMan.getDocMan();
+		//conMan.getSpecialityManager();
 		
-		spe.addSpeciality(s);
+		
+		Speciality s = new Speciality("Psychiatry");
 		
 		Doctor d;
 		
@@ -221,23 +221,23 @@ public class JDBCDoctorManager implements DoctorManager {
 		
 		docMan.addDoctor(d2);
 		
-		docMan.deleteDoctor(d2.getid());
+		conMan.getDocMan().deleteDoctor(d2.getid());
 		
-		docMan.changeStatus(1, false);
+		conMan.getDocMan().changeStatus(1, false);
 		
-		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s.getType());
+		List<Doctor> doctors = conMan.getDocMan().getDoctorsBySpeciality(s.getType());
 		
-		Doctor d3 = docMan.getDoctor(1);
+		Doctor d3 = conMan.getDocMan().getDoctor(1);
 		
 		System.out.println(d3);
 		
-		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez");
+		List<Doctor> doctors2 = conMan.getDocMan().searchDoctorsBySurname("Fernandez");
 		
 		System.out.println(doctors2);
 		
 		d2.setName("Juan");
 		
-		docMan.updateDoctor(d2);
+		conMan.getDocMan().updateDoctor(d2);
 		
 		System.out.println(d2);
 		

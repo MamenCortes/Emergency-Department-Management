@@ -23,12 +23,14 @@ public class ConnectionManager {
 	
 	public ConnectionManager() {
 		this.createConnection();
+		this.specialityManager = new JDBCSpecialityManager(this); //se tiene q crear antes sino da error
+	    this.patientMan = new JDBCPatientManager(this); 
+		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		this.patientMan = new JDBCPatientManager(this); 
-		this.boxManager = new JDBCBoxManager(this); 
-		this.specialityManager = new JDBCSpecialityManager(this); 
+		
 		createTables();
+		
 	}
 
 	//Creates a connection with the database
