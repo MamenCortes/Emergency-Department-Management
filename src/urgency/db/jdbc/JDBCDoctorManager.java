@@ -206,7 +206,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		DoctorManager docMan = conMan.getDocMan();
 		//conMan.getSpecialityManager();
 		
-		
+		/*
 		Speciality s = new Speciality("Psychiatry");
 		
 		Doctor d;
@@ -240,7 +240,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		conMan.getDocMan().updateDoctor(d2);
 		
 		System.out.println(d2);
-		
+		*/
 		conMan.closeConnection();								
 	}
 	
