@@ -12,6 +12,6 @@ public interface DoctorManager {
 	public List<Doctor> getDoctorsBySpeciality(String speciality_type); 
 	public void assignBox(int Doctor_id, int Box_id); 
 	public void deleteDoctor(int id); 
-	public void changeStatus(boolean in_box); 
+	public void changeStatus(int id, boolean in_box); 
 	
 }

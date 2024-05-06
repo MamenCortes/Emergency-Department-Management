@@ -12,7 +12,7 @@ public class Doctor implements Serializable{
 	private Integer id;
 	private String name;
 	private String surname; 
-	private String speciality_type;
+	private Speciality speciality_type;
 	private Boolean in_box;
 
 	private List<Patient> patients;
@@ -22,7 +22,7 @@ public class Doctor implements Serializable{
 		super();
 	}
 
-	public Doctor(Integer id, String name, String surname, String speciality_type, Boolean in_box) {
+	public Doctor(Integer id, String name, String surname, Speciality speciality_type, Boolean in_box) {
 		this.id=id;
 		this.name=name;
 		this.surname = surname; 
@@ -32,15 +32,37 @@ public class Doctor implements Serializable{
 		this.boxes=new ArrayList<> ();
 	}
 	
-	public Doctor(Integer id, String name, String surname, String speciality_type) {
+	public Doctor(String name, String surname, Speciality speciality_type) {
 		super();
-		this.id = -1; 
+		//this.id = -1; 
 		this.name = name;
 		this.surname = surname;
 		this.in_box = false;
 		this.speciality_type = speciality_type;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
+	}
+	
+
+	public Doctor(String name, String surname, Speciality speciality_type, Boolean in_box) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.speciality_type = speciality_type;
+		this.in_box = in_box;
+		this.patients = new ArrayList<>();
+		this.boxes = new ArrayList<>();
+	}
+
+	public Doctor(Integer id, String name, String surname, String type, Boolean in_box) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.speciality_type= new Speciality(type); //pones esto
+		this.in_box = in_box;
+		this.patients = new ArrayList<>();
+		this.boxes = new ArrayList<>();
 	}
 
 	@Override
@@ -84,11 +106,11 @@ public class Doctor implements Serializable{
 		this.surname = surname;
 	}
 
-	public String getSpeciality_type() {
+	public Speciality getSpeciality_type() {
 		return speciality_type;
 	}
 
-	public void setSpeciality_type(String speciality_type) {
+	public void setSpeciality_type(Speciality speciality_type) {
 		this.speciality_type = speciality_type;
 	}
 
@@ -118,7 +140,7 @@ public class Doctor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Doctor [ID=" + id + ", name=" + name + ", speciality_type=" + speciality_type + ", in_box=" + in_box
+		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", speciality_type=" + speciality_type + ", in_box=" + in_box
 				+ ", patients=" + patients + ", boxes=" + boxes + "]";
 	}
 

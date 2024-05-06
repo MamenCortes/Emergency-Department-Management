@@ -17,7 +17,6 @@ public class PanelCoverForMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel picLabel; 
 	private JLabel title;
-	private JLabel title2;
 	
 	public PanelCoverForMenu() {
 
@@ -48,6 +47,10 @@ public class PanelCoverForMenu extends JPanel {
         title.setForeground(new Color(245, 245, 245));
         add(title, "cell 1 0, align left, grow x");
         
+	}
+	
+	public void setTitle(String text) {
+		title.setText(text);
 	}
 
 }

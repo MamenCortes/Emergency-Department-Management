@@ -6,28 +6,21 @@ import java.util.Objects;
 
 public class PatientBox implements Serializable {
    
-	private Integer id_patient;
-	private Integer box_id;
+	private static final long serialVersionUID = 7191994403476647454L;
+	private Patient patient;
+	private Box box;
 	private Date date;
 	private String comments;
 	
 	public PatientBox() {
 		super();
 	}
-	
-	public PatientBox(Integer id_patient, Integer box_id, Date date, String comments) {
-		super();
-		this.id_patient = id_patient;
-		this.box_id = box_id;
-		this.date = date;
-		this.comments = comments;
-	}
-
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(box_id, id_patient);
+		return Objects.hash(box, date, patient);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -37,23 +30,29 @@ public class PatientBox implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PatientBox other = (PatientBox) obj;
-		return Objects.equals(box_id, other.box_id) && Objects.equals(id_patient, other.id_patient);
+		return Objects.equals(box, other.box) && Objects.equals(date, other.date)
+				&& Objects.equals(patient, other.patient);
 	}
 
-	public Integer getId_patient() {
-		return id_patient;
+	@Override
+	public String toString() {
+		return "PatientBox [patient=" + patient + ", box=" + box + ", date=" + date + ", comments=" + comments + "]";
 	}
 
-	public void setId_patient(Integer id_patient) {
-		this.id_patient = id_patient;
+	public Patient getPatient() {
+		return patient;
 	}
 
-	public Integer getBox_id() {
-		return box_id;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
-	public void setBox_id(Integer box_id) {
-		this.box_id = box_id;
+	public Box getBox() {
+		return box;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
 	}
 
 	public Date getDate() {
@@ -71,12 +70,8 @@ public class PatientBox implements Serializable {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "PatientBox [id_patient=" + id_patient + ", box_id=" + box_id + ", date=" + date + ", comments="
-				+ comments + "]";
-	}
 	
 	
 	

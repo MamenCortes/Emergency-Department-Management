@@ -32,7 +32,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 	private JLabel option2; 
 	protected String option2Text =  "    Medical Details"; 
 	private JLabel option3; 
-	protected String option3Text = "    Urgency Details";
+	protected String option3Text = "    Diagnosis Details";
 	private ArrayList<JLabel> optionTexts; 
 	private ArrayList<JPanel> forms; 
 	protected JPanel form1; 
@@ -92,7 +92,8 @@ public class FormTemplate extends JPanel implements ActionListener{
 				enableBackground(option1);
 				initPatientForm1(true); 
 			}else {
-				add(option2, "skip 2, alignx center, grow");
+				add(option1, "cell 0 "+(optionTexts.indexOf(option1)+1)+", alignx center, grow");
+				//add(option1, "skip 3, alignx center, grow");
 				initPatientForm1(false); 
 			}
 
@@ -111,7 +112,8 @@ public class FormTemplate extends JPanel implements ActionListener{
 				enableBackground(option2);
 				initPatientForm2(true); 
 			}else {
-				add(option2, "skip 2, alignx center, grow");
+				add(option2, "cell 0 "+(optionTexts.indexOf(option2)+1)+", alignx center, grow");
+				//add(option2, "skip 3, alignx center, grow");
 				initPatientForm2(false); 
 			}
 		}
@@ -129,9 +131,10 @@ public class FormTemplate extends JPanel implements ActionListener{
 				enableBackground(option3);
 				initPatientForm3(true); 
 			}else {
-				add(option3, "skip 2, alignx center, grow");
+				add(option3, "cell 0 "+(optionTexts.indexOf(option3)+1)+", alignx center, grow");
 				initPatientForm3(false); 
 			}
+			
 			
 			
 		}
@@ -160,7 +163,7 @@ public class FormTemplate extends JPanel implements ActionListener{
         nextButton.setBackground(new Color(7, 164, 121));
         nextButton.setForeground(new Color(250, 250, 250));
         nextButton.addActionListener(this);
-		add(nextButton, "cell 3 7, right, gapy 5");
+
 		
 		applyChanges = new MyButton("APPLY"); 
         applyChanges.setBackground(new Color(7, 164, 121));
@@ -168,17 +171,16 @@ public class FormTemplate extends JPanel implements ActionListener{
         applyChanges.addActionListener(this);
         
         if(panelShowed == forms.size()) {
-			nextButton.setVisible(false);
-			this.remove(nextButton);
-			applyChanges.setVisible(true);
 			add(applyChanges, "cell 3 7, right, gapy 5"); 
+		}else {
+			add(nextButton, "cell 3 7, right, gapy 5");
 		}
         
         errorMessage = new JLabel(); 
 	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
 	    errorMessage.setForeground(Color.red);
 	    errorMessage.setText("Error message test");
-	    this.add(errorMessage, "span, left"); 
+	    this.add(errorMessage, "cell 0 8, span, left"); 
 	    errorMessage.setVisible(false); 
         
 	}
@@ -245,8 +247,6 @@ public class FormTemplate extends JPanel implements ActionListener{
     			add(backButton, "cell 1 7, left, gapx 10, gapy 5");
     		}
     		changePanel(); 
-
-    		
     		}
     	
     }
@@ -268,7 +268,6 @@ public class FormTemplate extends JPanel implements ActionListener{
 			form2 = new FormPanel();
 		}
 		form2.setVisible(isVisible);
-		form2.setBackground(Color.BLUE);
 		forms.add(form2);
 		
 		if(isVisible) {
@@ -280,7 +279,6 @@ public class FormTemplate extends JPanel implements ActionListener{
 			form3 = new FormPanel();
 		}
 		form3.setVisible(isVisible);
-		form3.setBackground(Color.RED);
 		forms.add(form3);
 
 		if(isVisible) {
@@ -304,6 +302,9 @@ public class FormTemplate extends JPanel implements ActionListener{
     }
     
     protected void resetPanel() {
+    	this.removeAll();
+    	panelShowed = 0;
     }
+    
 
 }

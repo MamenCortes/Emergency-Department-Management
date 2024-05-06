@@ -40,47 +40,89 @@ public class JDBCBoxManager implements BoxManager {
 			}
 	}
 
-
+	/*
 	@Override
 	public void addBox(Box box) {
-		try {
-			String sql = "INSERT INTO Boxes (available) VALUES (?)";
-			PreparedStatement pstmt;
-			pstmt = connection.prepareStatement(sql);
-			pstmt.setBoolean(1,box.getAvailable()); 
-			pstmt.executeUpdate();
-			pstmt.close();
-			}
-		catch (SQLException e) {
-				System.out.println("Error");
-				e.printStackTrace();
-			}
-		
+	    try {
+	        JDBCSpecialityManager specialityManager = new JDBCSpecialityManager(conManager);
+	        List<String> existingSpecialities = specialityManager.getSpecialities();
+	        Speciality speciality = box.getSpeciality();
+	        if (speciality == null) {
+	            System.out.println("Speciality nula");
+	            return;
+	        }
+	        String speciality_type = speciality.getType();
+	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
+	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
+	            return;
+	        }
+	        
+	        int specialityId = existingSpecialities.indexOf(speciality_type);
+	        
+	        
+	        String sql = "INSERT INTO Boxes (available, speciality_type) VALUES (?, ?)";
+	        PreparedStatement pstmt = connection.prepareStatement(sql);
+	        pstmt.setBoolean(1, box.getAvailable());
+	        pstmt.setInt(2, specialityId);
+	        pstmt.executeUpdate();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	
+	@Override
+	public void addBox(Box box) {
+	    try {
+	        JDBCSpecialityManager specialityManager = new JDBCSpecialityManager(conManager);
+	        List<String> existingSpecialities = specialityManager.getSpecialities(); 
+	        Speciality speciality = box.getSpeciality();
+	        if (speciality == null) {
+	            System.out.println("Speciality nula");
+	            return; //Esto habría que manejarlo mejor lanzando excepciones
+	        }
+	        String speciality_type = speciality.getType();
+	        if (speciality_type == null || !existingSpecialities.contains(speciality_type)) {
+	            System.out.println("La especialidad '" + speciality_type + "' no es válida.");
+	            return;
+	        }
+	        
+	        
+	        String sql = "INSERT INTO Boxes (available, speciality_type) VALUES (?, ?)";
+	        PreparedStatement pstmt = connection.prepareStatement(sql);
+	        pstmt.setBoolean(1, box.getAvailable());
+	        pstmt.setString(2, speciality_type);
+	        pstmt.executeUpdate();
+	        pstmt.close();
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
 	}
 
 	@Override
-	public List<Box> getBoxes() {
-		List<Box> boxes = new ArrayList<Box>();
-
-		try {
-			String sql = "SELECT * FROM Boxes";
-			Statement st;
-			st = connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
-			while (rs.next()) {
-				Integer id = rs.getInt("ID");
-				Boolean availability = rs.getBoolean("Available");
-				String specialityName = rs.getString("speciality_type");
-	            Speciality speciality = new Speciality(specialityName);
-				Box b = new Box(id, availability, speciality);
-				boxes.add(b);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("Error in the database");
-			e.printStackTrace();
-		}
-		return boxes;
+	public List<Box> getBoxes(int speciality_type) {
+	    List<Box> boxes = new ArrayList<>();
+	    String sql = "SELECT * FROM Boxes WHERE speciality_type = ?";
+	    try (PreparedStatement st = connection.prepareStatement(sql)) {
+	        st.setInt(1, speciality_type);
+	        try (ResultSet rs = st.executeQuery()) {
+	            while (rs.next()) {
+	                Integer boxId = rs.getInt("id");
+	                boolean available = rs.getBoolean("available");
+	                String specialityName = rs.getString("speciality_type");
+	                Speciality speciality = new Speciality(specialityName);         
+	                Box b = new Box(boxId, available, speciality);
+	                boxes.add(b);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error");
+	        e.printStackTrace();
+	    }
+	    return boxes;
 	}
 
 
@@ -92,7 +134,7 @@ public class JDBCBoxManager implements BoxManager {
 	
 	@Override
 	public Box getBox(int id) {
-	    String sql = "SELECT Boxes.*, Specialities.type AS speciality_type FROM Boxes " +
+	    String sql = "SELECT Boxes.* FROM Boxes " +
                 "LEFT JOIN Specialities ON Boxes.speciality_type = Specialities.type WHERE Boxes.id = ?";
 	    try (PreparedStatement st = connection.prepareStatement(sql)) {
 	        st.setInt(1, id);
@@ -139,7 +181,7 @@ public class JDBCBoxManager implements BoxManager {
 		//conBox.addBox(box2);
 		//conBox.addBox(box3);
 		//conBox.getBox(1);
-		conBox.getBoxes();
+		conBox.getBoxes(1);
 		//conBox.deleteBox(1);
 		
 		

@@ -20,6 +20,7 @@ public class AddRoom extends FormTemplate {
 	private MyComboBox<String> roomType; 
 	private Box box; 
 	private Triage triage; 
+	private boolean isBoxToAdd = false; 
 
 	public AddRoom(Application appMain) {
 		this.option2Text = null; 
@@ -27,7 +28,7 @@ public class AddRoom extends FormTemplate {
 		this.appMain = appMain; 
 		
 		speciality = new MyComboBox<String>(); 
-		specialities = appMain.specMan.getSpecialities(); 
+		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
 		this.titleText += "Add Room"; 
 		
 		roomType = new MyComboBox<String>(); 
@@ -35,6 +36,7 @@ public class AddRoom extends FormTemplate {
 		
 		form1 = new FormPanel("Add Room", roomType, speciality, specialities); 
 		initPatientForm(); 
+
 	}
 	
 	@Override
@@ -44,7 +46,7 @@ public class AddRoom extends FormTemplate {
 			appMain.changeToManagerMenu();
 			resetPanel();
 		}else if(e.getSource() == applyChanges) {
-			//TODO Create a Room
+			createRoom(); 
 			resetPanel();
 			appMain.changeToManagerMenu(); 
 			//showErrorMessage(errorMessage); 
@@ -53,17 +55,12 @@ public class AddRoom extends FormTemplate {
 			if(roomType.getSelectedItem() != null) {
 				 type = roomType.getSelectedItem().toString();
 			}	
-			if (type.equals("Triage") || type.equals("Emergency Room")) {
+			if (type.equals("Triage")) {
 				speciality.setEnabled(false);
+				isBoxToAdd = false; 
 			}else {
 				speciality.setEnabled(true);
-			}
-		}else if(e.getSource() == deleteButton) {
-			//TODO test delete functionality
-			if(box != null) {
-				appMain.conMan.getBoxManager().deleteBox(box.getId());
-			}else if(triage != null) {
-				appMain.conMan.getTriageManager().deleteTriage(triage.getId());
+				isBoxToAdd = true; 
 			}
 		}
 	}
@@ -75,6 +72,20 @@ public class AddRoom extends FormTemplate {
 		deleteButton.setVisible(false);
 		box = null; 
 		triage = null; 
+	}
+	
+	private void createRoom() {
+		if(isBoxToAdd) {
+			String specialityType = this.speciality.getSelectedItem().toString();
+			Speciality speciality = new Speciality(specialityType);
+			Box box = new Box(true, speciality);
+			appMain.conMan.getBoxManager().addBox(box);
+		}else {
+			Triage triage = new Triage(true);
+			appMain.conMan.getTriageManager().addTriage(triage);
+		}
+		
+		
 	}
 	
 

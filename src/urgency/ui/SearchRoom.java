@@ -119,7 +119,8 @@ public class SearchRoom extends SearchTemplate {
 			}else if(isBoxSelected) { //I am working with Box	
 				//Assign the scrollBox List a BoxDefaultModel
 				if(triageDefListModel != null) triageDefListModel.removeAllElements();
-				showBoxes(createRandomBoxes());
+				//showBoxes(createRandomBoxes());
+				showBoxes(appMain.conMan.getBoxManager().getBoxes());
 				openFormButton.setVisible(true);
 			
 				String idText = searchByTextField.getText(); 
@@ -145,7 +146,6 @@ public class SearchRoom extends SearchTemplate {
 					showErrorMessage("No Box Selected");
 				}else {
 					resetPanel();
-					//TODO add BOX FORM
 					appMain.changeToModifyRoom(box);
 					//appMain.changeToManagerMenu();
 				}
@@ -155,7 +155,6 @@ public class SearchRoom extends SearchTemplate {
 					showErrorMessage("No Triage Selected");
 				}else {
 					resetPanel();
-					//TODO ADD Triage Form
 					appMain.changeToManagerMenu();
 					appMain.changeToModifyRoom(triage);
 				}
@@ -193,14 +192,14 @@ public class SearchRoom extends SearchTemplate {
 	
 	private List<Box> createRandomBoxes() {
 		List<Box> boxes = new ArrayList<Box>(); 
-		List<String> specialities = appMain.specMan.getSpecialities(); 
+		List<String> specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
 		List<Speciality> specs = new ArrayList<Speciality>(); 
 		for (String string : specialities) {
 			specs.add(new Speciality(string)); 
 		}
 		for(int i = 0; i<10; i++) {
     		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		boxes.add(new Box(i, true, specs.get(rd3).getType())); 
+    		boxes.add(new Box(i, true, specs.get(rd3))); 
 		}
 		System.out.println(boxes);
 		return boxes;

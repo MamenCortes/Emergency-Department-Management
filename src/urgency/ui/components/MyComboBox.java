@@ -12,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultListCellRenderer;
 
 
@@ -58,6 +59,17 @@ public class MyComboBox<E> extends JComboBox<E> {
                 return com;
             }
         });
+    }
+    
+    @Override
+    public void setEnabled(boolean b) {
+    	super.setEnabled(b);
+    	setEditable(true);
+    	ComboBoxEditor editor = this.getEditor();
+    	JTextField etf = (JTextField) editor.getEditorComponent();
+    	etf.setDisabledTextColor(getForeground().darker());
+    	etf.setBackground(getBackground());
+    	// editor.setItem(format(obj));
     }
     
 

@@ -1,10 +1,14 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.sql.Date;
 import java.util.List;
 
 import urgency.ui.components.MyComboBox;
 import urgency.ui.components.MyTextField;
+import urgency.db.pojos.Doctor;
+import urgency.db.pojos.Patient;
+import urgency.db.pojos.Speciality;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 
@@ -24,7 +28,7 @@ public class AddDoctor extends FormTemplate {
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
 		speciality = new MyComboBox<String>(); 
-		specialities = appMain.specMan.getSpecialities(); 
+		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
 		form1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities); 
 		initPatientForm(); 
 	}
@@ -36,8 +40,10 @@ public class AddDoctor extends FormTemplate {
 			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}else if(e.getSource() == applyChanges) {
-			resetPanel(); 
-			appMain.changeToManagerMenu(); 
+			if(createDoctor()) {
+				resetPanel(); 
+				appMain.changeToManagerMenu(); 
+			}
 		}
 	}
 	
@@ -46,6 +52,24 @@ public class AddDoctor extends FormTemplate {
 		name.setText(null);
 		surname.setText(null);
 		speciality.setSelectedItem(null);
+	}
+	
+	
+	private Boolean createDoctor() {
+		String name = this.name.getText(); 
+		String surname = this.surname.getText(); 
+		
+		if(name.equals("")||surname.equals("")||speciality.getSelectedItem()==null){
+			showErrorMessage("Please complete all fields");
+			return false;
+		}
+		
+		String specText = speciality.getSelectedItem().toString(); 
+		Speciality patientSpec = new Speciality(specText); 
+		Doctor doctor = new Doctor(name, surname, patientSpec);
+		appMain.conMan.getDocMan().addDoctor(doctor);
+		System.out.println(doctor);
+		return true; 
 	}
 	
 }

@@ -50,6 +50,7 @@ public class MyTextField extends JTextField{
         setForeground(Color.decode("#7A8C8D"));
         setFont(new java.awt.Font("sansserif", 0, 13));
         setSelectionColor(new Color(75, 175, 152));
+        setDisabledTextColor(Color.decode("#7A8C8D").darker());
     }
 
     public MyTextField(String hint) {
@@ -59,6 +60,7 @@ public class MyTextField extends JTextField{
         setFont(new java.awt.Font("sansserif", 0, 13));
         setHint(hint); 
         setSelectionColor(new Color(75, 175, 152));
+        setDisabledTextColor(Color.decode("#7A8C8D").darker());
     }
 
     @Override
@@ -112,4 +114,5 @@ public class MyTextField extends JTextField{
         }
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, left, 10, right));
     }
+    
 }

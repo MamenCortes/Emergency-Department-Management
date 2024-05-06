@@ -15,8 +15,6 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	public JDBCPatientManager patientMan; 
-	public JDBCSpecialityManager specMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -33,23 +31,34 @@ public class Application extends JFrame{
 	private ModifyDoctor modifyDoctor; 
 	private SearchRoom searchRoom;
 	private ModifyRoom modifyRoom; 
+	private GeneralView generalView; 
+	private NurseView nurseView; 
+	private PatientForm patientForm; 
+	private DoctorView doctorView; 
+	
+	//For tests
+	private ActorsMenu actorsMenu; 
 
-	//TODO Create Box and Triage Forms for updating Info
-	//TODO Change speciality.setSelectedItem() by speciality.getModel().setSelectedItem(boxSpeciality);
-	//TODO Add delete buttons in Modify Objects
-	//TODO Add Delete functionality in ModifyForms 
-	//TODO Create General View
-	//TODO Create Nurse View
-	//TODO Create Doctor View
+
+	//TODO Add functionality in ModifyForms: admitPatient (implementar método update)
+		//y PatientForm implementar PatientBox.setComments()
+	//TODO Solve getBoxes method in Box 
+	//TODO Create Patient record Cell and solve DoctorView
+	//TODO Añadir Specialidad a NurseView
+
 	public Application() {
 		conMan = new ConnectionManager(); 
-		patientMan = new JDBCPatientManager(conMan); 
-		specMan = new JDBCSpecialityManager(conMan);
 		appPanels = new ArrayList<JPanel>(); 
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 602, 436);
+		
+		//For tests
+		actorsMenu = new ActorsMenu(this); 
+		appPanels.add(actorsMenu); 
+		////////////////////
+		
 		logInPanel = new UserLogIn(this); 
 		appPanels.add(logInPanel); 
 		logInPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,9 +70,7 @@ public class Application extends JFrame{
 		appPanels.add(addPatient); 
 		
 		//Example patient
-		Patient patient1 = patientMan.getPatient(3); 
-		System.out.println(patient1);
-		admitPatient = new AdmitPatient(patient1, this); 
+		admitPatient = new AdmitPatient(this); 
 		appPanels.add(admitPatient); 
 		
 		addDoctor = new AddDoctor(this);
@@ -85,8 +92,18 @@ public class Application extends JFrame{
 		appPanels.add(searchRoom); 
 		modifyRoom = new ModifyRoom(this); 
 		appPanels.add(modifyRoom);
+		generalView = new GeneralView(this); 
+		appPanels.add(generalView); 
+		nurseView = new NurseView(this); 
+		appPanels.add(nurseView); 
+		nurseView = new NurseView(this); 
+		appPanels.add(nurseView); 
+		patientForm = new PatientForm(this); 
+		appPanels.add(patientForm); 
+		doctorView = new DoctorView(this); 
+		appPanels.add(doctorView);		
 
-		setContentPane(logInPanel);
+		setContentPane(actorsMenu);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -126,9 +143,13 @@ public class Application extends JFrame{
 	}
 	
 	public void changeToUserLogIn() {
+		/*
 		hideAllPanels();
 		logInPanel.setVisible(true);
-		this.setContentPane(logInPanel);
+		this.setContentPane(logInPanel);*/
+		hideAllPanels();
+		actorsMenu.setVisible(true);
+		this.setContentPane(actorsMenu);
 	}
 	
 	public void changeToManagerMenu() {
@@ -192,5 +213,42 @@ public class Application extends JFrame{
 		modifyRoom.setVisible(true);
 		this.setContentPane(modifyRoom); 
 	}
+	public void changeToGeneralView() {
+		generalView.updateView();
+		hideAllPanels();
+		generalView.setVisible(true);
+		this.setContentPane(generalView); 
+	}
+	public void changeToNurseView() {
+		hideAllPanels();
+		nurseView.setVisible(true);
+		this.setContentPane(nurseView); 
+	}
+	public void changeToPatientNurseForm(Patient patient) {
+		patientForm.patientNurseForm(patient); 
+		hideAllPanels();
+		patientForm.setVisible(true);
+		this.setContentPane(patientForm); 
+	}
+	public void changeToPatientDoctorFor(Patient patient) {
+		patientForm.patientDoctorForm(patient); 
+		hideAllPanels();
+		patientForm.setVisible(true);
+		this.setContentPane(patientForm); 
+	}
+	public void changeToDoctorView(Doctor doctor) {
+		doctorView.updateDoctorPanel(doctor);
+		hideAllPanels();
+		doctorView.setVisible(true);
+		this.setContentPane(doctorView); 
+	}
+	public void changeToDoctorView() {
+		hideAllPanels();
+		doctorView.setVisible(true);
+		this.setContentPane(doctorView); 
+	}
+	
+	
+	
 
 }

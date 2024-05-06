@@ -1,6 +1,9 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.swing.JTextField;
 
@@ -8,6 +11,7 @@ import com.toedter.calendar.JDateChooser;
 
 import urgency.ui.components.MyComboBox;
 import urgency.ui.components.MyTextField;
+import urgency.db.pojos.Patient;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 
@@ -38,8 +42,10 @@ public class AddPatient extends FormTemplate {
 			resetPanel(); 
 			appMain.changeToRecepcionistMenu();
 		}else if(e.getSource() == applyChanges) {
-			resetPanel(); 
-			appMain.changeToRecepcionistMenu();
+			if(createPatient()) {
+				resetPanel(); 
+				appMain.changeToRecepcionistMenu();
+			}
 		}
 	}
 	
@@ -50,6 +56,31 @@ public class AddPatient extends FormTemplate {
 		sex.setSelectedIndex(0);
 		emergency.setSelectedIndex(0);
 		birthDate.setDate(null);
+	}
+	
+	private Boolean createPatient() {
+		String name = this.name.getText(); 
+		String surname = this.surname.getText(); 
+		String sex = this.sex.getSelectedItem().toString();
+		
+		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
+			showErrorMessage("Please complete all fields");
+			return false;
+		}
+		
+		Date date = new Date(birthDate.getDate().getTime());
+
+		String emergencyString = this.emergency.getSelectedItem().toString();
+		Integer emergency = 0;
+		if (emergencyString.equals("Low")) {
+			emergency = 1; 
+		}else if(emergencyString.equals("High")){
+			emergency = 5; 
+		}
+		Patient patient = new Patient(name, surname, "waiting", emergency, sex, date.toLocalDate());
+		appMain.conMan.getPatientMan().addPatient(patient);
+		System.out.println(patient);
+		return true; 
 	}
 
 }
