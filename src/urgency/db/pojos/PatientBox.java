@@ -2,6 +2,7 @@ package urgency.db.pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class PatientBox implements Serializable {
@@ -9,7 +10,7 @@ public class PatientBox implements Serializable {
 	private static final long serialVersionUID = 7191994403476647454L;
 	private Patient patient;
 	private Box box;
-	private Date date;
+	private Timestamp date;
 	private String comments;
 	
 	public PatientBox() {
@@ -17,7 +18,7 @@ public class PatientBox implements Serializable {
 	}
 	
 
-	public PatientBox(Patient patient, Box box, Date date, String comments) {
+	public PatientBox(Patient patient, Box box, Timestamp date, String comments) {
 		super();
 		this.patient = patient;
 		this.box = box;
@@ -67,11 +68,11 @@ public class PatientBox implements Serializable {
 		this.box = box;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

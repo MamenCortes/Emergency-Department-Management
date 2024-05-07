@@ -45,6 +45,9 @@ public class Application extends JFrame{
 	//TODO Solve getBoxes method in Box 
 	//TODO Create Patient record Cell and solve DoctorView
 	//TODO Añadir Specialidad a NurseView
+	//TODO errores en search patient al abrir dos veces un paciente 
+	//TODO error en patientTriage assignment
+	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
 
 	public Application() {
 		conMan = new ConnectionManager(); 

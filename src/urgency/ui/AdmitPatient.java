@@ -83,6 +83,7 @@ public class AdmitPatient extends FormTemplate {
 	protected void resetPanel() {
 		super.resetPanel();
 		emergency.setSelectedItem(null);
+		patient = null; 
 	}
 	
 	public void updatePanelWith(Patient patient) {
@@ -110,9 +111,14 @@ public class AdmitPatient extends FormTemplate {
 		}else if(emergencyString.equals("High")){
 			emergency = 5; 
 		}
-		Integer id = patient.getId();
-		System.out.println(patient.getId());
-		Patient patient = new Patient(id, name, surname, "waiting", emergency, sex, date);
+		
+		patient.setName(name);
+		patient.setSurname(surname);
+		patient.setSex(sex);
+		patient.setAge(date);
+		patient.setUrgency(emergency);
+		patient.setStatus("waiting");
+		
 		appMain.conMan.getPatientMan().updatePatient(patient);;
 		System.out.println(patient);
 		return true; 

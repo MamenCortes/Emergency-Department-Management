@@ -27,9 +27,11 @@ public class Patient implements Serializable{
 	private List<Speciality> specialities; 
 	private List<Box> boxes; 
 	private List<Triage> triages;
-	
-	
-	
+	private List<PatientBox> boxesOfPatient;
+	private List<PatientSpeciality> specialitiesOfPatient; 
+	private List<PatientTriage> triagesOfPatient; 
+
+
 	public Patient() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -182,7 +184,7 @@ public class Patient implements Serializable{
 	public void setAge(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public List<Speciality> getSpecialities() {
+	/*public List<Speciality> getSpecialities() {
 		return specialities;
 	}
 	public void setSpecialities(List<Speciality> specialities) {
@@ -199,7 +201,39 @@ public class Patient implements Serializable{
 	}
 	public void setTriages(List<Triage> triages) {
 		this.triages = triages;
-	} 
+	} */
+	
+	public List<PatientBox> getBoxesOfPatient() {
+		return boxesOfPatient;
+	}
+
+
+	public void setBoxesOfPatient(List<PatientBox> boxesOfPatient) {
+		this.boxesOfPatient = boxesOfPatient;
+	}
+
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	public List<PatientSpeciality> getSpecialitiesOfPatient() {
+		return specialitiesOfPatient;
+	}
+
+
+	public void setSpecialitiesOfPatient(List<PatientSpeciality> specialitiesOfPatient) {
+		this.specialitiesOfPatient = specialitiesOfPatient;
+	}
+
+
+	public List<PatientTriage> getTriagesOfPatient() {
+		return triagesOfPatient;
+	}
+
+
+	public void setTriagesOfPatient(List<PatientTriage> triagesOfPatient) {
+		this.triagesOfPatient = triagesOfPatient;
+	}
 	
 	
 

@@ -8,7 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +24,7 @@ public class JDBCBoxManager implements BoxManager {
 
 	private ConnectionManager conManager;
 	private Connection connection;
+	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCBoxManager(ConnectionManager conManager) {
 		this.conManager = conManager;
@@ -119,7 +125,11 @@ public class JDBCBoxManager implements BoxManager {
 			Integer urgency = rs.getInt("urgency");
 			String sex = rs.getString("sex");
 			Date birthDate = rs.getDate("birthDate");
-			Date boxDate = rs.getDate("boxDate");
+			//Date boxDate = rs.getDate("boxDate");
+			Timestamp boxDate = rs.getTimestamp("date"); 
+			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("date"));
+			Timestamp boxDate = new Timestamp(sdfDate1.getTime());*/
+			
             String comments = rs.getString("comments");
 			
 			Patient patient = new Patient(id, name, surname, weight, height, status, urgency, sex, birthDate);
@@ -135,14 +145,17 @@ public class JDBCBoxManager implements BoxManager {
 	}
 	
 	
-	public void assignPatientToBox(int Box_id, int Patient_id) {
+	public void assignPatientToBox(int Patient_id, int Box_id) { //Funciona si no hay una asignación previa
 		try {
 			String sql = "INSERT INTO PatientBox (patient_id, box_id, date) VALUES (?,?,?)"; 
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, Box_id);
-			pstmt.setInt(2, Patient_id);
-			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+			pstmt.setInt(1, Patient_id);
+			pstmt.setInt(2, Box_id);
+			//Date date = Date.valueOf(LocalDate.now());
+			Timestamp tsp = Timestamp.from(Instant.now());
+			//pstmt.setDate(3, date);
+			pstmt.setTimestamp(3, tsp);
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch (SQLException e) {
@@ -182,7 +195,7 @@ public class JDBCBoxManager implements BoxManager {
 		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
 		
 	
-		Box box1 = new Box(1, true, null);
+		/*Box box1 = new Box(1, true, null);
 		Box box2 = new Box(2, true, null);
 		Box box3 = new Box(3, false, null);
 		Box box4 = new Box(4, true, null);
@@ -193,7 +206,7 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box2);
 		System.out.print(box3);
 		System.out.print(box4);
-		System.out.print(box5);
+		System.out.print(box5);*/
 
 		
 		//conBox.addBox(box1);
@@ -204,6 +217,17 @@ public class JDBCBoxManager implements BoxManager {
 		//conBox.deleteBox(1);
 		//conBox.assignPatientToBox(1, 1);
 		//conBox.getPatientInBox(1);
+		
+		
+		//PatientBox patientBox = conBox.getPatientInBox(1);
+		//System.out.println(patientBox);
+		//conBox.assignPatientToBox(1, 1);
+		//conBox.assignPatientToBox(1, 2);
+		//conBox.assignPatientToBox(2, 1);
+		//conBox.assignPatientToBox(2, 3);
+		//System.out.println(conBox.getPatientInBox(4));
+		
+		conManager.closeConnection();
 		
 		
 		
