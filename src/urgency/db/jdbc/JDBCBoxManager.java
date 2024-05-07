@@ -72,18 +72,18 @@ public class JDBCBoxManager implements BoxManager {
 	}
 
 	@Override
-	public List<Box> getBoxes(int speciality_type) {
+	public List<Box> getBoxes(Speciality speciality) {
 	    List<Box> boxes = new ArrayList<>();
 	    String sql = "SELECT * FROM Boxes WHERE speciality_type = ?";
 	    try (PreparedStatement st = connection.prepareStatement(sql)) {
-	        st.setInt(1, speciality_type);
+	        st.setString(1, speciality.getType());
 	        try (ResultSet rs = st.executeQuery()) {
 	            while (rs.next()) {
 	                Integer boxId = rs.getInt("id");
 	                boolean available = rs.getBoolean("available");
 	                String specialityName = rs.getString("speciality_type");
-	                Speciality speciality = new Speciality(specialityName);         
-	                Box b = new Box(boxId, available, speciality);
+	                Speciality spec = new Speciality(specialityName);         
+	                Box b = new Box(boxId, available, spec);
 	                boxes.add(b);
 	            }
 	        }
