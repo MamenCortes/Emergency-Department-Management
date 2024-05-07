@@ -131,7 +131,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) {
+	public Doctor getDoctor(int id) { //WPRKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
 			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
@@ -173,7 +173,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ 
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
