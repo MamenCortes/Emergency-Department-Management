@@ -78,7 +78,7 @@ public class JDBCBoxManager implements BoxManager {
 	}
 
 	@Override
-	public List<Box> getBoxes(Speciality speciality) {
+	public List<Box> getBoxesBySpeciality(Speciality speciality) {
 	    List<Box> boxes = new ArrayList<>();
 	    String sql = "SELECT * FROM Boxes WHERE speciality_type = ?";
 	    try (PreparedStatement st = connection.prepareStatement(sql)) {
@@ -98,6 +98,32 @@ public class JDBCBoxManager implements BoxManager {
 	        e.printStackTrace();
 	    }
 	    return boxes;
+	}
+	
+	
+	public List<Box> getBoxes(){
+		List<Box> boxes = new ArrayList<Box>();
+		try {
+			String sql = "SELECT * FROM Boxes";
+			Statement st;
+			st = connection.createStatement(); 
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+                Integer boxId = rs.getInt("id");
+                boolean available = rs.getBoolean("available");
+                String specialityName = rs.getString("speciality_type");
+                Speciality spec = new Speciality(specialityName);         
+                Box b = new Box(boxId, available, spec);
+                boxes.add(b);
+            }
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			System.out.println("error");
+			e.printStackTrace();
+		}
+		System.out.println(boxes);
+		return boxes;
 	}
 
 
