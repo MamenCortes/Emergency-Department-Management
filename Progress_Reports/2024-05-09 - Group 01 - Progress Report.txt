@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+Continue programming the JDBC Managers and finish the interface. Start using JPA.
+
+Reasons why
+-----------
+To continue with the system development. 
+ 
+This week we did...
+===================
+We continued with the user interface, finished programming and testing the JDBC Managers and started implementing JPA
+
+Reasons why
+------------
+Continue with the system development. 
+
+Next weeks we will do...
+========================
+Finish the user interface, continue implementing JPA and start with XML. 
+
+Reasons why
+-----------
+To continue with the system development.  
