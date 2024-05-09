@@ -115,7 +115,7 @@ public class JDBCDoctorManager implements DoctorManager {
 				Doctor doctor = new Doctor();
 				    doctor.setid(rs.getInt("ID"));
 	                doctor.setName(rs.getString("name"));
-	                doctor.setSurname(surname);
+	                doctor.setSurname(rs.getString("surname"));
 	                Speciality speciality = new Speciality();
 	                speciality.setType(rs.getString("speciality_type"));
 	                doctor.setSpeciality_type(speciality);
@@ -155,13 +155,14 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
-			String sql = "UPDATE Doctors SET name=?, surname=?, speciality_type=?, in_box=?";
+			String sql = "UPDATE Doctors SET name=?, surname=?, speciality_type=?, in_box=? WHERE id = ?";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, doctor.getName());
 			pstmt.setString(2, doctor.getSurname());
 			pstmt.setString(3, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(4,  doctor.getIn_box());
+			pstmt.setInt(5,  doctor.getid());
 			System.out.println("Doctor updated.");
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -241,6 +242,8 @@ public class JDBCDoctorManager implements DoctorManager {
 		
 		System.out.println(d2);
 		*/
+		
+		System.out.println(docMan.getDoctorsBySpeciality("Internal medicine"));
 		conMan.closeConnection();								
 	}
 	

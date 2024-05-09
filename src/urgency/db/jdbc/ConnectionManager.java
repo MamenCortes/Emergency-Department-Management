@@ -130,14 +130,14 @@ public class ConnectionManager {
 			String createBoxes = "CREATE TABLE IF NOT EXISTS Boxes ("
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " available Boolean NOT NULL,"
-					+ " speciality_type TEXT)";
+					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT)";
 			createTables5.executeUpdate(createBoxes);
 			createTables5.close();
 			
 			Statement createTables6 = connection.createStatement();
 			String createPatientSpeciality = "CREATE TABLE IF NOT EXISTS PatientSpeciality ( "
-					+ " patient_id INTEGER REFERENCES Patients(id),"
-					+ " speciality_type TEXT REFERENCES Specialities(type),"
+					+ " patient_id INTEGER REFERENCES Patients(id) ON DELETE CASCADE,"
+					+ " speciality_type TEXT REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " date DATETIME NOT NULL,"
 					+ " PRIMARY KEY (patient_id, speciality_type))";
 			createTables6.executeUpdate(createPatientSpeciality);
@@ -145,8 +145,8 @@ public class ConnectionManager {
 			
 			Statement createTables7 = connection.createStatement();
 			String createPatientTriage = "CREATE TABLE IF NOT EXISTS PatientTriage ( "
-					+ " patient_id INTEGER REFERENCES Patients(id),"
-					+ " triage_id INTEGER REFERENCES Triages(id),"
+					+ " patient_id INTEGER REFERENCES Patients(id) ON DELETE CASCADE,"
+					+ " triage_id INTEGER REFERENCES Triages(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
 					+ " PRIMARY KEY (patient_id, triage_id))";
 			createTables7.executeUpdate(createPatientTriage);
@@ -154,8 +154,8 @@ public class ConnectionManager {
 			
 			Statement createTables8 = connection.createStatement();
 			String createPatientBox = "CREATE TABLE IF NOT EXISTS PatientBox ( "
-					+ " patient_id INTEGER REFERENCES Patients(id),"
-					+ " box_id INTEGER REFERENCES Boxes(id),"
+					+ " patient_id INTEGER REFERENCES Patients(id) ON DELETE CASCADE,"
+					+ " box_id INTEGER REFERENCES Boxes(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
 					+ " comments TEXT,"
 					+ " PRIMARY KEY (patient_id, box_id))";
@@ -165,8 +165,8 @@ public class ConnectionManager {
 			
 			Statement createTables9 = connection.createStatement();
 			String createBoxDoctor = "CREATE TABLE IF NOT EXISTS BoxDoctor ( "
-					+ " box_id INTEGER REFERENCES Boxes(id),"
-					+ " doctor_id INTEGER REFERENCES Doctors(id),"
+					+ " box_id INTEGER REFERENCES Boxes(id) ON DELETE CASCADE,"
+					+ " doctor_id INTEGER REFERENCES Doctors(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
 					+ " PRIMARY KEY (box_id, doctor_id))";
 			createTables9.executeUpdate(createBoxDoctor);

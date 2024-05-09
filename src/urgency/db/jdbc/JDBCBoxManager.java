@@ -152,8 +152,8 @@ public class JDBCBoxManager implements BoxManager {
 			String sex = rs.getString("sex");
 			Date birthDate = rs.getDate("birthDate");
 			//Date boxDate = rs.getDate("boxDate");
-			Timestamp boxDate = rs.getTimestamp("date"); 
-			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("date"));
+			Timestamp boxDate = rs.getTimestamp("boxDate"); 
+			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("boxDate"));
 			Timestamp boxDate = new Timestamp(sdfDate1.getTime());*/
 			
             String comments = rs.getString("comments");
@@ -247,10 +247,10 @@ public class JDBCBoxManager implements BoxManager {
 		
 		//PatientBox patientBox = conBox.getPatientInBox(1);
 		//System.out.println(patientBox);
-		//conBox.assignPatientToBox(1, 1);
-		//conBox.assignPatientToBox(1, 2);
-		//conBox.assignPatientToBox(2, 1);
-		//conBox.assignPatientToBox(2, 3);
+		conBox.assignPatientToBox(1, 1);
+		conBox.assignPatientToBox(1, 2);
+		conBox.assignPatientToBox(2, 1);
+		conBox.assignPatientToBox(2, 3);
 		//System.out.println(conBox.getPatientInBox(4));
 		
 		conManager.closeConnection();

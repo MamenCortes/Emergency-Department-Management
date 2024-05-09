@@ -49,7 +49,7 @@ public class ModifyDoctor extends FormTemplate {
 			surname.setText(doctor.getSurname());
 			speciality.getModel().setSelectedItem(doctor.getSpeciality_type().getType()); 
 			List<Box> boxesList = doctor.getBoxes(); 
-			if(!boxesList.isEmpty()) {
+			if(boxesList != null && !boxesList.isEmpty()) {
 				boxes.getModel().setSelectedItem(boxesList.get(boxesList.size()-1).getId());
 			}else {
 				boxes.getModel().setSelectedItem("None");
@@ -84,7 +84,10 @@ public class ModifyDoctor extends FormTemplate {
 				appMain.changeToManagerMenu();
 			} 
 		}else if(e.getSource() == deleteButton) {
+			System.out.println(doctor.getid());
 			appMain.conMan.getDocMan().deleteDoctor(doctor.getid());
+			resetPanel(); 
+			appMain.changeToSearchDoctor();
 		}
 	}
 	

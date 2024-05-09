@@ -74,7 +74,7 @@ public class JDBCPatientManager implements PatientManager {
 	public List<PatientBox> getPatientRecords(Patient patient) { //FUNCIONA
 		List<PatientBox> boxesOfPatient = new ArrayList<PatientBox>();
 		try {
-			String template = "SELECT box_id, date, comments FROM PatientBox WHERE patient_id = ?";
+			String template = "SELECT box_id, date, comments FROM PatientBox WHERE patient_id = ? ORDER BY date DESC";
 			PreparedStatement pstmt = connection.prepareStatement(template);
 			pstmt.setInt(1, patient.getId());
 			ResultSet rs = pstmt.executeQuery();
@@ -241,10 +241,12 @@ public class JDBCPatientManager implements PatientManager {
 		System.out.println(boxesOfPatient);
 		System.out.println(boxesOfPatient2);*/
 		
-		patMan.addComments(1, 1, "First comment made");
+		patMan.addComments(1, 2, "Second comment made");
+		patMan.addComments(2, 1, "Third comment made");
+		patMan.addComments(2, 3, "Fourth comment made");
 		Patient patient = patMan.getPatient(1);
-		List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
-		System.out.println(boxesOfPatient);
+		//List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
+		//System.out.println(boxesOfPatient);
 		
 		conMan.closeConnection();
 	}

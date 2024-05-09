@@ -1,14 +1,11 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
-import java.sql.Date;
-
-import javax.swing.JTextArea;
-
 import com.toedter.calendar.JDateChooser;
 
+import urgency.db.pojos.Box;
 import urgency.db.pojos.Patient;
-import urgency.db.pojos.Triage;
+import urgency.db.pojos.PatientBox;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 import urgency.ui.components.MyComboBox;
@@ -18,7 +15,6 @@ import urgency.ui.components.MyTextField;
 public class PatientForm extends FormTemplate{
 
 	private static final long serialVersionUID = 185680662385014941L;
-	private Triage triage; 
 	private Application appMain; 
 	private MyComboBox<Integer> emergencyCB; 
 	private Patient patient; 
@@ -26,6 +22,7 @@ public class PatientForm extends FormTemplate{
 	private MyTextField weight; 
 	private MyTextField height;
 	private MyComboBox<String> nextStep;
+	private Box patientBox;
 
 	public PatientForm(Application appMain) {
 		this.appMain = appMain; 
@@ -41,8 +38,9 @@ public class PatientForm extends FormTemplate{
 		
 	}
 
-	public void patientDoctorForm(Patient Patient) {
-		this.patient = Patient;
+	public void patientDoctorForm(PatientBox patientBox) {
+		this.patient = patientBox.getPatient();
+		this.patientBox = patientBox.getBox(); 
 		this.option3Text ="    Diagnosis details";
 		this.titleText = "Patient information"; 
 		
@@ -139,7 +137,6 @@ public class PatientForm extends FormTemplate{
 	private Boolean updatePatient() {
 
 		//Name, surname, dateOfBirth and sex are disabled.
-
 		Integer emergency = (Integer) emergencyCB.getSelectedItem();
 		if(emergency == null) {
 			showErrorMessage("Select Emergency"); 
@@ -170,7 +167,8 @@ public class PatientForm extends FormTemplate{
 				showErrorMessage("Select the Patient's Urgency");
 			}
 			
-			//TODO Comments
+			String commentsString = comments.getText(); 
+			appMain.conMan.getPatientMan().addComments(patient.getId(), patientBox.getId(), commentsString);
 		}
 		
 		appMain.conMan.getPatientMan().updatePatient(patient);

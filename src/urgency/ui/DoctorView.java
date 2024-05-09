@@ -18,9 +18,10 @@ import net.miginfocom.swing.MigLayout;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
-import urgency.db.pojos.Triage;
+import urgency.db.pojos.PatientBox;
 import urgency.ui.components.MyButton;
 import urgency.ui.components.PanelCoverForMenu;
+import urgency.ui.components.PatientBoxCell;
 import urgency.ui.components.PatientCell;
 import urgency.ui.components.SearchTemplate;
 
@@ -28,14 +29,15 @@ public class DoctorView extends SearchTemplate {
 
 	private static final long serialVersionUID = 1309433925342914959L;
 	private Application appMain; 
-	private MyButton selectButton; 
 	private MyButton logOutButton; 
 	private JPanel mainPanel;  
 	private PanelCoverForMenu cover;
-	private Patient patient; 
 	private Doctor doctor; 
 	private Box box; 
+	private PatientBox patientBox; 
 	private JLabel title2; 
+	private JList<PatientBox> patientRecordsList; 
+	private DefaultListModel<PatientBox> patientRecordsDefListModel;
 
 	public DoctorView(Application appMain) {
 		this.appMain = appMain; 
@@ -47,10 +49,10 @@ public class DoctorView extends SearchTemplate {
 		cover = new PanelCoverForMenu(); 
 		add(cover, "cell 0 0, grow");
 		
-		//TODO change for proper values
 		this.doctor = doctor; 
-		box = appMain.conMan.getBoxManager().getBox(1); 
-		patient = appMain.conMan.getPatientMan().getPatient(1); 
+		//TODO create method get Doctor Box 
+		box = appMain.conMan.getBoxManager().getBox(2); 
+		patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
 		doctor.setIn_box(true);
 		
 		mainPanel = new JPanel(); 
@@ -79,15 +81,23 @@ public class DoctorView extends SearchTemplate {
         scrollPane2.setPreferredSize(this.getPreferredSize());
         scrollPane2.addMouseListener(this);
         
+        errorMessage = new JLabel(); 
+	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
+	    errorMessage.setForeground(Color.red);
+	    errorMessage.setText("Error message test");
+	    errorMessage.setVisible(false); 
        
-		if(patient != null) {
+		if(patientBox != null) {
 			List<Patient> patientInBox = new ArrayList<Patient>(); 
-			patientInBox.add(patient);
+			patientInBox.add(patientBox.getPatient());
+			
+			List<PatientBox> patientRecords = appMain.conMan.getPatientMan().getPatientRecords(patientBox.getPatient());
 			showPatientsInScrollPane(patientInBox, scrollPane1);
-			showPatientsInScrollPane(patientInBox, scrollPane2);
+			showPatientRecordsInScrollPane(patientRecords, scrollPane2);
 		}else {
 			showErrorMessage("No patient assigned to Box");
-			patientDefListModel.removeAllElements();
+			if (patientDefListModel != null)patientDefListModel.removeAllElements();
+			if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
 		}
 		mainPanel.add(scrollPane1, "cell 1 2, alignx center, grow"); 
 		
@@ -112,12 +122,8 @@ public class DoctorView extends SearchTemplate {
 	    mainPanel.add(logOutButton, "cell 1 5, split 2, center, gapy 5, gapx 10");
 	    mainPanel.add(openFormButton, "cell 1 5, center, gapy 5, gapx 10");
 	    
-        errorMessage = new JLabel(); 
-	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
-	    errorMessage.setForeground(Color.red);
-	    errorMessage.setText("Error message test");
 	    mainPanel.add(errorMessage, "cell 1 6, center"); 
-	    errorMessage.setVisible(false); 
+
 	}
 	
 	protected void showPatientsInScrollPane(List<Patient> patients, JScrollPane scrollPane) {
@@ -133,6 +139,22 @@ public class DoctorView extends SearchTemplate {
         patientList.setCellRenderer(new PatientCell());
         patientList.addMouseListener(this);
         scrollPane.setViewportView(patientList);
+	}
+	
+	
+	protected void showPatientRecordsInScrollPane(List<PatientBox> patientRecords, JScrollPane scrollPane) {
+        patientRecordsDefListModel = new DefaultListModel<>(); 
+        if(patientRecords != null) {
+            for (PatientBox patientBox : patientRecords) { 
+                patientRecordsDefListModel.addElement(patientBox);
+                
+    		} 
+        } 
+        patientRecordsList = new JList<PatientBox>(patientRecordsDefListModel);
+        patientRecordsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        patientRecordsList.setCellRenderer(new PatientBoxCell());
+        patientRecordsList.addMouseListener(this);
+        scrollPane.setViewportView(patientRecordsList);
 	}
 	
 	private void getBoxFromDoctor() {
@@ -156,7 +178,7 @@ public class DoctorView extends SearchTemplate {
 			appMain.changeToUserLogIn();
 		}else if(e.getSource() == openFormButton) {
 			if(!patientDefListModel.isEmpty()) {
-				appMain.changeToPatientDoctorFor(patient);
+				appMain.changeToPatientDoctorFor(patientBox);
 			}
 		}
 	}
@@ -168,7 +190,7 @@ public class DoctorView extends SearchTemplate {
 		box = null;
 		scrollPane1 = null; 
 		scrollPane2 = null; 
-		patient = null; 
+		patientBox = null; 
 		patientDefListModel.removeAllElements();
 		
 

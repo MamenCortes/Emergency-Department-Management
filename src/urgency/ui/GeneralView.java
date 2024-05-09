@@ -58,7 +58,7 @@ public class GeneralView extends SearchTemplate{
         scrollPane1.setPreferredSize(this.getPreferredSize());
         scrollPane1.addMouseListener(this);
         //System.out.println(appMain.conMan.getBoxManager().getBoxes());
-        //showBoxes(appMain.conMan.getBoxManager().getBoxes());
+        showBoxes(appMain.conMan.getBoxManager().getBoxes());
         
 		JLabel explanationText = new JLabel("Select A Box"); 
 	    explanationText.setFont(contentFont);
@@ -141,11 +141,16 @@ public class GeneralView extends SearchTemplate{
 		hideErrorMessage();
 		assignButton.setVisible(true);
 		if(e.getSource() == boxList) {
-			Box box = boxList.getSelectedValue(); 
-			System.out.println(box);
-			List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
-			System.out.println(doctors);
-			showDoctors(doctors);
+			Box box = boxList.getSelectedValue();
+			if(box != null) {
+				System.out.println(box);
+				List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
+				System.out.println(doctors);
+				showDoctors(doctors);
+			}else {
+				showErrorMessage("No box selected");
+			}
+
 		}
 		
 	}
@@ -169,7 +174,8 @@ public class GeneralView extends SearchTemplate{
     }
 	
 	public void updateView() {
-		//updateBoxDefModel(appMain.conMan.getBoxManager().getBoxes());
+		//initGeneralView();
+		updateBoxDefModel(appMain.conMan.getBoxManager().getBoxes());
 		doctorDefListModel.removeAllElements(); 
 	}
 }

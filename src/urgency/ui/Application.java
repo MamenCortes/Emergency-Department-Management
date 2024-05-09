@@ -40,14 +40,17 @@ public class Application extends JFrame{
 	private ActorsMenu actorsMenu; 
 
 
-	//TODO Add functionality in ModifyForms: admitPatient (implementar método update)
-		//y PatientForm implementar PatientBox.setComments()
-	//TODO Solve getBoxes method in Box 
+	//TODO Add functionality in ModifyForms: y PatientForm implementar PatientBox.setComments()
+	//TODO Solve getDoctorsBySpeciality
 	//TODO Create Patient record Cell and solve DoctorView
-	//TODO Añadir Specialidad a NurseView
-	//TODO errores en search patient al abrir dos veces un paciente 
+	//TODO Añadir Specialidad a NurseView y tabla PatientSpeciality
+	//TODO errores en search patient al abrir dos veces un paciente 	
+	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
 	//TODO error en patientTriage assignment
 	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
+	//TODO create method get Doctor Box 
+	//TODO create methods in JDBC Managers to add data to de DB
+	//TODO cambiar Date en PatientTriage
 
 	public Application() {
 		conMan = new ConnectionManager(); 
@@ -233,8 +236,8 @@ public class Application extends JFrame{
 		patientForm.setVisible(true);
 		this.setContentPane(patientForm); 
 	}
-	public void changeToPatientDoctorFor(Patient patient) {
-		patientForm.patientDoctorForm(patient); 
+	public void changeToPatientDoctorFor(PatientBox patientBox) {
+		patientForm.patientDoctorForm(patientBox); 
 		hideAllPanels();
 		patientForm.setVisible(true);
 		this.setContentPane(patientForm); 

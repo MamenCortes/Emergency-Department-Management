@@ -76,7 +76,7 @@ public class FormPanel extends JPanel {
 	    add(spec, "grow");
 	    
 	    sex =new MyComboBox<String>();
-	    sex.addItem("...");
+	    sex.addItem(null);
         sex.addItem("Man");
         sex.addItem("Woman");
         add(sex, "grow");

@@ -17,30 +17,16 @@ public class AdmitPatient extends FormTemplate {
 	private Patient patient; 
 	private Application appMain; //In charge of managing events that require external actions
 
-	public AdmitPatient(Patient patient, Application appMain) {
-		this.patient = patient; 
-		this.option2Text = null; 
-		this.option3Text = null; 
+	public AdmitPatient(Application appMain) {
 		this.appMain = appMain; 
-		
-		this.titleText = "Admit Patient"; 
-		name = new MyTextField(); 
-		surname = new MyTextField(); 
-		sex = new MyComboBox<String>(); 
-		emergency = new MyComboBox<String>(); 
-		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
-		
-		form1 = new FormPanel("Admit Patient", name, surname, sex, birthDate, emergency); 
-		initPatientForm(); 
-		showPatientData(); 
-		applyChanges.setText("ADMIT");
+		//initForm();
 		
 	}
 	
-	public AdmitPatient(Application appMain) {
+	
+	private void initForm() {
 		this.option2Text = null; 
 		this.option3Text = null; 
-		this.appMain = appMain; 
 		
 		this.titleText = "Admit Patient"; 
 		name = new MyTextField(); 
@@ -48,10 +34,13 @@ public class AdmitPatient extends FormTemplate {
 		sex = new MyComboBox<String>(); 
 		emergency = new MyComboBox<String>(); 
 		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
+
 		
 		form1 = new FormPanel("Admit Patient", name, surname, sex, birthDate, emergency); 
 		initPatientForm(); 
+		goBackButton.setText("BACK TO MENU");
 		applyChanges.setText("ADMIT");
+		errorMessage.setVisible(false);
 	}
 	
 	private void showPatientData() {
@@ -88,8 +77,8 @@ public class AdmitPatient extends FormTemplate {
 	
 	public void updatePanelWith(Patient patient) {
 		this.patient = patient; 
+		initForm();
 		showPatientData();
-		errorMessage.setVisible(false);
 	}
 	
 	private Boolean updatePatient() {
@@ -97,7 +86,7 @@ public class AdmitPatient extends FormTemplate {
 		String surname = this.surname.getText(); 
 		String sex = this.sex.getSelectedItem().toString();
 		 
-		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
+		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null){
 			showErrorMessage("Please complete all fields");
 			return false;
 		}
@@ -110,6 +99,9 @@ public class AdmitPatient extends FormTemplate {
 			emergency = 1; 
 		}else if(emergencyString.equals("High")){
 			emergency = 5; 
+		}else {
+			showErrorMessage("Select the urgency");
+			return false; 
 		}
 		
 		patient.setName(name);

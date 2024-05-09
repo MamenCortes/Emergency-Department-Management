@@ -43,7 +43,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 	protected JButton deleteButton;
 	protected JButton applyChanges; 
 	protected JButton goBackButton; 
-	private int panelShowed = 1; 
+	private int panelShowed; 
 	protected JLabel errorMessage; 
 	
 	
@@ -68,6 +68,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 		this.setLayout(new MigLayout("fill, inset 15, gap 0, wrap 4", "[][][][]", "[][][][][][][][][][]"));
 		forms = new ArrayList<JPanel>(); 
 		optionTexts = new ArrayList<JLabel>(); 
+		panelShowed = 1; 
 		
 		
 		//Add Title
@@ -106,6 +107,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 			option2.setFont(new Font("sansserif", 1, 12));
 			option2.setAlignmentX(CENTER_ALIGNMENT);
 			optionTexts.add(option2);
+			//forms.add(form2); 
 
 			if(optionTexts.get(0).equals(option2)) {
 				add(option2, "cell 0 1, alignx center, grow");
@@ -174,6 +176,7 @@ public class FormTemplate extends JPanel implements ActionListener{
 			add(applyChanges, "cell 3 7, right, gapy 5"); 
 		}else {
 			add(nextButton, "cell 3 7, right, gapy 5");
+			System.out.println("Panel showed: "+panelShowed+" forms size: "+forms.size());
 		}
         
         errorMessage = new JLabel(); 
@@ -303,6 +306,11 @@ public class FormTemplate extends JPanel implements ActionListener{
     
     protected void resetPanel() {
     	this.removeAll();
+    	//forms.removeAll(forms); 
+    	//optionTexts.removeAll(optionTexts); 
+    	
+    	forms = null; 
+    	optionTexts = null; 
     	panelShowed = 0;
     }
     
