@@ -85,7 +85,7 @@ public class JDBCSpecialityManager implements SpecialityManager {
 	}*/
 
 	@Override
-	public void assignBoxSpecility(int Box_id, String Speciality_type) {
+	public void assignBoxSpeciality(int Box_id, String Speciality_type) {
 		//TODO try if it works correctly
 		try {
 			String command = "INSERT INTO BoxSpeciality (Box_id, Speciality_Type, date) VALUES (?,?, ?);";

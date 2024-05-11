@@ -53,9 +53,9 @@ public class JPACreate {
 			System.out.print("Available: ");
 			Boolean available = Boolean.parseBoolean(readerBox.readLine());
 			System.out.print("Speciality: ");
-			Speciality speciality = new Speciality(readerBox.readLine());
+			Speciality specialityBox = new Speciality(readerBox.readLine());
 						
-			Box box = new Box(available, speciality);
+			Box box = new Box(available, specialityBox);
 			
 			em.getTransaction().begin();
 			// Store the object:
@@ -70,7 +70,7 @@ public class JPACreate {
 			String nameDoctor = readerDoctor.readLine();
 			System.out.print("Surname: ");
 			String surnameDoctor = readerDoctor.readLine();
-			System.out.print("Speciality: ");
+			System.out.print("Speciality_type: ");
 			Speciality specialityDoctor = new Speciality(readerBox.readLine());
 			System.out.print("In_Box: ");
 			Boolean inbox = Boolean.parseBoolean(readerBox.readLine());
@@ -89,11 +89,25 @@ public class JPACreate {
 			System.out.print("Available: ");
 			Boolean availableTriage = Boolean.parseBoolean(readerTriage.readLine());
 			
-			Triage triage = new Triage(available);
+			Triage triage = new Triage(availableTriage);
 			
 			em.getTransaction().begin();
 			// Store the object:
 			em.persist(triage);
+			// End transaction
+			em.getTransaction().commit();
+			
+			//Creation of speciality:
+			System.out.println("Please, input the speciality info:");
+			BufferedReader readerSpeciality = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("Speciality: ");
+			String type = readerSpeciality.readLine();
+			
+			Speciality speciality = new Speciality(type);
+			
+			em.getTransaction().begin();
+			// Store the object:
+			em.persist(speciality);
 			// End transaction
 			em.getTransaction().commit();
 			
