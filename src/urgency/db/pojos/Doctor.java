@@ -23,6 +23,7 @@ public class Doctor implements Serializable{
 	}
 
 	public Doctor(Integer id, String name, String surname, Speciality speciality_type, Boolean in_box) {
+		super();
 		this.id=id;
 		this.name=name;
 		this.surname = surname; 

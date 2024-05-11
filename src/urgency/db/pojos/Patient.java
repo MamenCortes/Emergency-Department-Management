@@ -100,6 +100,19 @@ public class Patient implements Serializable{
 		this.triages = new ArrayList<Triage>(); 
 	}
 
+	public Patient(String name, String surname, float weight, float height, String status, Integer urgency, 
+			String sex, Date birthDate) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.weight = weight;
+		this.height = height;
+		this.status = status;
+		this.urgency = urgency;
+		this.sex = sex;
+		this.birthDate = birthDate;
+	}
+
 
 	@Override
 	public int hashCode() {
