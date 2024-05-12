@@ -134,7 +134,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	public Doctor getDoctor(int id) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
-			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
+			String sql = "SELECT * FROM Doctors WHERE ID = " + id; //deberia hacer un join?
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
