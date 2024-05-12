@@ -13,22 +13,47 @@ import urgency.db.pojos.*;
 public class JPAUpdate {
 	//los updates de cada clase base
 	
-	// Put entity manager here so it can be used in several methods
 		private static EntityManager em;
 		
-		private static void printDepartments() {
-			Query q1 = em.createNativeQuery("SELECT * FROM departments", Department.class);
-			List<Department> deps = (List<Department>) q1.getResultList();
-			// Print the departments
-			for (Department department : deps) {
-				System.out.println(department);
+		private static void printBoxes() {
+			Query q1 = em.createNativeQuery("SELECT * FROM Boxes", Box.class);
+			List<Box> boxes = (List<Box>) q1.getResultList();
+			// Print the boxes:
+			for (Box b : boxes) {
+				System.out.println(b);
+			}
+		}
+		
+		private static void printTriages() {
+			Query q2 = em.createNativeQuery("SELECT * FROM Triages", Triage.class);
+			List<Triage> triages = (List<Triage>) q2.getResultList();
+			// Print the triages:
+			for (Triage t: triages) {
+				System.out.println(t);
+			}
+		}
+		
+		private static void printDoctors() {
+			Query q3 = em.createNativeQuery("SELECT * FROM Doctors", Doctor.class);
+			List<Doctor> doctors = (List<Doctor>) q3.getResultList();
+			// Print the doctors:
+			for (Doctor d: doctors) {
+				System.out.println(d);
+			}
+		}
+		
+		private static void printPatients() {
+			Query q4 = em.createNativeQuery("SELECT * FROM Patients", Patient.class);
+			List<Patient> patients = (List<Patient>) q4.getResultList();
+			// Print the patients:
+			for (Patient p: patients) {
+				System.out.println(p);
 			}
 		}
 		
 		public static void main(String[] args) throws Exception {
-			// Get the entity manager
-			// Note that we are using the class' entity manager
-			em = Persistence.createEntityManagerFactory("company-provider").createEntityManager();
+			
+			em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
 			em.getTransaction().begin();
 			em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 			em.getTransaction().commit();
@@ -48,7 +73,7 @@ public class JPAUpdate {
 			// Begin transaction
 			em.getTransaction().begin();
 			// Make changes
-			dep.setAddress(newLocation);
+			patient.setAddress(newLocation);
 			// End transaction
 			em.getTransaction().commit();
 			

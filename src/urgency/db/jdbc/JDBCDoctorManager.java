@@ -131,7 +131,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) { //WPRKS CORRECTLY
+	public Doctor getDoctor(int id) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
 			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
