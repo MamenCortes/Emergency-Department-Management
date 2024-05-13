@@ -62,8 +62,9 @@ public class AddPatient extends FormTemplate {
 		String name = this.name.getText(); 
 		String surname = this.surname.getText(); 
 		String sex = this.sex.getSelectedItem().toString();
+		//System.out.println(sex);
 		
-		if(name.equals("")||surname.equals("")||sex.equals("")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
+		if(name.equals("")||surname.equals("")||sex.equals("...")||birthDate.getDate() == null||emergency.getSelectedItem()==null){
 			showErrorMessage("Please complete all fields");
 			return false;
 		}
@@ -76,6 +77,9 @@ public class AddPatient extends FormTemplate {
 			emergency = 1; 
 		}else if(emergencyString.equals("High")){
 			emergency = 5; 
+		}else {
+			showErrorMessage("Select the urgency");
+			return false; 
 		}
 		Patient patient = new Patient(name, surname, "waiting", emergency, sex, date.toLocalDate());
 		appMain.conMan.getPatientMan().addPatient(patient);

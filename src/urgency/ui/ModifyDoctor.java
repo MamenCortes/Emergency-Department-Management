@@ -6,6 +6,7 @@ import java.util.List;
 
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.DoctorBox;
 import urgency.db.pojos.Speciality;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
@@ -18,9 +19,11 @@ public class ModifyDoctor extends FormTemplate {
 	private Application appMain; 
 	private List<String> specialities; 
 	private Doctor doctor; 
+	private Box box; 
 
-	public ModifyDoctor(Doctor doctor, Application appMain) {
-		this.doctor = doctor; 
+	public ModifyDoctor(DoctorBox doctor, Application appMain) {
+		this.doctor = doctor.getDoctor(); 
+		this.box = doctor.getBox(); 
 		this.option2Text = null; 
 		this.option3Text = null; 
 		this.appMain = appMain; 
@@ -30,7 +33,6 @@ public class ModifyDoctor extends FormTemplate {
 		surname = new MyTextField(); 
 		speciality = new MyComboBox<String>(); 
 		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
-		//TODO Add box ComboBox
 		List<Integer> boxesList = new ArrayList<Integer>(); 
 		for (int i = 0; i<10; i++) {
 			boxesList.add(i); 
@@ -48,12 +50,18 @@ public class ModifyDoctor extends FormTemplate {
 			name.setText(doctor.getName());
 			surname.setText(doctor.getSurname());
 			speciality.getModel().setSelectedItem(doctor.getSpeciality_type().getType()); 
-			List<Box> boxesList = doctor.getBoxes(); 
+			if(box != null) {
+				boxes.getModel().setSelectedItem(box.getId());
+			}else {
+				boxes.getModel().setSelectedItem("None");
+			}
+			
+			/*List<Box> boxesList = doctor.getBoxes(); 
 			if(boxesList != null && !boxesList.isEmpty()) {
 				boxes.getModel().setSelectedItem(boxesList.get(boxesList.size()-1).getId());
 			}else {
 				boxes.getModel().setSelectedItem("None");
-			}
+			}*/
 			boxes.setEnabled(false);
 		}else {
 			name.setText("Jane");
@@ -66,8 +74,9 @@ public class ModifyDoctor extends FormTemplate {
 
 	}
 	
-	public void updatePanelWith(Doctor doctor) {
-		this.doctor = doctor; 
+	public void updatePanelWith(DoctorBox doctor) {
+		this.doctor = doctor.getDoctor(); 
+		this.box = doctor.getBox(); 
 		showDoctorData();
 		errorMessage.setVisible(false);
 	}

@@ -6,6 +6,7 @@ import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -18,6 +19,7 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.DoctorBox;
 import urgency.db.pojos.Patient;
 import urgency.ui.components.DoctorCell;
 import urgency.ui.components.MyButton;
@@ -43,11 +45,13 @@ public class GeneralView extends SearchTemplate{
 	
 	protected void initGeneralView() {
 		this.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 3", "[][]5[][]", "[][][][][][][][][][][][]"));
+		doctorDefListModel = new DefaultListModel<DoctorBox>(); 
+		
 		//Add Title
-		title = new JLabel("Assign doctors to boxes");
+		title = new JLabel("DAILY SCHEDULE: Assign doctors to boxes");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setForeground(titleColor);
-		title.setFont(new Font("sansserif", Font.BOLD, 25));
+		title.setFont(new Font("sansserif", Font.BOLD, 20));
 		title.setAlignmentY(LEFT_ALIGNMENT);
 		title.setIcon(icon);
 		add(title, "cell 0 0 3 1, alignx left");
@@ -76,7 +80,9 @@ public class GeneralView extends SearchTemplate{
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setPreferredSize(this.getPreferredSize());
         scrollPane2.addMouseListener(this);
-        showDoctors(appMain.conMan.getDocMan().getDoctorsBySpeciality(null));
+        
+        List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(null); 
+        showDoctors(getDoctorBoxList(doctors));
         
         //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 0 2 1 8, grow, gap 10");
@@ -117,7 +123,7 @@ public class GeneralView extends SearchTemplate{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == assignButton) {
-			List<Doctor> doctors = doctorList.getSelectedValuesList(); 
+			List<DoctorBox> doctors = doctorList.getSelectedValuesList(); 
 			Integer boxId = boxList.getSelectedValue().getId(); 
 			if(doctors.size()>3) {
 				showErrorMessage("More than 3 doctors cannot be selected");
@@ -125,17 +131,36 @@ public class GeneralView extends SearchTemplate{
 				showErrorMessage("Select at least 1 doctor to assign to Box "+boxId);
 			}else {
 				showFeedbackMessage("Doctors assigned to Box "+boxId);
-				for (Doctor doctor : doctors) {
-					appMain.conMan.getDocMan().assignBox(doctor.getid(), boxId);
+				for (DoctorBox doctor : doctors) {
+					Box box = doctor.getBox(); 
+					Boolean alreadyAssigned = false; 
+					if(box != null) alreadyAssigned = appMain.conMan.getBoxManager().checkDoctorAssignedToBoxToday(doctor.getDoctor().getid(), box.getId());
+					 
+					if(!alreadyAssigned) {
+						appMain.conMan.getDocMan().assignBox(doctor.getDoctor().getid(), boxId);
+					}else {
+						showErrorMessage("Doctor "+doctor.getDoctor().getSurname()+" was already assigned today to box "+doctor.getBox().getId());
+					}
 				}
-				showDoctors(appMain.conMan.getDocMan().getDoctorsBySpeciality(boxList.getSelectedValue().getSpeciality().getType()));
+				List<DoctorBox> doctorBoxes = getDoctorBoxList(appMain.conMan.getDocMan().getDoctorsBySpeciality(boxList.getSelectedValue().getSpeciality().getType())); 
+				//System.out.println(doctorBoxes);
+				showDoctors(doctorBoxes);
 			}
 		}else if(e.getSource() == cancelButton) {
+			resetPanel(); 
 			appMain.changeToManagerMenu();
 		}
 
 	}
 	
+	private List<DoctorBox> getDoctorBoxList(List<Doctor> doctors) {
+		List<DoctorBox> doctorBoxes = new ArrayList<DoctorBox>(); 
+		 for (Doctor doctor : doctors) {
+				doctorBoxes.add(appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor)); 
+			}
+		 return doctorBoxes; 
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		hideErrorMessage();
@@ -146,7 +171,7 @@ public class GeneralView extends SearchTemplate{
 				System.out.println(box);
 				List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(box.getSpeciality().getType());
 				System.out.println(doctors);
-				showDoctors(doctors);
+				showDoctors(getDoctorBoxList(doctors));
 			}else {
 				showErrorMessage("No box selected");
 			}
@@ -156,17 +181,17 @@ public class GeneralView extends SearchTemplate{
 	}
 	
 	@Override
-	protected void showDoctors(List<Doctor> doctors) {
-        doctorDefListModel = new DefaultListModel<>(); 
+	protected void showDoctors(List<DoctorBox> doctors) {   
+        doctorDefListModel = new DefaultListModel<DoctorBox>(); 
         if(doctors != null) {
-            for (Doctor doctor : doctors) { 
+            for (DoctorBox doctor : doctors) { 
                 doctorDefListModel.addElement(doctor);
                 
     		}
         }
         
-        doctorList = new JList<Doctor>(doctorDefListModel);
-        doctorList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        doctorList = new JList<DoctorBox>(doctorDefListModel);
+        doctorList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         doctorList.setCellRenderer(new DoctorCell());
         doctorList.addMouseListener(this);
         scrollPane2.setViewportView(doctorList);
@@ -177,5 +202,14 @@ public class GeneralView extends SearchTemplate{
 		//initGeneralView();
 		updateBoxDefModel(appMain.conMan.getBoxManager().getBoxes());
 		doctorDefListModel.removeAllElements(); 
+	}
+	
+	@Override
+	protected void resetPanel() {
+		if(doctorList != null) {
+			doctorDefListModel.removeAllElements();
+		}
+		explanationText2.setVisible(false);
+		assignButton.setVisible(false);
 	}
 }

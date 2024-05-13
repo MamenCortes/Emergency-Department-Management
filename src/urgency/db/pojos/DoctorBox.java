@@ -2,19 +2,21 @@ package urgency.db.pojos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class DoctorBox implements Serializable{
 	
+	private static final long serialVersionUID = -4836870983315224812L;
 	private Doctor doctor;
 	private Box box;
-	private Date date;
+	private Timestamp date;
 	
 	public DoctorBox() {
 		super();
 	}
 
-	public DoctorBox(Doctor doctor, Box box, Date date) {
+	public DoctorBox(Doctor doctor, Box box, Timestamp date) {
 		super();
 		this.doctor = doctor;
 		this.box = box;
@@ -55,11 +57,11 @@ public class DoctorBox implements Serializable{
 		this.box = box;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import net.miginfocom.swing.MigLayout;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.DoctorBox;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.PatientBox;
 import urgency.ui.components.MyButton;
@@ -51,7 +52,11 @@ public class DoctorView extends SearchTemplate {
 		
 		this.doctor = doctor; 
 		//TODO create method get Doctor Box 
-		box = appMain.conMan.getBoxManager().getBox(2); 
+		DoctorBox boxDoctor = appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor); 
+		System.out.println(boxDoctor);
+		//box = appMain.conMan.getBoxManager().getBox(2); 
+		box = boxDoctor.getBox(); 
+		System.out.println(box);
 		patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
 		doctor.setIn_box(true);
 		
@@ -167,7 +172,7 @@ public class DoctorView extends SearchTemplate {
 			resetPanel();
 			appMain.changeToUserLogIn();
 		}else if(e.getSource() == openFormButton) {
-			if(!patientDefListModel.isEmpty()) {
+			if(patientDefListModel != null && !patientDefListModel.isEmpty()) {
 				appMain.changeToPatientDoctorFor(patientBox);
 			}
 		}
@@ -181,7 +186,7 @@ public class DoctorView extends SearchTemplate {
 		scrollPane1 = null; 
 		scrollPane2 = null; 
 		patientBox = null; 
-		patientDefListModel.removeAllElements();
+		if(patientDefListModel != null)patientDefListModel.removeAllElements();
 		
 
 	}

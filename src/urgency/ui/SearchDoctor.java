@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.DoctorBox;
 import urgency.db.pojos.Speciality;
 import urgency.ui.components.SearchTemplate;
 
@@ -35,7 +36,13 @@ public class SearchDoctor extends SearchTemplate {
 					doctorsSubSet.add(doctor); 
 				}
 			}*/
-			updateDoctorDefModel(doctorsSubSet);
+			
+			List<DoctorBox> doctorBoxes = new ArrayList<DoctorBox>(); 
+			for (Doctor doctor : doctorsSubSet) {
+				doctorBoxes.add(appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor)); 
+			}
+			
+			updateDoctorDefModel(doctorBoxes);
 			if(doctorsSubSet.isEmpty()) {
 				showErrorMessage("No doctor found");
 			}else {
@@ -43,7 +50,7 @@ public class SearchDoctor extends SearchTemplate {
 			}
 			
 		}else if(e.getSource() == openFormButton){
-			Doctor doctor = doctorList.getSelectedValue(); 
+			DoctorBox doctor = doctorList.getSelectedValue(); 
 			if(doctor == null) {
 				showErrorMessage("No Doctor Selected");
 			}else {

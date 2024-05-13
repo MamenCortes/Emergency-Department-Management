@@ -139,7 +139,7 @@ public class ConnectionManager {
 					+ " patient_id INTEGER REFERENCES Patients(id) ON DELETE CASCADE,"
 					+ " speciality_type TEXT REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " date DATETIME NOT NULL,"
-					+ " PRIMARY KEY (patient_id, speciality_type))";
+					+ " PRIMARY KEY (patient_id, speciality_type, date))";
 			createTables6.executeUpdate(createPatientSpeciality);
 			createTables6.close();
 			
@@ -148,7 +148,7 @@ public class ConnectionManager {
 					+ " patient_id INTEGER REFERENCES Patients(id) ON DELETE CASCADE,"
 					+ " triage_id INTEGER REFERENCES Triages(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
-					+ " PRIMARY KEY (patient_id, triage_id))";
+					+ " PRIMARY KEY (patient_id, triage_id, date))";
 			createTables7.executeUpdate(createPatientTriage);
 			createTables7.close();
 			
@@ -158,7 +158,7 @@ public class ConnectionManager {
 					+ " box_id INTEGER REFERENCES Boxes(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
 					+ " comments TEXT,"
-					+ " PRIMARY KEY (patient_id, box_id))";
+					+ " PRIMARY KEY (patient_id, box_id, date))";
 			createTables8.executeUpdate(createPatientBox);
 			createTables8.close();
 			
@@ -168,7 +168,7 @@ public class ConnectionManager {
 					+ " box_id INTEGER REFERENCES Boxes(id) ON DELETE CASCADE,"
 					+ " doctor_id INTEGER REFERENCES Doctors(id) ON DELETE SET NULL,"
 					+ " date DATETIME NOT NULL,"
-					+ " PRIMARY KEY (box_id, doctor_id))";
+					+ " PRIMARY KEY (box_id, doctor_id, date))";
 			createTables9.executeUpdate(createBoxDoctor);
 			createTables9.close();
 			

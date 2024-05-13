@@ -41,8 +41,10 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 	//protected Application appMain; 
 	protected JList<Patient> patientList; 
 	protected DefaultListModel<Patient> patientDefListModel;
-	protected JList<Doctor> doctorList; 
-	protected DefaultListModel<Doctor> doctorDefListModel;
+	//protected JList<Doctor> doctorList; 
+	//protected DefaultListModel<Doctor> doctorDefListModel;
+	protected JList<DoctorBox> doctorList; 
+	protected DefaultListModel<DoctorBox> doctorDefListModel;
 	protected JList<Triage> triageList; 
 	protected DefaultListModel<Triage> triageDefListModel;
 	protected JList<Box> boxList; 
@@ -156,6 +158,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         }
     }
     
+    /*
     protected void showDoctors(List<Doctor> doctors) {
         JScrollPane scrollPane1 = new JScrollPane();
         scrollPane1.setOpaque(false);
@@ -180,12 +183,38 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 
         //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
+    }*/
+    
+    protected void showDoctors(List<DoctorBox> doctors) {
+        JScrollPane scrollPane1 = new JScrollPane();
+        scrollPane1.setOpaque(false);
+        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        doctorDefListModel = new DefaultListModel<DoctorBox>(); 
+        if(doctors != null) {
+            for (DoctorBox doctor : doctors) { 
+                doctorDefListModel.addElement(doctor);
+                
+    		}
+        }
+        
+        doctorList = new JList<DoctorBox>(doctorDefListModel);
+        doctorList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        doctorList.setCellRenderer(new DoctorCell());
+        doctorList.addMouseListener(this);
+        scrollPane1.setViewportView(doctorList);
+
+        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
+        //scrollPane1.setPreferredSize(this.getPreferredSize());
+
+        //Mostrar el panel en una ventana emergente
+        add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
     }
     
-    protected void updateDoctorDefModel(List<Doctor> doctors) {
+    protected void updateDoctorDefModel(List<DoctorBox> doctors) {
     	doctorDefListModel.removeAllElements();
         if(doctors != null) {
-            for (Doctor doctor : doctors) { 
+            for (DoctorBox doctor : doctors) { 
                 doctorDefListModel.addElement(doctor);
                 
     		}
@@ -287,8 +316,8 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 		}
 		
 		if(doctorList != null) {
-			Doctor doctor = doctorList.getSelectedValue(); 
-			System.out.println(doctor);
+			DoctorBox doctorBox = doctorList.getSelectedValue(); 
+			System.out.println(doctorBox);
 		}
 		
 	}

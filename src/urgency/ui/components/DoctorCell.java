@@ -14,8 +14,9 @@ import javax.swing.border.Border;
 import net.miginfocom.swing.MigLayout;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
+import urgency.db.pojos.DoctorBox;
 
-public class DoctorCell implements ListCellRenderer<Doctor> {
+public class DoctorCell implements ListCellRenderer<DoctorBox> {
 	
 	private final Color titleColor = new Color(7, 164, 121); //Bluish
 	private final Font titleFont = new Font("sansserif", 3, 12);
@@ -25,7 +26,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
     private final Color darkGreen = new Color(24, 116, 67);
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Doctor> list, Doctor value, int index,
+	public Component getListCellRendererComponent(JList<? extends DoctorBox> list, DoctorBox value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		JPanel listCell = new JPanel(); 
 		listCell.setLayout(new MigLayout("fill, inset 20, gap 0, wrap 4", "[][]5[][]", "[][][][]"));
@@ -39,7 +40,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
       		surname.setFont(titleFont); 
       		
       		//JLabel patientSurname= new JLabel("Apellido Random");
-      		JLabel patientSurname  = new JLabel(value.getSurname()); 
+      		JLabel patientSurname  = new JLabel(value.getDoctor().getSurname()); 
       		
       		
       		patientSurname.setForeground(contentColor);
@@ -52,7 +53,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		name.setForeground(titleColor);
 		name.setFont(titleFont); 
 		//JLabel patientName = new JLabel("Nombre Random"); 
-		JLabel doctorName = new JLabel(value.getName()); 
+		JLabel doctorName = new JLabel(value.getDoctor().getName()); 
 		doctorName.setForeground(contentColor);
 		doctorName.setFont(contentFont);
 		listCell.add(name, "grow, left"); 
@@ -63,7 +64,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		spec.setForeground(titleColor);
 		spec.setFont(titleFont); 
 		
-		JLabel doctorSpec = new JLabel(value.getSpeciality_type().getType());
+		JLabel doctorSpec = new JLabel(value.getDoctor().getSpeciality_type().getType());
 		doctorSpec.setForeground(contentColor);
 		doctorSpec.setFont(contentFont);
 		listCell.add(spec, "grow, left"); 
@@ -74,12 +75,11 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		box.setForeground(titleColor);
 		box.setFont(titleFont); 
 
-		
-		List<Box> boxes = value.getBoxes(); 
+		Box box1 = value.getBox();
 		JLabel doctorBox;
-		if(boxes != null && !boxes.isEmpty()) {
-			Box lastBox = boxes.get(boxes.size()-1); 
-			doctorBox = new JLabel(lastBox.getId().toString());
+		if(box1 != null) {
+			String boxID = box1.getId().toString();
+			doctorBox = new JLabel(boxID);
 		}else {
 			doctorBox = new JLabel("No Box assigned"); 
 		}

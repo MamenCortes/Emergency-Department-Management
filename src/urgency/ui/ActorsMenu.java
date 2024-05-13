@@ -40,7 +40,8 @@ public class ActorsMenu extends MenuTemplate{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==doctorViewButton) {
-			appMenu.changeToDoctorView(appMenu.conMan.getDocMan().getDoctor(1));
+			//TODO change doctor
+			appMenu.changeToDoctorView(appMenu.conMan.getDocMan().getDoctor(41));
 		}else if(e.getSource()==recepcionistViewButton) {
 			appMenu.changeToRecepcionistMenu();
 			

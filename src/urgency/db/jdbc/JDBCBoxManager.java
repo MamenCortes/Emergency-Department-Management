@@ -164,8 +164,9 @@ public class JDBCBoxManager implements BoxManager {
 			
 			
 		} catch (SQLException e) {
-			System.out.println("Error");
-			e.printStackTrace();
+			System.out.println("No patient assigned to box "+Box_id);
+			//e.printStackTrace();
+			return null; 
 		} 
 		return pb; 
 	}
@@ -185,7 +186,8 @@ public class JDBCBoxManager implements BoxManager {
 			Integer id = rs.getInt("id"); 
 			Boolean avaliable = rs.getBoolean("available"); 
 			String speciality_type = rs.getString("speciality_type"); 
-			Date date = rs.getDate("date"); 
+			//Date date = rs.getDate("date"); 
+			Timestamp date = rs.getTimestamp("date"); 
 			
 			//System.out.println("ID: "+id+", Available: "+avaliable+", Speciality: "+speciality_type+", Date: "+date);
 			Box box = new Box(id, avaliable, new Speciality(speciality_type));
@@ -193,9 +195,9 @@ public class JDBCBoxManager implements BoxManager {
 			pstm.close();
 			return new DoctorBox(doctor, box, date); 
 		} catch (SQLException e) {
-			System.out.println("Problems getting the Box assigned to Doctor");
-			e.printStackTrace();
-			return null; 
+			System.out.println("No box assigned to doctor "+doctor);
+			//e.printStackTrace();
+			return new DoctorBox(doctor, null, null); 
 		} 
 		
 	}
@@ -245,6 +247,32 @@ public class JDBCBoxManager implements BoxManager {
 	    }
 	    return null;
 	}
+	
+	@Override 
+	public Boolean checkDoctorAssignedToBoxToday(int doctor_id, int box_id) {
+		String sql = "SELECT date FROM BoxDoctor WHERE doctor_id = ? AND box_id = ? ORDER BY date DESC"; 
+		try {
+			PreparedStatement pstm = connection.prepareStatement(sql);
+			pstm.setInt(1, doctor_id);
+			pstm.setInt(2, box_id);
+			//pstm.setDate(3, Date.valueOf(LocalDate.now()));
+			ResultSet rs = pstm.executeQuery(); 
+			Date date = rs.getDate("date");
+			if (date.toString().equals(LocalDate.now().toString())) {
+				System.out.println("Assignation already made today");
+				return true; 
+			}else {
+				System.out.println(date +"/="+LocalDate.now());
+			}
+			rs.close();
+			pstm.close();
+		} catch (SQLException e) {
+			System.out.println("Error checking if doctor was already assigned to box "+box_id+" today");
+			//e.printStackTrace();
+			return false; 
+		} 
+		return false; 
+	}
 
 	public static void main (String [] args) {
 		ConnectionManager conManager = new ConnectionManager();
@@ -281,12 +309,14 @@ public class JDBCBoxManager implements BoxManager {
 		conBox.assignPatientToBox(1, 2);
 		conBox.assignPatientToBox(2, 1);
 		conBox.assignPatientToBox(2, 3);*/
+		//conBox.assignPatientToBox(1, 7);
+		conBox.assignPatientToBox(2, 7);
 		//System.out.println(conBox.getPatientInBox(4));
 		
 		
-		Doctor doctor = conManager.getDocMan().getDoctor(1); 
-		DoctorBox docBox = conBox.getLastBoxAssignedToDoctor(doctor); 
-		System.out.println(docBox);
+		//Doctor doctor = conManager.getDocMan().getDoctor(1); 
+		//DoctorBox docBox = conBox.getLastBoxAssignedToDoctor(doctor); 
+		//System.out.println(docBox);
 		conManager.closeConnection();
 		
 		

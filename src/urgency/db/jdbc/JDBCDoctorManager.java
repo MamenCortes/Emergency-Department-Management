@@ -3,6 +3,7 @@ package urgency.db.jdbc;
 import urgency.db.pojos.*;
 
 import java.sql.*;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,13 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void assignBox(int Doctor_id, int Box_id) {
-		// TODO Auto-generated method stub
 		try {
 			String sql = "INSERT INTO BoxDoctor (box_id, doctor_id, date) VALUES (?,?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, Box_id);
 			pstmt.setInt(2, Doctor_id);
-			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+			pstmt.setTimestamp(3, Timestamp.from(Instant.now()));
 			pstmt.executeUpdate();
 			System.out.println("Doctor assigned to box");
 			pstmt.close();

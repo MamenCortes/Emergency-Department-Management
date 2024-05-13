@@ -175,7 +175,7 @@ public class NurseView extends SearchTemplate{
 		    add(selectPanel, "cell 0 1 0 11, grow");
 			triage = null;
 			patient = null; 
-			patientDefListModel.removeAllElements();
+			if(patientDefListModel != null)patientDefListModel.removeAllElements();
 		}
 
 	}

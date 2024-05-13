@@ -42,7 +42,7 @@ public class Application extends JFrame{
 
 	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
 	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO cambiar tablas n-n para que date sea parte del primary key
+	//TODO en register dar la opción de especificar el papel en la base de datos
 
 	public Application() {
 		conMan = new ConnectionManager(); 
@@ -84,7 +84,7 @@ public class Application extends JFrame{
 		appPanels.add(searchDoctor); 
 		
 		
-		modifyDoctor = new ModifyDoctor(null, this);
+		modifyDoctor = new ModifyDoctor(new DoctorBox(), this);
 		appPanels.add(modifyDoctor);
 		searchRoom = new SearchRoom(this); 
 		appPanels.add(searchRoom); 
@@ -186,7 +186,7 @@ public class Application extends JFrame{
 		this.setContentPane(searchDoctor); 
 	}
 	
-	public void changeToModifyDoctor(Doctor doctor) {
+	public void changeToModifyDoctor(DoctorBox doctor) {
 		modifyDoctor.updatePanelWith(doctor);
 		hideAllPanels();
 		modifyDoctor.setVisible(true);
