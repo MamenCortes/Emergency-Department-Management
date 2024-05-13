@@ -19,6 +19,7 @@ import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.DoctorBox;
 import urgency.db.pojos.Patient;
+import urgency.db.pojos.PatientBox;
 import urgency.db.pojos.Triage;
 import urgency.ui.components.MyButton;
 import urgency.ui.components.PanelCoverForMenu;
@@ -37,6 +38,7 @@ public class DoctorView extends SearchTemplate {
 	private Doctor doctor; 
 	private Box box; 
 	private JLabel title2; 
+	private PatientBox patientBox; 
 
 	public DoctorView(Application appMain) {
 		this.appMain = appMain; 
@@ -50,7 +52,6 @@ public class DoctorView extends SearchTemplate {
 		
 		//TODO change for proper values
 		this.doctor = doctor; 
-<<<<<<< HEAD
 		//TODO create method get Doctor Box 
 		DoctorBox boxDoctor = appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor); 
 		System.out.println(boxDoctor);
@@ -58,10 +59,6 @@ public class DoctorView extends SearchTemplate {
 		box = boxDoctor.getBox(); 
 		System.out.println(box);
 		patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
-=======
-		box = appMain.conMan.getBoxManager().getBox(1); 
-		patient = appMain.conMan.getPatientMan().getPatient(1); 
->>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
 		doctor.setIn_box(true);
 		
 		mainPanel = new JPanel(); 
@@ -166,13 +163,8 @@ public class DoctorView extends SearchTemplate {
 			resetPanel();
 			appMain.changeToUserLogIn();
 		}else if(e.getSource() == openFormButton) {
-<<<<<<< HEAD
 			if(patientDefListModel != null && !patientDefListModel.isEmpty()) {
 				appMain.changeToPatientDoctorFor(patientBox);
-=======
-			if(!patientDefListModel.isEmpty()) {
-				appMain.changeToPatientDoctorFor(patient);
->>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
 			}
 		}
 	}
@@ -184,13 +176,8 @@ public class DoctorView extends SearchTemplate {
 		box = null;
 		scrollPane1 = null; 
 		scrollPane2 = null; 
-<<<<<<< HEAD
 		patientBox = null; 
 		if(patientDefListModel != null)patientDefListModel.removeAllElements();
-=======
-		patient = null; 
-		patientDefListModel.removeAllElements();
->>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
 		
 
 	}

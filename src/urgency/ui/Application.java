@@ -40,18 +40,6 @@ public class Application extends JFrame{
 	private ActorsMenu actorsMenu; 
 
 
-<<<<<<< HEAD
-	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
-	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO en register dar la opción de especificar el papel en la base de datos
-=======
-	//TODO Add functionality in ModifyForms: admitPatient (implementar método update)
-		//y PatientForm implementar PatientBox.setComments()
-	//TODO Solve getBoxes method in Box 
-	//TODO Create Patient record Cell and solve DoctorView
-	//TODO Añadir Specialidad a NurseView
->>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
-
 	public Application() {
 		conMan = new ConnectionManager(); 
 		appPanels = new ArrayList<JPanel>(); 
@@ -236,8 +224,8 @@ public class Application extends JFrame{
 		patientForm.setVisible(true);
 		this.setContentPane(patientForm); 
 	}
-	public void changeToPatientDoctorFor(Patient patient) {
-		patientForm.patientDoctorForm(patient); 
+	public void changeToPatientDoctorFor(PatientBox patientBox) {
+		patientForm.patientDoctorForm(patientBox); 
 		hideAllPanels();
 		patientForm.setVisible(true);
 		this.setContentPane(patientForm); 
@@ -253,8 +241,4 @@ public class Application extends JFrame{
 		doctorView.setVisible(true);
 		this.setContentPane(doctorView); 
 	}
-	
-	
-	
-
 }
