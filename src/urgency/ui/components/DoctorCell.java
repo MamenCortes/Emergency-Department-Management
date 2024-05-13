@@ -77,10 +77,15 @@ public class DoctorCell implements ListCellRenderer<DoctorBox> {
 
 		Box box1 = value.getBox();
 		JLabel doctorBox;
-
+<<<<<<< HEAD
 		if(box1 != null) {
 			String boxID = box1.getId().toString();
 			doctorBox = new JLabel(boxID);
+=======
+		if(!boxes.isEmpty()) {
+			Box lastBox = boxes.get(boxes.size()-1); 
+			doctorBox = new JLabel(lastBox.getId().toString());
+>>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
 		}else {
 			doctorBox = new JLabel("No Box assigned"); 
 		}
