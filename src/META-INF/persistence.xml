@@ -10,11 +10,8 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
  
 		<!-- Entity Class -->
-		<class>sample.db.pojos.Patient</class>
-		<class>sample.db.pojos.Doctor</class>
-		<class>sample.db.pojos.Speciality</class>
-		<class>sample.db.pojos.Box</class>
-		<class>sample.db.pojos.Triage</class>
+		<class>urgency.db.pojos.User</class>
+		<class>urgency.db.pojos.Role</class>
  
 		<properties>	
 			<!-- Connection properties -->
