@@ -7,14 +7,14 @@ import java.util.Objects;
 public class PatientSpeciality implements Serializable{
 	
 	private Integer id_patient;
-	private Speciality id_speciality;
+	private Integer id_speciality;
 	private Date date;
 	
 	public PatientSpeciality() {
 		super();
 	}
 	
-	public PatientSpeciality(Integer id_patient, Speciality id_speciality, Date date) {
+	public PatientSpeciality(Integer id_patient, Integer id_speciality, Date date) {
 		super();
 		this.id_patient = id_patient;
 		this.id_speciality = id_speciality;
