@@ -77,7 +77,7 @@ public class DoctorCell implements ListCellRenderer<Doctor> {
 		
 		List<Box> boxes = value.getBoxes(); 
 		JLabel doctorBox;
-		if(boxes != null && !boxes.isEmpty()) {
+		if(!boxes.isEmpty()) {
 			Box lastBox = boxes.get(boxes.size()-1); 
 			doctorBox = new JLabel(lastBox.getId().toString());
 		}else {
