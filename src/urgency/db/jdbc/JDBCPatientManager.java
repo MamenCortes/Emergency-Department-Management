@@ -6,32 +6,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import urgency.db.*;
 import urgency.db.interfaces.PatientManager;
-import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
-import urgency.db.pojos.PatientBox;
 
 public class JDBCPatientManager implements PatientManager {
 	
 	private Connection connection;
 	private ConnectionManager conMan;
-	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCPatientManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.connection = conMan.getConnection();
 	}
 
+	@Override
+	public void admitPatient(int id, int urgency) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void dischargePatient(int id) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public void setStatus(int id, String status) { //FUNCIONA
@@ -49,54 +53,15 @@ public class JDBCPatientManager implements PatientManager {
 		}
 	}
 
-	
 	@Override
-	public void addComments(int Patient_id, int Box_id, String comments) { //FUNCIONA
-		try {
-			String template = "UPDATE PatientBox SET comments = ? WHERE patient_id = ? AND box_id = ?"; 
-			PreparedStatement pstmt = connection.prepareStatement(template);
-			pstmt.setString(1, comments);
-			pstmt.setInt(2, Patient_id);
-			pstmt.setInt(3, Box_id);
-			pstmt.executeUpdate();
-			pstmt.close();
-		} catch (SQLException e) {
-			System.out.println("Error adding comments in a patient record");
-			e.printStackTrace();
-		} 
-		
-		
+	public void addComments(int Patient_id, int Box_id, String comments) {
+		// TODO Auto-generated method stub
+
 	}
 
-	
-
 	@Override
-	public List<PatientBox> getPatientRecords(Patient patient) { //FUNCIONA
-		List<PatientBox> boxesOfPatient = new ArrayList<PatientBox>();
-		try {
-			String template = "SELECT box_id, date, comments FROM PatientBox WHERE patient_id = ? ORDER BY date DESC";
-			PreparedStatement pstmt = connection.prepareStatement(template);
-			pstmt.setInt(1, patient.getId());
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Integer box_id = rs.getInt("box_id");
-				System.out.println(box_id);
-				Box box = conMan.getBoxManager().getBox(box_id); 
-				String comments = rs.getString("comments"); 
-				Timestamp date = rs.getTimestamp("date"); 
-				/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("date"));
-				Timestamp date = new Timestamp(sdfDate1.getTime());*/
-				PatientBox patientBox = new PatientBox(patient, box, date, comments);
-				boxesOfPatient.add(patientBox);
-			}
-			rs.close(); 
-			pstmt.close(); 
-		} catch (SQLException e) {
-			System.out.println("Error looking for a patient");
-			e.printStackTrace();
-			return null; 
-		}
-		return boxesOfPatient; 
+	public void getPatientWhithRecords(int Patient_id) {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -144,8 +109,6 @@ public class JDBCPatientManager implements PatientManager {
 				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
 				patients.add(newPatient);
 			}
-			rs.close(); 
-			search.close();
 			return patients;
 		} catch (SQLException e) {
 			System.out.println("Error looking for a patient");
@@ -175,7 +138,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void updatePatient(Patient patient) { //Funciona
+	public void updatePatient(Patient patient) {
 		try {
 			String template = "UPDATE Patients SET name = ?, surname = ?, weight = ?, height = ?, status = ?, "
 					+ "urgency = ?, sex = ?, birthdate = ? "
@@ -232,21 +195,6 @@ public class JDBCPatientManager implements PatientManager {
 		
 		List<Patient> patients = patMan.searchPatientsBySurname("Blanco"); 
 		System.out.println(patients);*/
-		
-		/*Patient patient = patMan.getPatient(1);
-		List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
-		
-		Patient patient2 = patMan.getPatient(2);
-		List<PatientBox> boxesOfPatient2 = patMan.getPatientRecords(patient2); 
-		System.out.println(boxesOfPatient);
-		System.out.println(boxesOfPatient2);*/
-		
-		patMan.addComments(1, 2, "Second comment made");
-		patMan.addComments(2, 1, "Third comment made");
-		patMan.addComments(2, 3, "Fourth comment made");
-		Patient patient = patMan.getPatient(1);
-		//List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
-		//System.out.println(boxesOfPatient);
 		
 		conMan.closeConnection();
 	}
