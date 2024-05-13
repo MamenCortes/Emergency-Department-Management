@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package sample.db.jpa; 
 
 import java.io.BufferedReader;
 import java.io.IOException;

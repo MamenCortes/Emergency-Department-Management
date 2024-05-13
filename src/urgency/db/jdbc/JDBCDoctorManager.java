@@ -34,6 +34,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Error in asingning the doctor to the box");
 			e.printStackTrace();
 		}
 		  
@@ -52,7 +53,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		System.out.println("Doctor deleted");
 		pstmt.close();
 	} catch (SQLException e) {
-		System.out.println("Error in the database");
+		System.out.println("Error in deleting the doctor.");
 		e.printStackTrace();
 	}
 
@@ -72,7 +73,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		System.out.println("Status changed");
 		pstmt.close();
 	} catch (SQLException e) {
-		System.out.println("Error in the database");
+		System.out.println("Error in changing the status.");
 		e.printStackTrace();
 	}
 		
@@ -81,6 +82,7 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void addDoctor(Doctor doctor) { //WORKS CORRECTLY
+		// TODO Auto-generated method stub
 		try {
 			String template = "INSERT INTO Doctors (name, surname, speciality_type, in_box) VALUES "
 					+ "(?,?,?,?)";
@@ -90,17 +92,18 @@ public class JDBCDoctorManager implements DoctorManager {
 			pstmt.setString(2, doctor.getSurname());
 			pstmt.setString(3, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(4, doctor.getIn_box());
+			System.out.println("Doctor added");
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
-			System.out.println("Error in the database");
+			System.out.println("Error in adding the doctor.");
 			e.printStackTrace();
 		}
 		
 	}
 
 	@Override
-	public List<Doctor> searchDoctorsBySurname(String surname) {
+	public List<Doctor> searchDoctorsBySurname(String surname) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
@@ -109,9 +112,15 @@ public class JDBCDoctorManager implements DoctorManager {
 			search.setString(1, "%" + surname + "%");
 			ResultSet rs = search.executeQuery();
 			while(rs.next()) {
-				Integer id = rs.getInt("ID");
-				Doctor d = getDoctor(id);
-				doctors.add(d);
+				Doctor doctor = new Doctor();
+				    doctor.setid(rs.getInt("ID"));
+	                doctor.setName(rs.getString("name"));
+	                doctor.setSurname(rs.getString("surname"));
+	                Speciality speciality = new Speciality();
+	                speciality.setType(rs.getString("speciality_type"));
+	                doctor.setSpeciality_type(speciality);
+	                doctor.setIn_box(rs.getBoolean("in_box"));
+	                doctors.add(doctor);
 			}
 			return doctors;
 		} catch (SQLException e) {
@@ -122,10 +131,10 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) { //problema con especialidad, tipo speciality o string
+	public Doctor getDoctor(int id) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
-			String sql = "SELECT * FROM Doctors WHERE ID = " + id;
+			String sql = "SELECT * FROM Doctors WHERE ID = " + id; //deberia hacer un join?
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -133,27 +142,39 @@ public class JDBCDoctorManager implements DoctorManager {
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
+			System.out.println("Doctor has been got");
 			return d;
 		}catch(SQLException e) {
-			System.out.println("Error");
+			System.out.println("Error in getting the doctor.");
 			e.printStackTrace();
 		}
 		return null;
 	}
 
 	@Override
-	public void updateDoctor(Doctor doctor) {// WHAT IS UPDATED HERE?
+	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
-		/*try {
-			String sql = "UPDATE Doctors SET "
-			
-		}catch()
-		*/
+		try {
+			String sql = "UPDATE Doctors SET name=?, surname=?, speciality_type=?, in_box=? WHERE id = ?";
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, doctor.getName());
+			pstmt.setString(2, doctor.getSurname());
+			pstmt.setString(3, doctor.getSpeciality_type().getType());
+			pstmt.setBoolean(4,  doctor.getIn_box());
+			pstmt.setInt(5,  doctor.getid());
+			System.out.println("Doctor updated.");
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch(SQLException e) {
+			System.out.println("Error in updating the doctor.");
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //problem with the speciality
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
@@ -174,7 +195,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			rs.close();
 			p.close();
 		} catch (SQLException e) {
-			System.out.println("Error in the database");
+			System.out.println("Error in getting the doctor by the speciality.");
 			e.printStackTrace();
 		}
 		return doctors;
@@ -183,24 +204,46 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager();
-		JDBCDoctorManager docMan = new JDBCDoctorManager(conMan); 
-		JDBCSpecialityManager spe = new JDBCSpecialityManager(conMan);
+		DoctorManager docMan = conMan.getDocMan();
+		//conMan.getSpecialityManager();
+		
+		/*
 		Speciality s = new Speciality("Psychiatry");
-		conMan.getSpecialityManager().addSpeciality(s);
+		
 		Doctor d;
+		
 		d = new Doctor(1,"Jorge", "Fernandez", s, true);
+		
 		docMan.addDoctor(d);
+		
 		System.out.println("Doctor added");
+		
 		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
+		
 		docMan.addDoctor(d2);
-		docMan.deleteDoctor(d2.getid());
-		docMan.changeStatus(1, false);
-		List<Doctor> doctors = docMan.getDoctorsBySpeciality(s.getType());
-		Doctor d3 = docMan.getDoctor(1);
+		
+		conMan.getDocMan().deleteDoctor(d2.getid());
+		
+		conMan.getDocMan().changeStatus(1, false);
+		
+		List<Doctor> doctors = conMan.getDocMan().getDoctorsBySpeciality(s.getType());
+		
+		Doctor d3 = conMan.getDocMan().getDoctor(1);
+		
 		System.out.println(d3);
-		List<Doctor> doctors2 = docMan.searchDoctorsBySurname("Fernandez"); //SE ME METE EN BUCLE INFINITO?
+		
+		List<Doctor> doctors2 = conMan.getDocMan().searchDoctorsBySurname("Fernandez");
+		
 		System.out.println(doctors2);
-		//XQ NO SE ME IMPRIME EL APELLIDO?
+		
+		d2.setName("Juan");
+		
+		conMan.getDocMan().updateDoctor(d2);
+		
+		System.out.println(d2);
+		*/
+		
+		System.out.println(docMan.getDoctorsBySpeciality("Internal medicine"));
 		conMan.closeConnection();								
 	}
 	

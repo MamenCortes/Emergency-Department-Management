@@ -8,7 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +24,7 @@ public class JDBCBoxManager implements BoxManager {
 
 	private ConnectionManager conManager;
 	private Connection connection;
+	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCBoxManager(ConnectionManager conManager) {
 		this.conManager = conManager;
@@ -72,18 +78,18 @@ public class JDBCBoxManager implements BoxManager {
 	}
 
 	@Override
-	public List<Box> getBoxes(int speciality_type) {
+	public List<Box> getBoxesBySpeciality(Speciality speciality) {
 	    List<Box> boxes = new ArrayList<>();
 	    String sql = "SELECT * FROM Boxes WHERE speciality_type = ?";
 	    try (PreparedStatement st = connection.prepareStatement(sql)) {
-	        st.setInt(1, speciality_type);
+	        st.setString(1, speciality.getType());
 	        try (ResultSet rs = st.executeQuery()) {
 	            while (rs.next()) {
 	                Integer boxId = rs.getInt("id");
 	                boolean available = rs.getBoolean("available");
 	                String specialityName = rs.getString("speciality_type");
-	                Speciality speciality = new Speciality(specialityName);         
-	                Box b = new Box(boxId, available, speciality);
+	                Speciality spec = new Speciality(specialityName);         
+	                Box b = new Box(boxId, available, spec);
 	                boxes.add(b);
 	            }
 	        }
@@ -92,6 +98,32 @@ public class JDBCBoxManager implements BoxManager {
 	        e.printStackTrace();
 	    }
 	    return boxes;
+	}
+	
+	@Override
+	public List<Box> getBoxes(){
+		List<Box> boxes = new ArrayList<Box>();
+		try {
+			String sql = "SELECT * FROM Boxes";
+			Statement st;
+			st = connection.createStatement(); 
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+                Integer boxId = rs.getInt("id");
+                boolean available = rs.getBoolean("available");
+                String specialityName = rs.getString("speciality_type");
+                Speciality spec = new Speciality(specialityName);         
+                Box b = new Box(boxId, available, spec);
+                boxes.add(b);
+            }
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			System.out.println("error");
+			e.printStackTrace();
+		}
+		System.out.println(boxes);
+		return boxes;
 	}
 
 
@@ -119,7 +151,11 @@ public class JDBCBoxManager implements BoxManager {
 			Integer urgency = rs.getInt("urgency");
 			String sex = rs.getString("sex");
 			Date birthDate = rs.getDate("birthDate");
-			Date boxDate = rs.getDate("boxDate");
+			//Date boxDate = rs.getDate("boxDate");
+			Timestamp boxDate = rs.getTimestamp("boxDate"); 
+			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("boxDate"));
+			Timestamp boxDate = new Timestamp(sdfDate1.getTime());*/
+			
             String comments = rs.getString("comments");
 			
 			Patient patient = new Patient(id, name, surname, weight, height, status, urgency, sex, birthDate);
@@ -137,9 +173,9 @@ public class JDBCBoxManager implements BoxManager {
 	
 	@Override
 	public DoctorBox getLastBoxAssignedToDoctor(Doctor doctor) {
-		String template = "SELECT b.*, bd.date FROM"
-				+ "Boxes AS b JOIN BoxDoctor AS bd ON bd.box_id = b.id"
-				+ "JOIN Doctors AS d ON bd.doctor_id = d.id"
+		String template = "SELECT b.*, bd.date FROM \r\n"
+				+ "Boxes AS b JOIN BoxDoctor AS bd ON bd.box_id = b.id \r\n"
+				+ "JOIN Doctors AS d ON bd.doctor_id = d.id\r\n"
 				+ "WHERE bd.doctor_id = ?"
 				+ "ORDER BY bd.date DESC "; 
 		try {
@@ -166,14 +202,18 @@ public class JDBCBoxManager implements BoxManager {
 		
 	}
 	
-	public void assignPatientToBox(int Box_id, int Patient_id) {
+	@Override
+	public void assignPatientToBox(int Patient_id, int Box_id) { //Funciona si no hay una asignación previa
 		try {
 			String sql = "INSERT INTO PatientBox (patient_id, box_id, date) VALUES (?,?,?)"; 
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, Box_id);
-			pstmt.setInt(2, Patient_id);
-			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+			pstmt.setInt(1, Patient_id);
+			pstmt.setInt(2, Box_id);
+			//Date date = Date.valueOf(LocalDate.now());
+			Timestamp tsp = Timestamp.from(Instant.now());
+			//pstmt.setDate(3, date);
+			pstmt.setTimestamp(3, tsp);
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch (SQLException e) {
@@ -239,7 +279,7 @@ public class JDBCBoxManager implements BoxManager {
 		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
 		
 	
-		Box box1 = new Box(1, true, null);
+		/*Box box1 = new Box(1, true, null);
 		Box box2 = new Box(2, true, null);
 		Box box3 = new Box(3, false, null);
 		Box box4 = new Box(4, true, null);
@@ -250,7 +290,7 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box2);
 		System.out.print(box3);
 		System.out.print(box4);
-		System.out.print(box5);
+		System.out.print(box5);*/
 
 		
 		//conBox.addBox(box1);
@@ -282,6 +322,8 @@ public class JDBCBoxManager implements BoxManager {
 		
 		
 	}
+
+
 	
 	
 }
