@@ -20,6 +20,7 @@ public class Role implements Serializable {
 	@TableGenerator(name = "roles", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
+	@Column( name = "myCustomName")
 	private String name;
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	@JoinColumn
@@ -82,13 +83,11 @@ public class Role implements Serializable {
 		return "Role [id=" + id + ", name=" + name + "]";
 	}
 	
-	// Made by myself
 	public void addUser(User u) {
 		if (!users.contains(u))
 			users.add(u);
 	}
 	
-	// Made by myself
 	public void removeUser(User u) {
 		if (users.contains(u))
 			users.remove(u);

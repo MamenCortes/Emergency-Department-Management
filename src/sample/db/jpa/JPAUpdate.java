@@ -1,8 +1,8 @@
 package sample.db.jpa;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,6 +16,72 @@ public class JPAUpdate {
 	
 		private static EntityManager em;
 		
+		private static void printUsers() {
+			Query q1 = em.createNativeQuery("SELECT * FROM users", User.class);
+			List<User> users = (List<User>) q1.getResultList();
+			// Print the users:
+			for (User u : users) {
+				System.out.println(u);
+			}
+		}
+		
+		public static void main(String args[]) throws IOException {
+			
+			System.out.println("Urgency's users:");
+			printUsers();
+			System.out.print("Choose a user to change its username. Type it's id:");
+			BufferedReader readerUser = new BufferedReader(new InputStreamReader(System.in));
+			int user_id = Integer.parseInt(readerUser.readLine());
+			Query q2 = em.createNativeQuery("SELECT * FROM users WHERE id = ?", User.class);
+			q2.setParameter(1, user_id);
+			User user = (User) q2.getSingleResult();
+			System.out.print("Type it's new username:");
+			String newUsername = readerUser.readLine();
+			
+			em.getTransaction().begin();
+			user.setUsername(newUsername);
+			em.getTransaction().commit();
+			
+			System.out.println("Urgency's users:");
+			printUsers();
+			System.out.print("Choose a user to change its password. Type it's id:");
+			BufferedReader readerUser2 = new BufferedReader(new InputStreamReader(System.in));
+			int user_id2 = Integer.parseInt(readerUser2.readLine());
+			Query q3 = em.createNativeQuery("SELECT * FROM users WHERE id = ?", User.class);
+			q3.setParameter(1, user_id2);
+			User user2 = (User) q3.getSingleResult();
+			System.out.print("Type it's new password:");
+			String newPassword = readerUser2.readLine();
+			
+			em.getTransaction().begin();
+			user2.setPassword(newPassword);
+			em.getTransaction().commit();
+			
+			System.out.println("Urgency's users:");
+			printUsers();
+			System.out.print("Choose a user to change its role. Type it's id:");
+			BufferedReader readerUser3 = new BufferedReader(new InputStreamReader(System.in));
+			int user_id3 = Integer.parseInt(readerUser3.readLine());
+			Query q4 = em.createNativeQuery("SELECT * FROM users WHERE id = ?", User.class);
+			q4.setParameter(1, user_id3);
+			User user3 = (User) q4.getSingleResult();
+			System.out.print("Type it's new role:");
+			Role newRole = new Role(readerUser3.readLine());
+			
+			em.getTransaction().begin();
+			user.setRole(newRole);
+			em.getTransaction().commit();
+			
+		
+			
+		   // Close the entity manager
+		   em.close();
+		
+		
+		 }
+
+		}
+		/*
 		private static void printTriages() {
 			Query q2 = em.createNativeQuery("SELECT * FROM Triages", Triage.class);
 			List<Triage> triages = (List<Triage>) q2.getResultList();
@@ -242,9 +308,7 @@ public class JPAUpdate {
 			em.getTransaction().begin();
 			doctor4.setIn_box(inbox);
 			em.getTransaction().commit();
+			*/
 			
-			// Close the entity manager
-			em.close();
-		}
-	}
+
 

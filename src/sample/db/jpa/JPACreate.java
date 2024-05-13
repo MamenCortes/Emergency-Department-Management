@@ -12,13 +12,45 @@ import urgency.db.pojos.*;
 public class JPACreate {
 
 		public static void main(String[] args) throws IOException {
-			//DIVIDIRIA TODO ESTE CODIGO EN METODOS APARTE EN VEZ DE TENERLO EN EL MAIN
 			
 			EntityManager em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
 			em.getTransaction().begin();
 			em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 			em.getTransaction().commit();
 			
+			//Creation of the name:
+			System.out.println("Please, input the role info:");
+			BufferedReader readerRole = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("name: ");
+			String name = readerRole.readLine();
+			
+			Role role = new Role(name);
+			
+			em.getTransaction().begin();
+			em.persist(role);
+			em.getTransaction().commit();
+			//Tiene sentido que se cree primero?
+			
+			//Creation of the User:
+			System.out.println("Please, input the user info:");
+			BufferedReader readerUser = new BufferedReader(new InputStreamReader(System.in));
+			System.out.print("Username: ");
+			String username = readerUser.readLine();
+			System.out.print("Password: ");
+			String password = readerUser.readLine();
+			System.out.print("Role: ");
+			Role roleUser = new Role(readerUser.readLine());
+			
+			
+			User u = new User(username, password, roleUser);
+			
+			em.getTransaction().begin();
+			// Store the object:
+			em.persist(u);
+			// End transaction
+			em.getTransaction().commit();
+			
+			/*
 			//Creation of patient:
 			System.out.println("Please, input the patient info:");
 			BufferedReader readerPatient = new BufferedReader(new InputStreamReader(System.in));
@@ -110,6 +142,7 @@ public class JPACreate {
 			em.persist(speciality);
 			// End transaction
 			em.getTransaction().commit();
+			*/
 			
 			// Finally, we close the entity manager:
 			em.close();

@@ -1,6 +1,7 @@
 package sample.db.jpa;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -12,13 +13,41 @@ import urgency.db.pojos.*;
 
 public class JPARead {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		
 		EntityManager em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-
+		
+		//Search user by username:
+		BufferedReader readerUser = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("Write the user's username: ");
+		String username = readerUser.readLine();
+		System.out.println("Matching users:");
+		Query q1 = em.createNativeQuery("SELECT * FROM users WHERE username LIKE ?", User.class);
+		q1.setParameter(1, "%" + username + "%");
+		List<User> users = (List<User>) q1.getResultList();
+		// Print the users
+		for (User u: users) {
+			System.out.println(u);
+		}
+		
+		//Get user:
+		System.out.print("Write the user's id: ");
+		int user_id = Integer.parseInt(readerUser.readLine());
+		Query q2 = em.createNativeQuery("SELECT * FROM users WHERE id = ?", User.class);
+		q2.setParameter(1, user_id);
+		User user = (User) q2.getSingleResult();
+		// Print the user:
+		System.out.println(user);
+		
+		//Get role is already implemented in JPAUserManager.
+		
+		// Close the entity manager
+				em.close();
+		
+		/*
 		// Search in patients by surname
 		BufferedReader readerPatient = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print("Write the patient's surname: ");
@@ -127,9 +156,8 @@ public class JPARead {
 		Doctor doctor = (Doctor) q10.getSingleResult();
 		// Print the patient:
 		System.out.println(doctor);
+		*/
 		
-		// Close the entity manager
-		em.close();
 	}
 
 }
