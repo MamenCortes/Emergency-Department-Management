@@ -40,17 +40,9 @@ public class Application extends JFrame{
 	private ActorsMenu actorsMenu; 
 
 
-	//TODO Add functionality in ModifyForms: y PatientForm implementar PatientBox.setComments()
-	//TODO Solve getDoctorsBySpeciality
-	//TODO Create Patient record Cell and solve DoctorView
-	//TODO Añadir Specialidad a NurseView y tabla PatientSpeciality
-	//TODO errores en search patient al abrir dos veces un paciente 	
 	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
-	//TODO error en patientTriage assignment
 	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO create method get Doctor Box 
-	//TODO create methods in JDBC Managers to add data to de DB
-	//TODO cambiar Date en PatientTriage
+	//TODO cambiar tablas n-n para que date sea parte del primary key
 
 	public Application() {
 		conMan = new ConnectionManager(); 

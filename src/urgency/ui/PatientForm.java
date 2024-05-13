@@ -1,6 +1,8 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
+
 import com.toedter.calendar.JDateChooser;
 
 import urgency.db.pojos.Box;
@@ -53,7 +55,8 @@ public class PatientForm extends FormTemplate{
 		height.setEnabled(false);
 		emergencyCB.getModel().setSelectedItem(patient.getUrgency());
 		emergencyCB.setEnabled(false);
-		
+		speciality.getModel().setSelectedItem(patientBox.getBox().getSpeciality().getType());
+		speciality.setEnabled(false);
 		comments = new MyTextField();
 		nextStep = new MyComboBox<String>(); 
 		nextStep.addItem("Discharge"); 
@@ -91,8 +94,13 @@ public class PatientForm extends FormTemplate{
 		comments = new MyTextField(); 
 		weight = new MyTextField(); 
 		height = new MyTextField(); 
+		speciality = new MyComboBox<String>(); 
+		List<String> specialityList = appMain.conMan.getSpecialityManager().getSpecialities(); 
+        for (String string : specialityList) {
+			speciality.addItem(string);
+		}
 		emergencyCB = new MyComboBox<Integer>(); 
-		form2 = new FormPanel("Physiological Info", weight, height, emergencyCB); 
+		form2 = new FormPanel("Physiological Info", weight, height, speciality, emergencyCB); 
 	}
 	
 	@Override
@@ -143,6 +151,13 @@ public class PatientForm extends FormTemplate{
 			return false; 
 		}
 
+		
+		if(speciality.getSelectedItem() == null) {
+			showErrorMessage("Select Speciality"); 
+			return false; 
+		}
+		String specialitySelected = speciality.getSelectedItem().toString(); 
+
 		Float weightNum;
 		Float heightNum;
 		try {
@@ -172,6 +187,7 @@ public class PatientForm extends FormTemplate{
 		}
 		
 		appMain.conMan.getPatientMan().updatePatient(patient);
+		appMain.conMan.getSpecialityManager().assignPatientSpeciality(patient.getId(), specialitySelected);
 		System.out.println(patient);
 		return true; 
 	}

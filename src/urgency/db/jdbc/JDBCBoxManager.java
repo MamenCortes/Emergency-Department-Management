@@ -100,7 +100,7 @@ public class JDBCBoxManager implements BoxManager {
 	    return boxes;
 	}
 	
-	
+	@Override
 	public List<Box> getBoxes(){
 		List<Box> boxes = new ArrayList<Box>();
 		try {
@@ -170,7 +170,37 @@ public class JDBCBoxManager implements BoxManager {
 		return pb; 
 	}
 	
+	@Override
+	public DoctorBox getLastBoxAssignedToDoctor(Doctor doctor) {
+		String template = "SELECT b.*, bd.date FROM \r\n"
+				+ "Boxes AS b JOIN BoxDoctor AS bd ON bd.box_id = b.id \r\n"
+				+ "JOIN Doctors AS d ON bd.doctor_id = d.id\r\n"
+				+ "WHERE bd.doctor_id = ?"
+				+ "ORDER BY bd.date DESC "; 
+		try {
+			PreparedStatement pstm = connection.prepareStatement(template);
+			pstm.setInt(1, doctor.getid());
+			ResultSet rs = pstm.executeQuery(); 
+			rs.next(); 
+			Integer id = rs.getInt("id"); 
+			Boolean avaliable = rs.getBoolean("available"); 
+			String speciality_type = rs.getString("speciality_type"); 
+			Date date = rs.getDate("date"); 
+			
+			//System.out.println("ID: "+id+", Available: "+avaliable+", Speciality: "+speciality_type+", Date: "+date);
+			Box box = new Box(id, avaliable, new Speciality(speciality_type));
+			rs.close();
+			pstm.close();
+			return new DoctorBox(doctor, box, date); 
+		} catch (SQLException e) {
+			System.out.println("Problems getting the Box assigned to Doctor");
+			e.printStackTrace();
+			return null; 
+		} 
+		
+	}
 	
+	@Override
 	public void assignPatientToBox(int Patient_id, int Box_id) { //Funciona si no hay una asignación previa
 		try {
 			String sql = "INSERT INTO PatientBox (patient_id, box_id, date) VALUES (?,?,?)"; 
@@ -247,17 +277,23 @@ public class JDBCBoxManager implements BoxManager {
 		
 		//PatientBox patientBox = conBox.getPatientInBox(1);
 		//System.out.println(patientBox);
-		conBox.assignPatientToBox(1, 1);
+		/*conBox.assignPatientToBox(1, 1);
 		conBox.assignPatientToBox(1, 2);
 		conBox.assignPatientToBox(2, 1);
-		conBox.assignPatientToBox(2, 3);
+		conBox.assignPatientToBox(2, 3);*/
 		//System.out.println(conBox.getPatientInBox(4));
 		
+		
+		Doctor doctor = conManager.getDocMan().getDoctor(1); 
+		DoctorBox docBox = conBox.getLastBoxAssignedToDoctor(doctor); 
+		System.out.println(docBox);
 		conManager.closeConnection();
 		
 		
 		
 	}
+
+
 	
 	
 }

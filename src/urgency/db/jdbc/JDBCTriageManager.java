@@ -4,6 +4,7 @@ import urgency.db.pojos.*;
 
 import java.sql.*;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -79,7 +80,7 @@ public class JDBCTriageManager implements TriageManager {
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, patient_id);
 			pstmt.setInt(2, triage_id);
-			pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+			pstmt.setTimestamp(3, Timestamp.from(Instant.now()));
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -96,23 +97,23 @@ public class JDBCTriageManager implements TriageManager {
 					+ "	FROM Patients JOIN PatientTriage ON Patients.id = PatientTriage.patient_id "
 					+ "	JOIN Triages ON Triages.id = PatientTriage.triage_id "
 					+ "	WHERE Triages.id = ?" 
-					+ "	ORDER BY Patients.birthDate DESC";
+					+ "	ORDER BY PatientTriage.date DESC";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			
-			while (rs.next()) {
-				Integer id1 = rs.getInt(1);
-				String name = rs.getString(2);
-				String surname = rs.getString(3);
-				String status = rs.getString(8);
-				Integer urgency = rs.getInt(9);
-				String sex = rs.getString(5);
-				Date birthDate = rs.getDate(4);
+			rs.next(); //We only want the last Patient assigned to triage
+			Integer id1 = rs.getInt(1);
+			String name = rs.getString(2);
+			String surname = rs.getString(3);
+			String status = rs.getString(8);
+			Integer urgency = rs.getInt(9);
+			String sex = rs.getString(5);
+			Date birthDate = rs.getDate(4);
 
-				patient = new Patient(id1, name, surname, 0, 0, status, urgency, sex, birthDate);
-				System.out.print(patient);
-			}
+			patient = new Patient(id1, name, surname, 0, 0, status, urgency, sex, birthDate);
+			System.out.print(patient);
+			
 			rs.close();
 			pstmt.close();
 			return patient;
@@ -162,10 +163,11 @@ public class JDBCTriageManager implements TriageManager {
 		ConnectionManager conManager = new ConnectionManager();
 		JDBCTriageManager conTriage = new JDBCTriageManager(conManager);
 		
-		conTriage.assingPatientToTriage(1, 1);
-		conTriage.assingPatientToTriage(1, 2);
+		//conTriage.assingPatientToTriage(1, 1);
+		//conTriage.assingPatientToTriage(2, 2);
 
-		conTriage.getPatientInTriage(2);
+		//conTriage.assingPatientToTriage(2, 1);
+		conTriage.getPatientInTriage(1);
 		conManager.closeConnection();
 	}
 

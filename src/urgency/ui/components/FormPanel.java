@@ -393,7 +393,7 @@ public class FormPanel extends JPanel {
 	 * @param height2
 	 * @param emergencyCB
 	 */
-	public FormPanel(String Title, MyTextField weight, MyTextField height, MyComboBox<Integer> EmergencyCB) {
+	public FormPanel(String Title, MyTextField weight, MyTextField height, MyComboBox<String> specialityCB, MyComboBox<Integer> EmergencyCB) {
 initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -402,12 +402,12 @@ initPanel();
 	    add(title1, "cell 0 0, grow");
 	    
 	    //Name and surname
-	    JLabel weightText = new JLabel("Weight (g)");
+	    JLabel weightText = new JLabel("Weight (kg)");
 	    weightText.setFont(contentFont);
 	    weightText.setForeground(contentColor);
 	    add(weightText, "skip 1, grow");
 	    
-	    JLabel heightText = new JLabel("Height (m)");
+	    JLabel heightText = new JLabel("Height (cm)");
 	    heightText.setFont(contentFont);
 	    heightText.setForeground(contentColor);
 	    add(heightText, "grow");
@@ -419,6 +419,14 @@ initPanel();
 	    this.height = height; 
 	    this.height.setHint("Height*");
 	    add(this.height, "grow");
+	    
+	    JLabel specText = new JLabel("Medical Speciality*");
+	    specText.setFont(contentFont);
+	    specText.setForeground(contentColor);
+	    add(specText, "grow");
+	    
+        //Speciality
+        add(specialityCB, "skip 1, grow, span");
 	    
         JLabel emergencyText = new JLabel("Urgency*");
 	    emergencyText.setFont(contentFont);

@@ -157,17 +157,7 @@ public class DoctorView extends SearchTemplate {
         scrollPane.setViewportView(patientRecordsList);
 	}
 	
-	private void getBoxFromDoctor() {
-		//TODO hacer método getPatient Assigned to doctor
-		List<Box> boxes = doctor.getBoxes(); 
-		if(!boxes.isEmpty()) {
-			this.box = boxes.get(boxes.size()-1);
-		}else {
-			showErrorMessage("This doctor has no box assigned");
-		}
-		
 
-	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

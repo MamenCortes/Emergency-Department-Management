@@ -6,24 +6,24 @@ import java.util.Objects;
 
 public class DoctorBox implements Serializable{
 	
-	private Integer id_doctor;
-	private Integer id_box;
+	private Doctor doctor;
+	private Box box;
 	private Date date;
 	
 	public DoctorBox() {
 		super();
 	}
 
-	public DoctorBox(Integer id_doctor, Integer id_box, Date date) {
+	public DoctorBox(Doctor doctor, Box box, Date date) {
 		super();
-		this.id_doctor = id_doctor;
-		this.id_box = id_box;
+		this.doctor = doctor;
+		this.box = box;
 		this.date = date;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_box, id_doctor);
+		return Objects.hash(box, date, doctor);
 	}
 
 	@Override
@@ -35,12 +35,41 @@ public class DoctorBox implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		DoctorBox other = (DoctorBox) obj;
-		return Objects.equals(id_box, other.id_box) && Objects.equals(id_doctor, other.id_doctor);
+		return Objects.equals(box, other.box) && Objects.equals(date, other.date)
+				&& Objects.equals(doctor, other.doctor);
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public Box getBox() {
+		return box;
+	}
+
+	public void setBox(Box box) {
+		this.box = box;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	@Override
+	public String toString() {
+		return "DoctorBox [doctor=" + doctor + ", box=" + box + ", date=" + date + "]";
 	}
 	
 	
-	
-	
+
 	
    
 }

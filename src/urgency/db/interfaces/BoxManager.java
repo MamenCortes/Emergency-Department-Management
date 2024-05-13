@@ -12,4 +12,5 @@ public interface BoxManager {
 	public PatientBox getPatientInBox(int Box_id); 
 	public void assignPatientToBox(int Box_id, int Patien_id);
 	public Box getBox(int id); 
+	public DoctorBox getLastBoxAssignedToDoctor(Doctor doctor);
 }
