@@ -24,8 +24,7 @@ public class JPAUpdateRelated {
 		private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		// Used for parsing dates
 		private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-		/*
+
 		private static void printDepartments() {
 			Query q1 = em.createNativeQuery("SELECT * FROM departments", Department.class);
 			List<Department> deps = (List<Department>) q1.getResultList();
@@ -107,6 +106,5 @@ public class JPAUpdateRelated {
 			// Close the entity manager
 			em.close();
 		}
-		*/
 
 }

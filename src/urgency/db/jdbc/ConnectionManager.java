@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import sample.db.jpa.JPAUserManager;
-
 
 
 public class ConnectionManager {
@@ -18,7 +16,6 @@ public class ConnectionManager {
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
 	private SpecialityManager specialityManager; 
-	private UserManager userManager;
 	
 	public Connection getConnection() {
 		return connection;
@@ -31,8 +28,6 @@ public class ConnectionManager {
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		this.userManager = new JPAUserManager();
-		
 		
 		createTables();
 		
