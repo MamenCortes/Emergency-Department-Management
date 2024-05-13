@@ -40,11 +40,6 @@ public class Application extends JFrame{
 	private ActorsMenu actorsMenu; 
 
 
-	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
-	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO cambiar tablas n-n para que date sea parte del primary key
-	//TODO en register dar la opción de especificar el papel en la base de datos
-
 	public Application() {
 		conMan = new ConnectionManager(); 
 		appPanels = new ArrayList<JPanel>(); 
@@ -246,8 +241,4 @@ public class Application extends JFrame{
 		doctorView.setVisible(true);
 		this.setContentPane(doctorView); 
 	}
-	
-	
-	
-
 }

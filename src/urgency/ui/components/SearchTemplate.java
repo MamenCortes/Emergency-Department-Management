@@ -214,7 +214,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
     protected void updateDoctorDefModel(List<DoctorBox> doctors) {
     	doctorDefListModel.removeAllElements();
         if(doctors != null) {
-            for (Doctor doctor : doctors) { 
+            for (DoctorBox doctor : doctors) { 
                 doctorDefListModel.addElement(doctor);
                 
     		}
@@ -257,7 +257,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
     }
     
     protected void updateBoxDefModel(List<Box> boxes) {
-    	if(boxDefListModel != null)boxDefListModel.removeAllElements();
+    	boxDefListModel.removeAllElements();
         if(boxes != null) {
             for (Box box: boxes) { 
                 boxDefListModel.addElement(box);

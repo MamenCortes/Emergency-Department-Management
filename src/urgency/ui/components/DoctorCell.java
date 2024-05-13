@@ -76,8 +76,8 @@ public class DoctorCell implements ListCellRenderer<DoctorBox> {
 		box.setFont(titleFont); 
 
 		Box box1 = value.getBox();
-		
 		JLabel doctorBox;
+
 		if(box1 != null) {
 			String boxID = box1.getId().toString();
 			doctorBox = new JLabel(boxID);
