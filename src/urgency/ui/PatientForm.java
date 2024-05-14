@@ -1,17 +1,13 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
-import java.sql.Date;
 import java.util.List;
-
-import javax.swing.JTextArea;
 
 import com.toedter.calendar.JDateChooser;
 
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.PatientBox;
-import urgency.db.pojos.Triage;
 import urgency.ui.components.FormPanel;
 import urgency.ui.components.FormTemplate;
 import urgency.ui.components.MyComboBox;
@@ -21,7 +17,6 @@ import urgency.ui.components.MyTextField;
 public class PatientForm extends FormTemplate{
 
 	private static final long serialVersionUID = 185680662385014941L;
-	private Triage triage; 
 	private Application appMain; 
 	private MyComboBox<Integer> emergencyCB; 
 	private Patient patient; 
@@ -60,7 +55,6 @@ public class PatientForm extends FormTemplate{
 		height.setEnabled(false);
 		emergencyCB.getModel().setSelectedItem(patient.getUrgency());
 		emergencyCB.setEnabled(false);
-		
 		speciality.getModel().setSelectedItem(patientBox.getBox().getSpeciality().getType());
 		speciality.setEnabled(false);
 		comments = new MyTextField();
@@ -100,12 +94,12 @@ public class PatientForm extends FormTemplate{
 		comments = new MyTextField(); 
 		weight = new MyTextField(); 
 		height = new MyTextField(); 
-		emergencyCB = new MyComboBox<Integer>(); 
 		speciality = new MyComboBox<String>(); 
-		List<String> specialities = appMain.conMan.getSpecialityManager().getSpecialities();
-		for (String string : specialities) {
+		List<String> specialityList = appMain.conMan.getSpecialityManager().getSpecialities(); 
+        for (String string : specialityList) {
 			speciality.addItem(string);
 		}
+		emergencyCB = new MyComboBox<Integer>(); 
 		form2 = new FormPanel("Physiological Info", weight, height, speciality, emergencyCB); 
 	}
 	
@@ -151,12 +145,12 @@ public class PatientForm extends FormTemplate{
 	private Boolean updatePatient() {
 
 		//Name, surname, dateOfBirth and sex are disabled.
-
 		Integer emergency = (Integer) emergencyCB.getSelectedItem();
 		if(emergency == null) {
 			showErrorMessage("Select Emergency"); 
 			return false; 
 		}
+
 		
 		if(speciality.getSelectedItem() == null) {
 			showErrorMessage("Select Speciality"); 

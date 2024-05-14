@@ -1,6 +1,7 @@
 package sample.db.jpa;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -14,7 +15,66 @@ public class JPADelete {
 	//los delete de cada clase base
 
 		private static EntityManager em;
+		
+		private static void printUsers() {
+			Query q1 = em.createNativeQuery("SELECT * FROM users", User.class);
+			List<User> users = (List<User>) q1.getResultList();
+			// Print the users:
+			for (User u : users) {
+				System.out.println(u);
+			}
+		}
+		
+		private static void printRoles() {
+			Query q2 = em.createNativeQuery("SELECT * FROM roles", Role.class);
+			List<Role> roles = (List<Role>) q2.getResultList();
+			// Print the roles:
+			for (Role r: roles) {
+				System.out.println(r);
+			}
+		}
+		
+		public static void main(String args[]) throws IOException {
+			em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
+			em.getTransaction().begin();
+			em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
+			em.getTransaction().commit();
+			
+			// Get a user and delete it:
+			System.out.println("Urgency's users:");
+			printUsers();
+			System.out.print("Choose a user to delete. Type it's id:");
+			BufferedReader readerUser = new BufferedReader(new InputStreamReader(System.in));
+			int user_id = Integer.parseInt(readerUser.readLine());
+			Query q3 = em.createNativeQuery("SELECT * FROM users WHERE id = ?", User.class);
+			q3.setParameter(1, user_id);
+			User user_removed = (User) q3.getSingleResult();
 
+			em.getTransaction().begin();
+			em.remove(user_removed);
+			em.getTransaction().commit();
+			
+			// Get a role and delete it:
+			System.out.println("Urgency's roles:");
+			printRoles();
+			System.out.print("Choose a role to delete. Type it's id:");
+			BufferedReader readerRole = new BufferedReader(new InputStreamReader(System.in));
+			int role_id = Integer.parseInt(readerRole.readLine());
+			Query q4 = em.createNativeQuery("SELECT * FROM roles WHERE id = ?", Role.class);
+			q4.setParameter(1, role_id);
+			Role role_removed = (Role) q4.getSingleResult();
+
+			em.getTransaction().begin();
+			em.remove(role_removed);
+			em.getTransaction().commit();
+			
+			
+			// Close the entity manager
+			em.close();
+			
+		}
+
+		/*
 		private static void printBoxes() {
 			Query q1 = em.createNativeQuery("SELECT * FROM Boxes", Box.class);
 			List<Box> boxes = (List<Box>) q1.getResultList();
@@ -93,10 +153,7 @@ public class JPADelete {
 			em.getTransaction().begin();
 			em.remove(triage_removed);
 			em.getTransaction().commit();
-
-			// Close the entity manager
-			em.close();
-		}
+			*/
 
 
 }

@@ -9,8 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class JDBCBoxManager implements BoxManager {
 
 	private ConnectionManager conManager;
 	private Connection connection;
+	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCBoxManager(ConnectionManager conManager) {
 		this.conManager = conManager;
@@ -147,7 +151,11 @@ public class JDBCBoxManager implements BoxManager {
 			Integer urgency = rs.getInt("urgency");
 			String sex = rs.getString("sex");
 			Date birthDate = rs.getDate("birthDate");
-			Timestamp boxDate = rs.getTimestamp("boxDate");
+			//Date boxDate = rs.getDate("boxDate");
+			Timestamp boxDate = rs.getTimestamp("boxDate"); 
+			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("boxDate"));
+			Timestamp boxDate = new Timestamp(sdfDate1.getTime());*/
+			
             String comments = rs.getString("comments");
 			
 			Patient patient = new Patient(id, name, surname, weight, height, status, urgency, sex, birthDate);
@@ -165,9 +173,9 @@ public class JDBCBoxManager implements BoxManager {
 	
 	@Override
 	public DoctorBox getLastBoxAssignedToDoctor(Doctor doctor) {
-		String template = "SELECT b.*, bd.date FROM"
-				+ "Boxes AS b JOIN BoxDoctor AS bd ON bd.box_id = b.id"
-				+ "JOIN Doctors AS d ON bd.doctor_id = d.id"
+		String template = "SELECT b.*, bd.date FROM \r\n"
+				+ "Boxes AS b JOIN BoxDoctor AS bd ON bd.box_id = b.id \r\n"
+				+ "JOIN Doctors AS d ON bd.doctor_id = d.id\r\n"
 				+ "WHERE bd.doctor_id = ?"
 				+ "ORDER BY bd.date DESC "; 
 		try {
@@ -271,7 +279,7 @@ public class JDBCBoxManager implements BoxManager {
 		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
 		
 	
-		Box box1 = new Box(1, true, null);
+		/*Box box1 = new Box(1, true, null);
 		Box box2 = new Box(2, true, null);
 		Box box3 = new Box(3, false, null);
 		Box box4 = new Box(4, true, null);
@@ -282,7 +290,7 @@ public class JDBCBoxManager implements BoxManager {
 		System.out.print(box2);
 		System.out.print(box3);
 		System.out.print(box4);
-		System.out.print(box5);
+		System.out.print(box5);*/
 
 		
 		//conBox.addBox(box1);
@@ -314,6 +322,8 @@ public class JDBCBoxManager implements BoxManager {
 		
 		
 	}
+
+
 	
 	
 }

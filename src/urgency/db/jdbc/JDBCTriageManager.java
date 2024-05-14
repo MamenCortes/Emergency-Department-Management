@@ -163,10 +163,11 @@ public class JDBCTriageManager implements TriageManager {
 		ConnectionManager conManager = new ConnectionManager();
 		JDBCTriageManager conTriage = new JDBCTriageManager(conManager);
 		
-		//conTriage.assingPatientToTriage(1, 1);
-		//conTriage.assingPatientToTriage(2, 2);
-
-		//conTriage.assingPatientToTriage(2, 1);
+		conTriage.assingPatientToTriage(1, 1);
+		conTriage.assingPatientToTriage(2, 2);
+		conTriage.assingPatientToTriage(2, 1);
+		
+		
 		conTriage.getPatientInTriage(1);
 		conManager.closeConnection();
 	}

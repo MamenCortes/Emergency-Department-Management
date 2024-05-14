@@ -172,7 +172,7 @@ public class DoctorView extends SearchTemplate {
 			resetPanel();
 			appMain.changeToUserLogIn();
 		}else if(e.getSource() == openFormButton) {
-			if(!patientDefListModel.isEmpty()) {
+			if(patientDefListModel != null && !patientDefListModel.isEmpty()) {
 				appMain.changeToPatientDoctorFor(patientBox);
 			}
 		}

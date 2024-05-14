@@ -22,7 +22,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void assignBox(int Doctor_id, int Box_id) {
-		// TODO Auto-generated method stub
 		try {
 			String sql = "INSERT INTO BoxDoctor (box_id, doctor_id, date) VALUES (?,?,?)";
 			PreparedStatement pstmt;
