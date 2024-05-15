@@ -18,6 +18,7 @@ public class ConnectionManager {
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
 	private SpecialityManager specialityManager; 
+	private RoleManager roleManager;
 	private UserManager userManager;
 	
 	public Connection getConnection() {
@@ -31,7 +32,7 @@ public class ConnectionManager {
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		this.userManager = new JPAUserManager();
+		//this.roleManager = new JPARoleManager(this);
 		
 		
 		createTables();
