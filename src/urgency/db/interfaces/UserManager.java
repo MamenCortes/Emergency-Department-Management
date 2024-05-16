@@ -13,4 +13,5 @@ public interface UserManager {
 	public void assignRole(User u, Role r);
 	// Return null if there is no user
 	public User login(String username, String password);
+	void deleteUser(User u);
 }

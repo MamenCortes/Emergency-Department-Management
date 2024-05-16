@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class JPARead {
 	
 	public static void main(String[] args) throws IOException {
 		
-		EntityManager em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
+		/*EntityManager em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();

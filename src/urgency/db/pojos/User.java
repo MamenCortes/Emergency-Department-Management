@@ -20,20 +20,33 @@ public class User implements Serializable {
 	private Integer id;
 	@Column(nullable = false, unique = true)
 	private String username;
+	private String email;
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
+	
+	//HAGO UN JPARecepcionistManager donde implemento sus metodos, = con nurse y doctor
 	
 	public User() {
 		super();
 	}
 
 	
-	public User(String username, String password, Role role) {
+	public User(String username, String password, Role role2)throws IllegalArgumentException {
 		super();
 		this.username = username;
+	
+		validatePassword(password);
+		
 		this.password = password;
-		this.role = role;
+		this.role = role2;
+	}
+	
+	private void validatePassword(String password) throws IllegalArgumentException {
+		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		if(passwordVacia || password.length() < 8) {
+		 throw new IllegalArgumentException("Password is empty");
+		}
 	}
 
 

@@ -1,4 +1,4 @@
-package sample.db.jpa; 
+package urgency.db.jpa; 
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +12,14 @@ import urgency.db.pojos.*;
 public class JPACreate {
 
 		public static void main(String[] args) throws IOException {
+			//es el register user
 			
 			EntityManager em = Persistence.createEntityManagerFactory("urgency-provider").createEntityManager();
 			em.getTransaction().begin();
 			em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 			em.getTransaction().commit();
 			
+			/*
 			//Creation of the name:
 			System.out.println("Please, input the role info:");
 			BufferedReader readerRole = new BufferedReader(new InputStreamReader(System.in));
@@ -49,6 +51,7 @@ public class JPACreate {
 			em.persist(u);
 			// End transaction
 			em.getTransaction().commit();
+			*/
 			
 			/*
 			//Creation of patient:

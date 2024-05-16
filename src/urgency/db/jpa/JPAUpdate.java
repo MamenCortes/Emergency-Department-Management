@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class JPAUpdate {
 		
 		public static void main(String args[]) throws IOException {
 			
-			System.out.println("Urgency's users:");
+			/*System.out.println("Urgency's users:");
 			printUsers();
 			System.out.print("Choose a user to change its username. Type it's id:");
 			BufferedReader readerUser = new BufferedReader(new InputStreamReader(System.in));

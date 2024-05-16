@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.util.List;
 
@@ -33,44 +33,13 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().commit();
 	}
 
-	@Override
-	public void createRole(Role r) {
-		em.getTransaction().begin();
-		em.persist(r);
-		em.getTransaction().commit();
-	}
-
-	@Override
-	public Role getRole(String name) {
-		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
-		q.setParameter(1, name);
-		Role r = (Role) q.getSingleResult();
-		return r;
-	}
 	
-	@Override
-	public List<Role> getAllRoles() {
-		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
-		List<Role> roles = (List<Role>) q.getResultList();
-		return roles;
-	}
-
-	@Override
-	public void assignRole(User u, Role r) {
-		em.getTransaction().begin();
-		if(u!=null) {
-		u.setRole(r);
-		r.addUser(u);
-		em.getTransaction().commit();
-		}
-		//si es nulo?
-	}
-
 	@Override
 	public User login(String username, String password) {
 		User u = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
 		q.setParameter(1, username);
+		//se codifica el password
 		q.setParameter(2, password);
 		try {
 			u = (User) q.getSingleResult();
@@ -79,5 +48,37 @@ public class JPAUserManager implements UserManager {
 		}
 		return u;
 	}
+	
+	@Override
+	public void deleteUser(User u) {
+		em.getTransaction().begin();
+		em.persist(u);
+		em.getTransaction().commit();
+	}
+
+	@Override
+	public void createRole(Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Role getRole(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Role> getAllRoles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void assignRole(User u, Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
