@@ -1,12 +1,12 @@
 package urgency.db.jdbc;
 
-import urgency.db.interfaces.*; 
+import urgency.db.interfaces.*;
+import urgency.db.jpa.JPAUserManager;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import sample.db.jpa.JPAUserManager;
 
 
 

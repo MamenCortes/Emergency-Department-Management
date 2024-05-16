@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 
 import org.apache.commons.codec.digest.MessageDigestAlgorithms;

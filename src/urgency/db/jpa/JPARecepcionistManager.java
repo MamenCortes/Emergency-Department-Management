@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 public class JPARecepcionistManager {
 

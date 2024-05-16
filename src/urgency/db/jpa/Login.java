@@ -1,8 +1,8 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.security.NoSuchAlgorithmException;
 
-import sample.db.jpa.JPAUserManager;
+import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.User;
 
 public class Login {

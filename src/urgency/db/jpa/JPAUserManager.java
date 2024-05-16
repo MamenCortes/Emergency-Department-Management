@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.util.List;
 
@@ -54,6 +54,30 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.persist(u);
 		em.getTransaction().commit();
+	}
+
+	@Override
+	public void createRole(Role r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Role getRole(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Role> getAllRoles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void assignRole(User u, Role r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

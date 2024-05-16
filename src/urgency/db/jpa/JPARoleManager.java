@@ -1,4 +1,4 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.util.List;
 
