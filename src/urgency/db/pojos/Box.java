@@ -19,15 +19,6 @@ public class Box implements Serializable{
 	public Box() {
 		super();
 	}
-	
-	/*public Box (Integer id, boolean available, String speciality) {
-		super();
-		this.id = id;
-		this.available = available;
-		this.speciality = new Speciality(speciality);
-		this.setPatients(new ArrayList<PatientBox>());
-		this.setDoctors(new ArrayList<DoctorBox>());
-	}*/
 
 	public Box (Integer id, boolean available, Speciality speciality) {
 		super();
