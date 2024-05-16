@@ -12,6 +12,7 @@ public class Doctor implements Serializable{
 	private Integer id;
 	private String name;
 	private String surname; 
+	private String username;
 	private Speciality speciality_type;
 	private Boolean in_box;
 
@@ -31,6 +32,17 @@ public class Doctor implements Serializable{
 		this.in_box=in_box;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
+	}
+	
+	public Doctor(Integer id, String name, String surname, String username, String speciality_type, Boolean in_box) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.setUsername(name + " " + surname);
+		this.speciality_type = new Speciality(speciality_type);
+		this.in_box = in_box;
+		
 	}
 	
 	public Doctor(String name, String surname, Speciality speciality_type) {
@@ -141,8 +153,16 @@ public class Doctor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", speciality_type=" + speciality_type.getType() + ", in_box=" + in_box
+		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", username=" + username + ", speciality_type=" + speciality_type.getType() + ", in_box=" + in_box
 				+ ", patients=" + patients + ", boxes=" + boxes + "]";
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 

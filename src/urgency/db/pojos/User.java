@@ -12,20 +12,20 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
 	@GeneratedValue(generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
 	@Column(nullable = false, unique = true)
 	private String username;
-	private String email;
+	//private String email;
+	@Column(name="myname")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
-	
-	//HAGO UN JPARecepcionistManager donde implemento sus metodos, = con nurse y doctor
 	
 	public User() {
 		super();
@@ -47,6 +47,7 @@ public class User implements Serializable {
 		if(passwordVacia || password.length() < 8) {
 		 throw new IllegalArgumentException("Password is empty");
 		}
+		//que contenga al menos un numero y un caracter
 	}
 
 

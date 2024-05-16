@@ -17,9 +17,7 @@ public class ConnectionManager {
 	private PatientManager patientMan; 
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
-	private SpecialityManager specialityManager; 
-	private RoleManager roleManager;
-	private UserManager userManager;
+	private SpecialityManager specialityManager;
 	
 	public Connection getConnection() {
 		return connection;
@@ -32,7 +30,6 @@ public class ConnectionManager {
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		//this.roleManager = new JPARoleManager(this);
 		
 		
 		createTables();
@@ -119,6 +116,7 @@ public class ConnectionManager {
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
+					+ "username TEXT NOT NULL,"
 					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " in_box Boolean NOT NULL)"; 
 			createTables2.executeUpdate(createDoctors);

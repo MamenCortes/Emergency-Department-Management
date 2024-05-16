@@ -18,12 +18,17 @@ public class JPAUserManager implements UserManager {
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
 		
-		try {
-			this.getRole("");
-		} catch(NoResultException e) {
-			this.createRole(new Role(""));
-			this.createRole(new Role(""));
-		}
+		
+	}
+	
+	@Override
+	public void changePassword(User u, String password) {
+		em.getTransaction().begin();
+		em.persist(u);
+		u.setPassword(password);
+		em.getTransaction().commit();
+		
+		em.close();
 	}
 	
 	@Override
@@ -53,31 +58,8 @@ public class JPAUserManager implements UserManager {
 	public void deleteUser(User u) {
 		em.getTransaction().begin();
 		em.persist(u);
+		em.remove(u);
 		em.getTransaction().commit();
-	}
-
-	@Override
-	public void createRole(Role r) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Role getRole(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Role> getAllRoles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void assignRole(User u, Role r) {
-		// TODO Auto-generated method stub
-		
 	}
 
 
