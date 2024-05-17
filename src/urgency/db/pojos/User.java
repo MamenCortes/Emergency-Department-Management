@@ -19,10 +19,11 @@ public class User implements Serializable {
 	@TableGenerator(name = "users", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column(nullable = false, unique = true)
-	private String username;
+	@Column(nullable = false, unique = true, name = "")
+	
+	private String username; // validar xq el username tiene q ser un email corporativo del email.
 	//private String email;
-	@Column(name="myname")
+	@Column(name="pasword")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
