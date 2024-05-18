@@ -12,14 +12,18 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
 	@GeneratedValue(generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column(nullable = false, unique = true)
-	private String username;
+	@Column(nullable = false, unique = true, name = "")
+	
+	private String username; // validar xq el username tiene q ser un email corporativo del email.
+	//private String email;
+	@Column(name="pasword")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
@@ -29,11 +33,22 @@ public class User implements Serializable {
 	}
 
 	
-	public User(String username, String password, Role role) {
+	public User(String username, String password, Role role2)throws IllegalArgumentException {
 		super();
 		this.username = username;
+	
+		validatePassword(password);
+		
 		this.password = password;
-		this.role = role;
+		this.role = role2;
+	}
+	
+	private void validatePassword(String password) throws IllegalArgumentException {
+		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		if(passwordVacia || password.length() < 8) {
+		 throw new IllegalArgumentException("Password is empty");
+		}
+		//que contenga al menos un numero y un caracter
 	}
 
 

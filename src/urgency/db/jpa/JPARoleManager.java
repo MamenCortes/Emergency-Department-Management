@@ -1,38 +1,26 @@
-package sample.db.jpa;
+package urgency.db.jpa;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.*;
+import javax.persistence.Query;
+import urgency.db.interfaces.RoleManager;
 
-import urgency.db.interfaces.UserManager;
 import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
 
-public class JPAUserManager implements UserManager {
-
+public class JPARoleManager implements RoleManager{
+	
 	private EntityManager em;
 	
-	public JPAUserManager() {
+	public JPARoleManager() {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-		
-		try {
-			this.getRole("");
-		} catch(NoResultException e) {
-			this.createRole(new Role(""));
-			this.createRole(new Role(""));
-		}
 	}
 	
-	@Override
-	public void register(User u) {
-		em.getTransaction().begin();
-		em.persist(u);
-		em.getTransaction().commit();
-	}
-
 	@Override
 	public void createRole(Role r) {
 		em.getTransaction().begin();
@@ -66,18 +54,5 @@ public class JPAUserManager implements UserManager {
 		//si es nulo?
 	}
 
-	@Override
-	public User login(String username, String password) {
-		User u = null;
-		Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
-		q.setParameter(1, username);
-		q.setParameter(2, password);
-		try {
-			u = (User) q.getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-		return u;
-	}
 
 }

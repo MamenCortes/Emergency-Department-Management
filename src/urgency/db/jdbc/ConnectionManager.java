@@ -1,12 +1,12 @@
 package urgency.db.jdbc;
 
-import urgency.db.interfaces.*; 
+import urgency.db.interfaces.*;
+import urgency.db.jpa.JPAUserManager;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import sample.db.jpa.JPAUserManager;
 
 
 
@@ -17,8 +17,7 @@ public class ConnectionManager {
 	private PatientManager patientMan; 
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
-	private SpecialityManager specialityManager; 
-	private UserManager userManager;
+	private SpecialityManager specialityManager;
 	
 	public Connection getConnection() {
 		return connection;
@@ -31,7 +30,6 @@ public class ConnectionManager {
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		//this.userManager = new JPAUserManager();
 		
 		
 		createTables();
@@ -118,6 +116,7 @@ public class ConnectionManager {
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
+					+ "username TEXT NOT NULL,"
 					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " in_box Boolean NOT NULL)"; 
 			createTables2.executeUpdate(createDoctors);

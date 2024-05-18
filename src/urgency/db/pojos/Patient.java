@@ -6,35 +6,45 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+// import urgency.xml.utils.SQLDateAdapter;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"id", "name", "surname", "weight", "height", "status", "urgency", "sex", "birthDate", "boxesOfPatient", "specialitiesOfPatient", "triagesOfPatient"})
 public class Patient implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -569581925088569537L;
 	
+	@XmlAttribute
 	private Integer id; 
+	@XmlElement
 	private String name; 
+	@XmlElement
 	private String surname; 
+	@XmlAttribute
 	private float weight; //kg
+	@XmlAttribute
 	private float height; //metros
-	private String status; 
+	@XmlElement
+	private String status;
+	@XmlAttribute
 	private Integer urgency; 
-	private String sex; 
+	@XmlElement
+	private String sex;
+	@XmlElement
+	// @XmlJavaTypeAdapter(SQLDateAdapter.class)
 	private Date birthDate; 
-	
-	private List<Speciality> specialities; 
-	private List<Box> boxes; 
-	private List<Triage> triages;
+	@XmlTransient
 	private List<PatientBox> boxesOfPatient;
+	@XmlTransient
 	private List<PatientSpeciality> specialitiesOfPatient; 
+	@XmlTransient
 	private List<PatientTriage> triagesOfPatient; 
 
 
 	public Patient() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	
@@ -72,9 +82,9 @@ public class Patient implements Serializable{
 		Date date = Date.valueOf(birthDate);
 		this.birthDate = date;
 		
-		this.specialities = new ArrayList<Speciality>(); 
-		this.boxes = new ArrayList<Box>(); 
-		this.triages = new ArrayList<Triage>(); 
+		this.boxesOfPatient = new ArrayList <PatientBox>();
+		this.specialitiesOfPatient = new ArrayList <PatientSpeciality>();
+		this.triagesOfPatient = new ArrayList <PatientTriage>();
 	}
 	
 	/**
@@ -95,9 +105,9 @@ public class Patient implements Serializable{
 		this.sex = sex;
 		this.birthDate = birthDate;
 		
-		this.specialities = new ArrayList<Speciality>(); 
-		this.boxes = new ArrayList<Box>(); 
-		this.triages = new ArrayList<Triage>(); 
+		this.boxesOfPatient = new ArrayList <PatientBox>();
+		this.specialitiesOfPatient = new ArrayList <PatientSpeciality>();
+		this.triagesOfPatient = new ArrayList <PatientTriage>();
 	}
 
 	public Patient(String name, String surname, float weight, float height, String status, Integer urgency, 
@@ -138,7 +148,7 @@ public class Patient implements Serializable{
 	public String toString() {
 		return "Patient [id=" + id + ", name=" + name + ", surname=" + surname + ", weight=" + weight + ", height="
 				+ height + ", status=" + status + ", urgency=" + urgency + ", sex=" + sex + ", birthDate=" + birthDate
-				+ ", specialities=" + specialities + ", boxes=" + boxes + ", triages=" + triages + "]";
+				+ ", specialities=" + specialitiesOfPatient + ", boxes=" + boxesOfPatient + ", triages=" + triagesOfPatient + "]";
 	}
 
 
@@ -197,24 +207,6 @@ public class Patient implements Serializable{
 	public void setAge(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	/*public List<Speciality> getSpecialities() {
-		return specialities;
-	}
-	public void setSpecialities(List<Speciality> specialities) {
-		this.specialities = specialities;
-	}
-	public List<Box> getBoxes() {
-		return boxes;
-	}
-	public void setBoxes(List<Box> boxes) {
-		this.boxes = boxes;
-	}
-	public List<Triage> getTriages() {
-		return triages;
-	}
-	public void setTriages(List<Triage> triages) {
-		this.triages = triages;
-	} */
 	
 	public List<PatientBox> getBoxesOfPatient() {
 		return boxesOfPatient;

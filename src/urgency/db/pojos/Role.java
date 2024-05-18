@@ -20,7 +20,6 @@ public class Role implements Serializable {
 	@TableGenerator(name = "roles", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column( name = "myCustomName")
 	private String name;
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	@JoinColumn
