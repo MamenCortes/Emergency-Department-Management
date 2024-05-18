@@ -14,4 +14,6 @@ public interface BoxManager {
 	public Box getBox(int id); 
 	public DoctorBox getLastBoxAssignedToDoctor(Doctor doctor);
 	public Boolean checkDoctorAssignedToBoxToday(int doctor_id, int box_id);
+	public void updateBox(Box box); 
+	public void setAvailability(Boolean available, Integer box_id); 
 }

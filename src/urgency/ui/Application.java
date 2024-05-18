@@ -40,9 +40,12 @@ public class Application extends JFrame{
 	private ActorsMenu actorsMenu; 
 
 
-	//TODO implementar lógica del programa para que cambie los pacientes de triage and doctor view
+
 	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
 	//TODO en register dar la opción de especificar el papel en la base de datos
+	//TODO al crear un doctor se crea también un usuario 
+	//TODO Añadir ventana para cambiar la contraseña
+	//TODO añadir status assistedInBox en patient --> volver a hacer tablas
 
 	public Application() {
 		conMan = new ConnectionManager(); 
@@ -218,6 +221,7 @@ public class Application extends JFrame{
 		this.setContentPane(generalView); 
 	}
 	public void changeToNurseView() {
+		//nurseView.updateView(); 
 		hideAllPanels();
 		nurseView.setVisible(true);
 		this.setContentPane(nurseView); 

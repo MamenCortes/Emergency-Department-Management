@@ -135,7 +135,7 @@ public class JDBCBoxManager implements BoxManager {
                     + "PatientBox.date AS boxDate, PatientBox.comments " 
                     + "FROM Patients JOIN PatientBox ON Patients.id = PatientBox.patient_id " 
                     + "JOIN Boxes ON Boxes.id = PatientBox.box_id " 
-                    + "WHERE Boxes.id = ? ORDER BY Patients.birthDate DESC";
+                    + "WHERE Boxes.id = ? AND status = 'assisted' ORDER BY PatientBox.date DESC";
 			
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
@@ -156,7 +156,7 @@ public class JDBCBoxManager implements BoxManager {
 			/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("boxDate"));
 			Timestamp boxDate = new Timestamp(sdfDate1.getTime());*/
 			
-            String comments = rs.getString("comments");
+            String comments = rs.getString("comments"); 
 			
 			Patient patient = new Patient(id, name, surname, weight, height, status, urgency, sex, birthDate);
 			
@@ -273,6 +273,42 @@ public class JDBCBoxManager implements BoxManager {
 		} 
 		return false; 
 	}
+	
+	@Override
+	public void updateBox(Box box) {
+		String sql = "UPDATE Boxes SET speciality_type = ?, available = ? WHERE id = ?"; 
+
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setString(1, box.getSpeciality().getType());
+			pstmt.setBoolean(2, box.getAvailable());
+			pstmt.setInt(3, box.getId());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.out.println("Error updating Box "+box.getId());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void setAvailability(Boolean available, Integer box_id) {
+		String sql = "UPDATE Boxes SET available = ? WHERE id = ?"; 
+
+		try {
+			PreparedStatement pstmt;
+			pstmt = connection.prepareStatement(sql);
+			pstmt.setBoolean(1, available);
+			pstmt.setInt(2, box_id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			System.out.println("Error changing availability of Box "+box_id);
+			e.printStackTrace();
+		}
+		
+	}
 
 	public static void main (String [] args) {
 		ConnectionManager conManager = new ConnectionManager();
@@ -322,6 +358,8 @@ public class JDBCBoxManager implements BoxManager {
 		
 		
 	}
+
+
 
 
 	

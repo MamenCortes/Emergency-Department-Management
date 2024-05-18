@@ -48,14 +48,13 @@ public class JDBCSpecialityManager implements SpecialityManager {
 	}
 	
 	@Override
-	public void assignPatientSpeciality(int Patient_id, String Speciality_type) {
+	public void assignPatientSpeciality(int Patient_id, String Speciality_type, Timestamp date) {
 		try {
 			String command = "INSERT INTO PatientSpeciality (Patient_id, Speciality_Type, date) VALUES (?,?,?);";
 			PreparedStatement prep = connection.prepareStatement(command);
 			prep.setInt(1, Patient_id);
 			prep.setString(2, Speciality_type);
-			LocalDateTime dateTime = LocalDateTime.now();
-			prep.setTimestamp(3, Timestamp.valueOf(dateTime));
+			prep.setTimestamp(3, date);
 			prep.executeUpdate();
 			prep.close();
 		} catch (SQLException e) {

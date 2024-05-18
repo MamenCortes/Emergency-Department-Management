@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.PatientLifeCycle.PatientLifeCycle;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.Triage;
@@ -31,14 +32,17 @@ public class NurseView extends SearchTemplate{
 	private Application appMain; 
 	private MyButton selectButton; 
 	private MyButton logOutButton; 
+	private MyButton nextPatient; 
 	private Triage triage;
 	private JPanel selectPanel; 
 	private JPanel nurseViewPanel; 
 	private PanelCoverForMenu cover;
 	private Patient patient; 
+	private PatientLifeCycle pLife; 
 
 	public NurseView(Application appMain) {
 		this.appMain = appMain; 
+		pLife = new PatientLifeCycle(appMain.conMan);
 		this.setLayout(new MigLayout("fill, wrap 3", "[]", "[][][][][][][][][][][][]"));
 		
 		cover = new PanelCoverForMenu(); 
@@ -78,6 +82,7 @@ public class NurseView extends SearchTemplate{
         logOutButton.setBackground(new Color(7, 164, 121));
         logOutButton.setForeground(new Color(250, 250, 250));
         logOutButton.addActionListener(this);
+       
         
 	    selectPanel.add(logOutButton, "cell 1 3, split 2, center, gapy 5, gapx 10");
 	    selectPanel.add(selectButton, "cell 1 3, center, gapy 5, gapx 10");
@@ -91,8 +96,9 @@ public class NurseView extends SearchTemplate{
 	}
 	
 	private void initNurseView() {
-		
-		cover.setTitle("TRIAGE "+triage.getId());
+		//First assign new patient to triage
+		pLife.assignNewPatient2Triage(triage);
+		cover.setTitle("TRIAGE "+triage.getId()); 
 		
 		nurseViewPanel = new JPanel(); 
 		nurseViewPanel.setLayout(new MigLayout("fill, wrap 3", "[10%][80%][10%]", "[][][][]"));
@@ -103,6 +109,7 @@ public class NurseView extends SearchTemplate{
 		errorMessage.setVisible(false);
         //showPatients();
 		
+		System.out.println("Triage :"+triage.getId());
 		patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
 		//patient = appMain.conMan.getPatientMan().getPatient(1);
 		System.out.println("Patient in triage "+triage.getId()+": "+patient);
@@ -124,13 +131,19 @@ public class NurseView extends SearchTemplate{
         logOutButton.setForeground(new Color(250, 250, 250));
         logOutButton.addActionListener(this);
         
-        openFormButton = new MyButton("OPEN"); 
+        openFormButton = new MyButton("OPEN FORM"); 
         openFormButton.setBackground(new Color(7, 164, 121));
         openFormButton.setForeground(new Color(250, 250, 250));
         openFormButton.addActionListener(this);
         
-	    nurseViewPanel.add(logOutButton, "cell 1 3, split 2, center, gapy 5, gapx 10");
+        nextPatient = new MyButton("NEXT PATIENT"); 
+        nextPatient.setBackground(new Color(7, 164, 121));
+        nextPatient.setForeground(new Color(250, 250, 250));
+        nextPatient.addActionListener(this);
+        
+	    nurseViewPanel.add(logOutButton, "cell 1 3, split 3, center, gapy 5, gapx 10");
 	    nurseViewPanel.add(openFormButton, "cell 1 3, center, gapy 5, gapx 10");
+	    nurseViewPanel.add(nextPatient, "cell 1 3, center, gapy 5, gapx 10");
 	    
 	    nurseViewPanel.add(errorMessage, "cell 1 4, center"); 
         
@@ -148,6 +161,8 @@ public class NurseView extends SearchTemplate{
 			Triage triage = triageList.getSelectedValue(); 
 			if(triage != null) {
 				this.triage = triage; 
+				appMain.conMan.getTriageManager().changeAvailability(true, triage.getId());
+				this.triage.setAvailable(true);
 				initNurseView();
 			}else {
 				showErrorMessage("Please select a Triage");
@@ -162,6 +177,16 @@ public class NurseView extends SearchTemplate{
 			}else {
 				appMain.changeToPatientNurseForm(patient);
 			}
+		}else if(e.getSource() == nextPatient) {
+			//In case the doctor discharges the patient without completing their data
+			if(patient != null) {
+				Patient patient1 = appMain.conMan.getPatientMan().getPatient(patient.getId());
+				if(patient1.getStatus().equals("assisted")) {
+					appMain.conMan.getPatientMan().setStatus(patient.getId(), "discharged");
+				}
+			}
+			pLife.assignNewPatient2Triage(triage);
+			updateView();
 		}
 
 	}
@@ -173,6 +198,8 @@ public class NurseView extends SearchTemplate{
 		    remove(nurseViewPanel);
 		    initSelectPanel();
 		    add(selectPanel, "cell 0 1 0 11, grow");
+		    if(triage != null)appMain.conMan.getTriageManager().changeAvailability(false, triage.getId());
+		    
 			triage = null;
 			patient = null; 
 			if(patientDefListModel != null)patientDefListModel.removeAllElements();
@@ -194,6 +221,26 @@ public class NurseView extends SearchTemplate{
         patientList.setCellRenderer(new PatientCell());
         patientList.addMouseListener(this);
         scrollPane1.setViewportView(patientList);
+	}
+	
+	public void updateView() {
+		//Get patient assigned to triage
+		if(triage != null) {
+			patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
+
+			//System.out.println("Patient in triage "+triage.getId()+": "+patient);
+			
+			if(patient != null) {
+				List<Patient> patientInTriage = new ArrayList<Patient>(); 
+				patientInTriage.add(patient);
+				showPatients(patientInTriage);
+			}else {
+				showErrorMessage("No patient assigned to triage");
+				triageDefListModel.removeAllElements();
+				if(patientDefListModel != null)patientDefListModel.removeAllElements();
+			}
+		}
+
 	}
 	
 

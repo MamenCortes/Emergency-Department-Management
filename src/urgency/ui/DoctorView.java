@@ -15,6 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.PatientLifeCycle.PatientLifeCycle;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.DoctorBox;
@@ -31,6 +32,7 @@ public class DoctorView extends SearchTemplate {
 	private static final long serialVersionUID = 1309433925342914959L;
 	private Application appMain; 
 	private MyButton logOutButton; 
+	private MyButton nextPatient; 
 	private JPanel mainPanel;  
 	private PanelCoverForMenu cover;
 	private Doctor doctor; 
@@ -39,8 +41,10 @@ public class DoctorView extends SearchTemplate {
 	private JLabel title2; 
 	private JList<PatientBox> patientRecordsList; 
 	private DefaultListModel<PatientBox> patientRecordsDefListModel;
+	private PatientLifeCycle pLife; 
 
 	public DoctorView(Application appMain) {
+		pLife = new PatientLifeCycle(appMain.conMan); 
 		this.appMain = appMain; 
 	}
 	
@@ -56,9 +60,13 @@ public class DoctorView extends SearchTemplate {
 		System.out.println(boxDoctor);
 		//box = appMain.conMan.getBoxManager().getBox(2); 
 		box = boxDoctor.getBox(); 
-		System.out.println(box);
-		patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
-		doctor.setIn_box(true);
+		
+        errorMessage = new JLabel(); 
+	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
+	    errorMessage.setForeground(Color.red);
+	    errorMessage.setText("Error message test");
+	    errorMessage.setVisible(false); 
+
 		
 		mainPanel = new JPanel(); 
 		mainPanel.setLayout(new MigLayout("fill, wrap 3", "[10%][80%][10%]", "[][][][][][]"));
@@ -85,20 +93,40 @@ public class DoctorView extends SearchTemplate {
         scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane2.setPreferredSize(this.getPreferredSize());
         scrollPane2.addMouseListener(this);
-        
-        errorMessage = new JLabel(); 
-	    errorMessage.setFont(new Font("sansserif", Font.BOLD, 12));
-	    errorMessage.setForeground(Color.red);
-	    errorMessage.setText("Error message test");
-	    errorMessage.setVisible(false); 
+       
+        patientBox = new PatientBox(null, box, null, null); 
+        if(box != null) {
+			appMain.conMan.getBoxManager().setAvailability(true, box.getId());
+			//TODO arreglar método assignNewPatientToBox
+			
+			patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
+			
+			if(patientBox == null) {
+				System.out.println("Patient not already assigned");
+				pLife.assignNewPatient2Box(box, doctor.getSpeciality_type());
+				patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
+			}
+			doctor.setIn_box(true);
+		}
        
 		if(patientBox != null) {
-			List<Patient> patientInBox = new ArrayList<Patient>(); 
-			patientInBox.add(patientBox.getPatient());
-			
-			List<PatientBox> patientRecords = appMain.conMan.getPatientMan().getPatientRecords(patientBox.getPatient());
-			showPatientsInScrollPane(patientInBox, scrollPane1);
-			showPatientRecordsInScrollPane(patientRecords, scrollPane2);
+			System.out.println(patientBox);
+			if(patientBox.getBox() == null) {
+				showErrorMessage("No Box assigned to Doctor");
+				if (patientDefListModel != null)patientDefListModel.removeAllElements();
+				if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
+			}else if(patientBox.getPatient() == null){
+				showErrorMessage("No patient assigned to Box");
+				if (patientDefListModel != null)patientDefListModel.removeAllElements();
+				if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
+			}else {
+				List<Patient> patientInBox = new ArrayList<Patient>(); 
+				patientInBox.add(patientBox.getPatient());
+				
+				List<PatientBox> patientRecords = appMain.conMan.getPatientMan().getPatientRecords(patientBox.getPatient());
+				showPatientsInScrollPane(patientInBox, scrollPane1);
+				showPatientRecordsInScrollPane(patientRecords, scrollPane2);
+			}
 		}else {
 			showErrorMessage("No patient assigned to Box");
 			if (patientDefListModel != null)patientDefListModel.removeAllElements();
@@ -124,8 +152,14 @@ public class DoctorView extends SearchTemplate {
         logOutButton.setForeground(new Color(250, 250, 250));
         logOutButton.addActionListener(this);
         
-	    mainPanel.add(logOutButton, "cell 1 5, split 2, center, gapy 5, gapx 10");
+        nextPatient = new MyButton("NEXT PATIENT"); 
+        nextPatient.setBackground(new Color(7, 164, 121));
+        nextPatient.setForeground(new Color(250, 250, 250));
+        nextPatient.addActionListener(this);
+        
+	    mainPanel.add(logOutButton, "cell 1 5, split 3, center, gapy 5, gapx 10");
 	    mainPanel.add(openFormButton, "cell 1 5, center, gapy 5, gapx 10");
+	    mainPanel.add(nextPatient, "cell 1 5, center, gapy 5, gapx 10");
 	    
 	    mainPanel.add(errorMessage, "cell 1 6, center"); 
 
@@ -172,9 +206,22 @@ public class DoctorView extends SearchTemplate {
 			resetPanel();
 			appMain.changeToUserLogIn();
 		}else if(e.getSource() == openFormButton) {
-			if(patientDefListModel != null && !patientDefListModel.isEmpty()) {
+			if(patientDefListModel != null && !patientDefListModel.isEmpty() && patientBox != null) {
 				appMain.changeToPatientDoctorFor(patientBox);
 			}
+		}else if(e.getSource() == nextPatient) {
+			if(box != null) {
+				//In case the doctor discharges the patient without completing their data
+				if(patientBox != null && patientBox.getPatient() != null) {
+					Patient patient = appMain.conMan.getPatientMan().getPatient(patientBox.getPatient().getId());
+					if(patient.getStatus().equals("waitingInLine")) {
+						appMain.conMan.getPatientMan().setStatus(patient.getId(), "discharged");
+					}
+				}
+				pLife.assignNewPatient2Box(box, doctor.getSpeciality_type());
+				updateView();
+			}
+			
 		}
 	}
 	
@@ -189,5 +236,34 @@ public class DoctorView extends SearchTemplate {
 		if(patientDefListModel != null)patientDefListModel.removeAllElements();
 		
 
+	}
+	
+	public void updateView() {
+		//Get patient assigned to triage
+		patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
+       
+		if(patientBox != null) {
+			System.out.println(patientBox);
+			if(patientBox.getBox() == null) {
+				showErrorMessage("No Box assigned to Doctor");
+				if (patientDefListModel != null)patientDefListModel.removeAllElements();
+				if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
+			}else if(patientBox.getPatient() == null){
+				showErrorMessage("No patient assigned to Box");
+				if (patientDefListModel != null)patientDefListModel.removeAllElements();
+				if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
+			}else {
+				List<Patient> patientInBox = new ArrayList<Patient>(); 
+				patientInBox.add(patientBox.getPatient());
+				
+				List<PatientBox> patientRecords = appMain.conMan.getPatientMan().getPatientRecords(patientBox.getPatient());
+				showPatientsInScrollPane(patientInBox, scrollPane1);
+				showPatientRecordsInScrollPane(patientRecords, scrollPane2);
+			}
+		}else {
+			showErrorMessage("No patient assigned to Box");
+			if (patientDefListModel != null)patientDefListModel.removeAllElements();
+			if (patientRecordsDefListModel != null)patientRecordsDefListModel.removeAllElements();
+		}
 	}
 }
