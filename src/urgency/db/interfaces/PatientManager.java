@@ -12,6 +12,7 @@ public interface PatientManager {
 	public void setStatus(int id, String status);
 	public void addComments(int Patient_id, int Box_id, String comments); 
 	public List<PatientBox> getPatientRecords(Patient patient);
+	public void createRandomPatients(); 
 	
 	
 	

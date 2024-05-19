@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import com.toedter.calendar.IDateEditor;
@@ -207,14 +208,15 @@ public class FormPanel extends JPanel {
 
 	
 	/**
-	 * Constructor for partial Doctor Form
+	 * Constructor for partial Doctor Form, add User and Password
 	 * @param Title
 	 * @param Name
 	 * @param Surname
 	 * @param specialities
 	 * @param specialitiesList
 	 */
-	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList) {
+	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, 
+			List<String> specialitiesList, MyTextField txtUser, MyTextField txtEmail) {
 		initPanel(); 
 	    
 	    JLabel title1 = new JLabel(Title); 
@@ -253,6 +255,26 @@ public class FormPanel extends JPanel {
 			speciality.addItem(string);
 		}
         add(speciality, "skip 1, grow, span");
+        
+        
+        JLabel userText = new JLabel("User email*");
+	    userText.setFont(contentFont);
+	    userText.setForeground(contentColor);
+	    add(userText, "grow");
+	    
+	    JLabel passText = new JLabel("Provisional password*");
+	    passText.setFont(contentFont);
+	    passText.setForeground(contentColor);
+	    add(passText, "grow");
+	    
+        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/mail.png")));
+        txtUser.setHint("Email");
+        add(txtUser, "grow");
+        
+
+        txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/pass.png")));
+        txtEmail.setHint("Password");
+        add(txtEmail, "grow");
 	    
 	}
 	
@@ -266,7 +288,8 @@ public class FormPanel extends JPanel {
 	 * @param assignedBox
 	 * @param boxesIds
 	 */
-	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, List<String> specialitiesList, MyComboBox<Integer> assignedBox, List<Integer> boxesIds) {
+	public FormPanel(String Title, MyTextField Name, MyTextField Surname, MyComboBox<String> specialities, 
+			List<String> specialitiesList, MyComboBox<Integer> assignedBox, List<Integer> boxesIds) {
 		//Create a ComboBox from all the possible Boxes
 		initPanel(); 
 	    

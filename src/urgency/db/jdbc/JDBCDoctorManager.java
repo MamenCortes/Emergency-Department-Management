@@ -141,7 +141,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
-			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("username"), 
+			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname")/*, rs.getString("username")*/, 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
 			System.out.println("Doctor has been got");

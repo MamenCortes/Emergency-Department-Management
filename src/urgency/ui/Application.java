@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import urgency.db.interfaces.UserManager;
 import urgency.db.jdbc.*;
+import urgency.db.jpa.ConnectionManagerJPA;
 import urgency.db.pojos.*;
 
 
@@ -15,6 +17,7 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
+	public ConnectionManagerJPA userMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -38,17 +41,17 @@ public class Application extends JFrame{
 	
 	//For tests
 	private ActorsMenu actorsMenu; 
-
-
+	private User user; 
 
 	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO en register dar la opción de especificar el papel en la base de datos
-	//TODO al crear un doctor se crea también un usuario 
-	//TODO Añadir ventana para cambiar la contraseña
-	//TODO añadir status assistedInBox en patient --> volver a hacer tablas
+	//TODO create method getDoctorByUserName(User user); 
+	//TODO change addDoctor to create and check user
+	//TODO check setUser Method
+
 
 	public Application() {
-		conMan = new ConnectionManager(); 
+		conMan = new ConnectionManager();
+		userMan = new ConnectionManagerJPA(); 
 		appPanels = new ArrayList<JPanel>(); 
 		
 		
@@ -104,7 +107,7 @@ public class Application extends JFrame{
 		doctorView = new DoctorView(this); 
 		appPanels.add(doctorView);		
 
-		setContentPane(actorsMenu);
+		setContentPane(logInPanel);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,6 +116,24 @@ public class Application extends JFrame{
 		        conMan.closeConnection();
 		    }
 		});
+	}
+	
+	public void setUser(User user) {
+		//TODO Also add here the initialization of only the panels to use. 
+		this.user = user; 
+		
+		Role role = user.getRole(); 
+		switch (role.getName()) {
+		case  "Doctor":{
+			//TODO create method getDoctorByUserName(User user); 
+			Doctor doctor = null; 
+			//doctor = conMan.getDocMan().getDoctorByUserName(user); 
+			changeToDoctorView(doctor);
+		} case "Recepcionist":changeToRecepcionistMenu(); break; 
+		case "Nurse": changeToNurseView();break; 
+		case "Manager":changeToManagerMenu(); break;
+		default: changeToUserLogIn(); break;
+		}
 	}
 	
 	private void hideAllPanels() {

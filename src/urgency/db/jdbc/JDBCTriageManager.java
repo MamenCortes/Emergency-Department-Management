@@ -104,14 +104,14 @@ public class JDBCTriageManager implements TriageManager {
 			
 			rs.next(); //We only want the last Patient assigned to triage
 			Integer id1 = rs.getInt(1);
-			String name = rs.getString(2);
-			String surname = rs.getString(3);
-			Float weight = rs.getFloat(5); 
-			Float height = rs.getFloat(6); 
-			String status = rs.getString(8);
-			Integer urgency = rs.getInt(9);
-			String sex = rs.getString(5);
-			Date birthDate = rs.getDate(4);
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			Float weight = rs.getFloat("weight"); 
+			Float height = rs.getFloat("height"); 
+			String status = rs.getString("status");
+			Integer urgency = rs.getInt("urgency");
+			String sex = rs.getString("sex");
+			Date birthDate = rs.getDate("birthdate");
 
 			patient = new Patient(id1, name, surname, weight, height, status, urgency, sex, birthDate);
 			System.out.print(patient);
@@ -120,8 +120,8 @@ public class JDBCTriageManager implements TriageManager {
 			pstmt.close();
 			return patient;
 		} catch (SQLException e) {
-			System.out.println("error");
-			//e.printStackTrace();
+			System.out.println("No patient assigned to triage");
+			e.printStackTrace();
 			return null; 
 		}
 	}

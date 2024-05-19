@@ -30,8 +30,39 @@ public class JDBCPatientManager implements PatientManager {
 	public JDBCPatientManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.connection = conMan.getConnection();
+		createRandomPatients();
 	}
 
+	@Override
+	public void createRandomPatients() {
+		
+		String sql = "SELECT COUNT(*) FROM Patients"; 
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql); 
+			rs.next(); 
+			int numPatients = rs.getInt(1); 
+			rs.close();
+			if(numPatients == 0) {
+				Patient patient1 = new Patient("Paula","Blanco", "waiting", 1, "Woman", LocalDate.of(2004,11,24)); 
+				addPatient(patient1);
+				Patient patient2 = new Patient("Luis","Blanco", "waiting", 1, "Man", LocalDate.of(2007,9,15)); 
+				addPatient(patient2);
+				Patient patient3 = new Patient("María","De Los Montes", "waiting", 1, "Woman", LocalDate.of(2000,1,11)); 
+				addPatient(patient3);
+				Patient patient4 = new Patient("Pepe","Federico", "waiting", 1, "Man", LocalDate.of(1990,4,10)); 
+				addPatient(patient4);
+				Patient patient5 = new Patient("Marta","Sanchez", "waiting", 1, "Woman", LocalDate.of(2015,10,13)); 
+				addPatient(patient5);
+				Patient patient6 = new Patient("Jimena","Amarillo", "waiting", 1, "Woman", LocalDate.of(1989,2,12)); 
+				addPatient(patient6);
+				System.out.println("Random patients created");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
 
 	@Override
 	public void setStatus(int id, String status) { //FUNCIONA
@@ -241,14 +272,23 @@ public class JDBCPatientManager implements PatientManager {
 		System.out.println(boxesOfPatient);
 		System.out.println(boxesOfPatient2);*/
 		
-		patMan.addComments(1, 2, "Second comment made");
+		/*patMan.addComments(1, 2, "Second comment made");
 		patMan.addComments(2, 1, "Third comment made");
 		patMan.addComments(2, 3, "Fourth comment made");
-		Patient patient = patMan.getPatient(1);
+		Patient patient = patMan.getPatient(1);*/
 		//List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
 		//System.out.println(boxesOfPatient);
 		
+		
+		Patient patient1 = new Patient("Paula","Blanco", "waiting", 1, "Woman", LocalDate.of(2004,11,24)); 
+		patMan.addPatient(patient1);
+		Patient patient2 = new Patient("Luis","Blanco", "waiting", 1, "Man", LocalDate.of(2007,9,15)); 
+		patMan.addPatient(patient2);
 		conMan.closeConnection();
 	}
+
+
+
+
 
 }

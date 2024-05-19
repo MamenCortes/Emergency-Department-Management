@@ -97,7 +97,18 @@ public class NurseView extends SearchTemplate{
 	
 	private void initNurseView() {
 		//First assign new patient to triage
-		pLife.assignNewPatient2Triage(triage);
+		
+		patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
+		if(patient == null) {
+			pLife.assignNewPatient2Triage(triage);
+			patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
+		}
+		
+		//System.out.println("Triage :"+triage.getId());
+		//patient = appMain.conMan.getPatientMan().getPatient(1);
+		//System.out.println("Patient in triage "+triage.getId()+": "+patient);
+		
+		
 		cover.setTitle("TRIAGE "+triage.getId()); 
 		
 		nurseViewPanel = new JPanel(); 
@@ -109,10 +120,7 @@ public class NurseView extends SearchTemplate{
 		errorMessage.setVisible(false);
         //showPatients();
 		
-		System.out.println("Triage :"+triage.getId());
-		patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
-		//patient = appMain.conMan.getPatientMan().getPatient(1);
-		System.out.println("Patient in triage "+triage.getId()+": "+patient);
+
 		
 		if(patient != null) {
 			List<Patient> patientInTriage = new ArrayList<Patient>(); 
@@ -185,7 +193,7 @@ public class NurseView extends SearchTemplate{
 					appMain.conMan.getPatientMan().setStatus(patient.getId(), "discharged");
 				}
 			}
-			pLife.assignNewPatient2Triage(triage);
+			//pLife.assignNewPatient2Triage(triage);
 			updateView();
 		}
 
@@ -226,8 +234,12 @@ public class NurseView extends SearchTemplate{
 	public void updateView() {
 		//Get patient assigned to triage
 		if(triage != null) {
+			
 			patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
-
+			if(patient == null) {
+				pLife.assignNewPatient2Triage(triage);
+				patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
+			}
 			//System.out.println("Patient in triage "+triage.getId()+": "+patient);
 			
 			if(patient != null) {

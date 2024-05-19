@@ -99,7 +99,7 @@ public class ConnectionManager {
 					+ " sex TEXT NOT NULL CHECK (sex = 'Man' OR sex ='Woman'),"
 					+ " weight INTEGER,"
 					+ " height INTEGER,"
-					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'waitingInLine' OR status = 'assisted' OR status = 'emergency room' "
+					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'waitingInLine' OR status = 'assisted' OR status = 'assistedInBox' OR status = 'emergency room' "
 					+ "OR status = 'discharged' OR status = 'hospitalized'),"
 					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);

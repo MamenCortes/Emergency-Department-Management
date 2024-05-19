@@ -135,7 +135,7 @@ public class JDBCBoxManager implements BoxManager {
                     + "PatientBox.date AS boxDate, PatientBox.comments " 
                     + "FROM Patients JOIN PatientBox ON Patients.id = PatientBox.patient_id " 
                     + "JOIN Boxes ON Boxes.id = PatientBox.box_id " 
-                    + "WHERE Boxes.id = ? AND status = 'assisted' ORDER BY PatientBox.date DESC";
+                    + "WHERE Boxes.id = ? AND status = 'assistedInBox' ORDER BY PatientBox.date DESC";
 			
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
@@ -145,8 +145,8 @@ public class JDBCBoxManager implements BoxManager {
 			Integer id = rs.getInt("id");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
-			Integer weight = rs.getInt("weight");
-			Integer height = rs.getInt("height");
+			Float weight = rs.getFloat("weight"); 
+			Float height = rs.getFloat("height"); 
 			String status = rs.getString("status");
 			Integer urgency = rs.getInt("urgency");
 			String sex = rs.getString("sex");

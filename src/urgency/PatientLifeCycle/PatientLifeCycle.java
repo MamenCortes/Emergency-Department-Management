@@ -91,7 +91,7 @@ public class PatientLifeCycle {
 				conMan.getBoxManager().assignPatientToBox(patientId, box.getId());
 				
 				//Change patients status to assisted
-				conMan.getPatientMan().setStatus(patientId, "assisted");
+				conMan.getPatientMan().setStatus(patientId, "assistedInBox");
 			}else {
 				System.out.println("The box is not available");
 			}

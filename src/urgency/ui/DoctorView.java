@@ -97,7 +97,6 @@ public class DoctorView extends SearchTemplate {
         patientBox = new PatientBox(null, box, null, null); 
         if(box != null) {
 			appMain.conMan.getBoxManager().setAvailability(true, box.getId());
-			//TODO arreglar método assignNewPatientToBox
 			
 			patientBox = appMain.conMan.getBoxManager().getPatientInBox(box.getId());
 			
