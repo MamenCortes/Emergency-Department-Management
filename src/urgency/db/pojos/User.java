@@ -45,12 +45,18 @@ public class User implements Serializable {
 	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
 		if(passwordVacia || password.length() < 8) {
+			for(int i=0; i<8; i++) {
+			if(Character.isDigit(password.charAt(i))) {
+			goodPassword = true;
+			}if(i == 8 && !goodPassword) {
+				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
+			}
 		 throw new IllegalArgumentException("Password is empty");
-		}
-		//que contenga al menos un numero y un caracter
-	}
-
+		 }
+	   }
+	 }
 
 	public Integer getId() {
 		return id;

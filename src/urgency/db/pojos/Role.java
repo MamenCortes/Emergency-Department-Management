@@ -32,10 +32,21 @@ public class Role implements Serializable {
 
 	public Role(String name) {
 		super();
+		if(validationRoles(name)) {
 		this.name = name;
+		}else {
+			this.name = null; //se podria asignar un rol q no sea ninguno de los 4 esperados?
+		}
 		this.users = new ArrayList<User>();
 	}
-
+	
+	private boolean validationRoles(String name) {
+		if(!name.contentEquals("Recepcionist") || !name.contentEquals("Nurse")|| !name.contentEquals("Manager") || !name.contentEquals("Doctor")) {
+			return false;
+		}
+		return true;
+	}
+		
 	public Integer getId() {
 		return id;
 	}
