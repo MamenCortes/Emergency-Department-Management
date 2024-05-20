@@ -19,13 +19,7 @@ public class JPAUserManager implements UserManager {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-		em.getTransaction().commit();
-			
-	}
-	
-	public JPAUserManager(EntityManager em) {
-		super();
-		this.em=em;
+		em.getTransaction().commit();	
 	}
 	
 	public void close() {
@@ -62,17 +56,33 @@ public class JPAUserManager implements UserManager {
 	*/ //no deberia validar aqui o si?
 	
 	@Override
-	public void register(User u) throws NoSuchAlgorithmException {
+	public boolean register(User u) throws NoSuchAlgorithmException {
 		em.getTransaction().begin();
 		String password = u.getPassword();
 		String email = u.getEmail();
 		//UserRegister reg;
-		Boolean availableRegister = UserRegister.register(email, password);
-			if(!availableRegister) {
-				System.out.println("The register cannot be done");
+		//Boolean availableRegister = UserRegister.register(email, password);
+		Boolean userAlreadyRegistered = getUser(email, password);
+			if(userAlreadyRegistered) {
+				//System.out.println("The register cannot be done");
+				return false;
 			}
 			em.persist(u);
 			em.getTransaction().commit();
+			return true;
+		
+	}
+	
+	@Override
+	public Boolean getUser(String email, String password) {
+
+		Query q = em.createNativeQuery("SELECT email, password FROM users WHERE email = email AND password = password", User.class);
+		try {
+			User u = (User) q.getSingleResult();
+			return (u.getEmail().equals(email) && u.getPassword().equals(password));
+		}catch(Exception e){
+		return false;
+		}
 		
 	}
 
@@ -99,7 +109,7 @@ public class JPAUserManager implements UserManager {
 	@Override
 	public void deleteUser(User u) {
 		em.getTransaction().begin();
-		em.persist(u);
+		//em.persist(u);
 		em.remove(u);
 		em.getTransaction().commit();
 	}
@@ -110,17 +120,6 @@ public class JPAUserManager implements UserManager {
 
 	public void setJuserMan(JPAUserManager juserMan) {
 		this.juserMan = juserMan;
-	}
-
-	public static void main(String [] args) {
-		User u = new User(1, "ramonperez@hospital.es", "pasword1", new Role("Doctor"));
-		User u2 = new User(2, "elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
-		User u3 = new User(3, "martagimenez@hospital.es", "martagm1", new Role("Manager"));
-		User u4 = new User(4, "gerardoprados@hospital.es", "user1234", new Role("Nurse"));
-	    UserManager userMan = new JPAUserManager();
-	    userMan.login(u.getEmail(), u.getPassword());
-		
-		
 	}
 
 }

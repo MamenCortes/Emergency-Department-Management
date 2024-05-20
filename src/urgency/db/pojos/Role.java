@@ -25,28 +25,24 @@ public class Role implements Serializable {
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	@JoinColumn
 	private List<User> users;
-	
+
 	public Role() {
-		super();
 		this.users = new ArrayList<User>();
 	}
 
 	public Role(String name) {
-		super();
-		if(validationRoles(name)) {
 		this.name = name;
-		}else {
-			this.name = null; //se podria asignar un rol q no sea ninguno de los 4 esperados?
-		}
 		this.users = new ArrayList<User>();
 	}
 	
-	private boolean validationRoles(String name) {
+	
+	
+	/*private boolean validationRoles(String name) {
 		if(!name.contentEquals("Recepcionist") || !name.contentEquals("Nurse")|| !name.contentEquals("Manager") || !name.contentEquals("Doctor")) {
 			return false;
 		}
 		return true;
-	}
+	} */
 		
 	public Integer getId() {
 		return id;

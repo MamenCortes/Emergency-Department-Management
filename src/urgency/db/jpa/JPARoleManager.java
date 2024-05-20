@@ -17,37 +17,35 @@ public class JPARoleManager implements RoleManager{
 	private JPARoleManager jroleMan;
 	
 	public JPARoleManager() {
-		super();
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
 		addRoles();
+		em.close();
 	}
 	
 	private void addRoles() {
-		List<Role> roles = getAllRoles();
-		if(roles.isEmpty()) {
 			Role role1 = new Role("Recepcionist");
-			addRole(role1);
+			createRole(role1);
 			Role role2 = new Role("Nurse");
-			addRole(role1);
+			createRole(role1);
 			Role role3 = new Role("Manager");
-			addRole(role1);
+			createRole(role1);
 			Role role4 = new Role("Doctor");
-			addRole(role1);
-		}
+			createRole(role1);
+		
 	}
 	
-	private void addRole(Role r) {
+	/*private void addRole(Role r) {
 		List<Role> roles = getAllRoles();
 		if(!roles.contains(r)) {
 			roles.add(r);
-		}
-	}
+		}*/
 	
 	@Override
 	public void createRole(Role r) {
+		r.setId(100);
 		em.getTransaction().begin();
 		em.persist(r);
 		em.getTransaction().commit();

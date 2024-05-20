@@ -17,7 +17,7 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	public ConnectionManagerJPA userMan; 
+	//public ConnectionManagerJPA userMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -51,7 +51,7 @@ public class Application extends JFrame{
 
 	public Application() {
 		conMan = new ConnectionManager();
-		userMan = new ConnectionManagerJPA(); 
+		//userMan = new ConnectionManagerJPA(); 
 		appPanels = new ArrayList<JPanel>(); 
 		
 		
