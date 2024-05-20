@@ -9,11 +9,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import urgency.db.jpa.JPAUserManager;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Doctor")
 @XmlType(propOrder = {"id", "name", "surname", "username", "speciality", "in_box", "patients", "boxes"})
 public class Doctor implements Serializable{
 
@@ -31,9 +34,11 @@ public class Doctor implements Serializable{
 	private Speciality speciality_type;
 	@XmlAttribute
 	private Boolean in_box;
-	@XmlElement
+	@XmlElement 
+    @XmlElementWrapper(name = "Doctor") //the following list is going to be surrounded by an element
 	private List<Patient> patients;
 	@XmlElement
+	@XmlElementWrapper(name = "Doctor")
 	private List<Box> boxes;
 
 	public Doctor() {
