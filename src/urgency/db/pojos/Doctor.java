@@ -5,20 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import urgency.db.jpa.JPAUserManager;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder = {"id", "name", "surname", "username", "speciality", "in_box", "patients", "boxes"})
 public class Doctor implements Serializable{
 
 
 	private static final long serialVersionUID = 5306355128952164035L;
+	@XmlAttribute
 	private Integer id;
+	@XmlElement
 	private String name;
+	@XmlElement
 	private String surname; 
+	@XmlElement
 	private String username;
+	@XmlElement(name = "speciality")
 	private Speciality speciality_type;
+	@XmlAttribute
 	private Boolean in_box;
-
+	@XmlElement
 	private List<Patient> patients;
+	@XmlElement
 	private List<Box> boxes;
 
 	public Doctor() {

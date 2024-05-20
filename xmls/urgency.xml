@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Report> //this xml has 3 java (2 employees and 1 report) objects and 2 pojos 
-    <name>External Sales Report</name> //inside an element you can have a string or other elements an xml can only contain strings 
+
+<!DOCTYPE Doctor [
+  	<!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate)>
+	<!ATTLIST Patient 
+	id CDATA #REQUIRED 
+    weight CDATA #IMPLIED
+    height CDATA #IMPLIED
+    urgency CDATA #IMPLIED
+	> 
+	<!ELEMENT Doctor (id, name, surname, username, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
+	<!ATTLIST Doctor 
+	id CDATA #REQUIRED
+	in_box CDATA > 
+	
+	<!ELEMENT Box (id, available, speciality)>
+	<!ATTLIST Box 
+	id CDATA #REQUIRED 
+	available CDATA>
+	
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT surname (#PCDATA)>
+	<!ELEMENT status (#PCDATA)>
+	<!ELEMENT sex (#PCDATA)>
+	<!ELEMENT birthDate (#PCDATA)>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ELEMENT username (#PCDATA)>
+	<!ELEMENT patients (Patient+)>
+	<!ELEMENT boxes (Box+)>
+
+]>
+
+<Doctor>
+    <name>External Sales Report</name>
     <content>Eh, better than expected!</content>
     <date>2016-11-09</date>
-    <Authors> //AUthors is the wrapper of all employees
-        <Employee id="2" name="Employee-0">  //only strings
+    <Authors>
+        <Employee name="Employee-0" id="2">
             <dob>2016-12-20</dob>
             <address>Address-0</address>
             <salary>0.0</salary>
         </Employee>
-        <Employee id="3" name="Employee-1">
+        <Employee name="Employee-1" id="3">
             <dob>2016-12-21</dob>
             <address>Address-1</address>
             <salary>101.0</salary>
         </Employee>
     </Authors>
-</Report>
+</Doctor>

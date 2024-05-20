@@ -1,21 +1,21 @@
 <!--The type of the attribute "id" of Employee needs
 to be CDATA instead of ID, since DTD doesn't allow
 IDs that start with a number-->
-		
-<!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate, boxesOfPatient, specialitiesOfPatient, triagesOfPatient)>
+
+<!DOCTYPE Doctor [		
+<!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate)>
 <!ATTLIST Patient 
 	id CDATA #REQUIRED 
     weight CDATA #IMPLIED
     height CDATA #IMPLIED
     urgency CDATA #IMPLIED
 > 
-<!-- do we only have to declare the elements inside an element? or the attrinbutes as well-->
 <!ELEMENT Doctor (id, name, surname, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
 <!ATTLIST Doctor 
 	id CDATA #REQUIRED
-	in_box CDATA > <!-- como se hace el boolean si en db brwoser te lo coge como 1 y 0?-->
+	in_box CDATA > 
 	
-<!ELEMENT Box (id, available, speciality, patientBox, doctorBox)>
+<!ELEMENT Box (id, available, speciality)>
 <!ATTLIST Box 
 	id CDATA #REQUIRED 
 	available CDATA>
@@ -26,14 +26,10 @@ IDs that start with a number-->
 <!ELEMENT sex (#PCDATA)>
 <!ELEMENT birthDate (#PCDATA)>
 <!ELEMENT speciality (#PCDATA)>
-<!ELEMENT boxesOfPatient (PatientBox+)> 
-<!ELEMENT specialitiesOfPatient (PatientSpeciality+)>
-<!ELEMENT triagesOfPatient (PatientTriage+)>
 <!ELEMENT patients (Patient+)>
 <!ELEMENT boxes (Box+)>
-<!ELEMENT patientBox (PatientBox+)>
-<!ELEMENT doctorBox (DoctorBox+)>
 
+]>
 <!-- <!ELEMENT Triage (id?, available, patients)>
 <!ATTLIST Triage
 	id ID #IMPLIED
