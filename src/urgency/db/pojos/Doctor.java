@@ -26,7 +26,7 @@ public class Doctor implements Serializable{
 	@XmlElement
 	private String surname; 
 	@XmlElement
-	private String username;
+	private String email;
 	@XmlElement(name = "speciality")
 	private Speciality speciality_type;
 	@XmlAttribute
@@ -51,27 +51,15 @@ public class Doctor implements Serializable{
 		this.boxes=new ArrayList<> ();
 	}
 	
-	public Doctor(Integer id, String name, String surname, String username, String speciality_type, Boolean in_box) {
+	public Doctor(Integer id, String name, String surname, String email, String speciality_type, Boolean in_box) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
-		if(validationUsername(username)) {
-		this.username = username;
-		}else {
-			this.username = " "; //deberia lanzar un error aqui?
-		}
+		this.email = email;
 		this.speciality_type = new Speciality(speciality_type);
 		this.in_box = in_box;
 		
-	}
-	
-	public boolean validationUsername(String username) {
-		User user = new User();
-		if(user.getUsername() == username) {
-			return true;
-		}
-		return false;
 	}
 	
 	public Doctor(String name, String surname, Speciality speciality_type) {
@@ -182,19 +170,17 @@ public class Doctor implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", username=" + username + ", speciality_type=" + speciality_type.getType() + ", in_box=" + in_box
+		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", email=" + email + ", speciality_type=" + speciality_type.getType() + ", in_box=" + in_box
 				+ ", patients=" + patients + ", boxes=" + boxes + "]";
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-
 
 
 }

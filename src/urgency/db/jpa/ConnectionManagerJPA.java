@@ -14,6 +14,10 @@ public class ConnectionManagerJPA {
 	
 	private Connection connection;
 	
+	public JPAUserManager jpauserMan;
+	
+	public JPARoleManager jparoleMan;
+	
 	public static UserManager userMan;
 	
 	public JDBCDoctorManager doctorMan;
@@ -33,6 +37,10 @@ public class ConnectionManagerJPA {
 		e.printStackTrace();
 	 }
 	}
+	
+	/*public void connection() {
+		
+	}*/
 		
 		private void createTablesJPA() {
 			
@@ -63,17 +71,24 @@ public class ConnectionManagerJPA {
 			
 		}
 		
-		public static void main(String [] args) {
-			User u = new User("ramonperez@hospital.es", "pasword1", new Role("Doctor"));
-			User u2 = new User("elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
-			User u3 = new User("martagimenez@hospital.es", "martagm1", new Role("Manager"));
-			User u4 = new User("gerardoprados@hospital.es", "user1234", new Role("Nurse"));
-			UserManager userMan = new JPAUserManager();
-			System.out.println(userMan.login(u.getUsername(), u.getPassword()));
-			
-			
-		}
 		
+
+		public JPAUserManager getJpauserMan() {
+			return jpauserMan;
+		}
+
+		public void setJpauserMan(JPAUserManager jpauserMan) {
+			this.jpauserMan = jpauserMan;
+		}
+
+		public JPARoleManager getJparoleMan() {
+			return jparoleMan;
+		}
+
+		public void setJparoleMan(JPARoleManager jparoleMan) {
+			this.jparoleMan = jparoleMan;
+		}
+			
         
 		
 

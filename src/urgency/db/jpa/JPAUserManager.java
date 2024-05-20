@@ -13,6 +13,7 @@ import urgency.db.pojos.User;
 public class JPAUserManager implements UserManager {
 
 	private EntityManager em;
+	private JPAUserManager juserMan;
 	
 	public JPAUserManager() {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
@@ -64,11 +65,11 @@ public class JPAUserManager implements UserManager {
 	public void register(User u) {
 		em.getTransaction().begin();
 		String password = u.getPassword();
-		String username = u.getUsername();
+		String email = u.getEmail();
 		UserRegister reg = null;
 		Boolean availableRegister;
 		try {
-			availableRegister = reg.register(username, password);
+			availableRegister = reg.register(email, password);
 			if(!availableRegister) {
 				System.out.println("The register cannot be done");
 			}
@@ -83,15 +84,15 @@ public class JPAUserManager implements UserManager {
 
 	
 	@Override
-	public User login(String username, String password) {
+	public User login(String email, String password) {
 		User u = null;
 		Login log = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
 		try {
 		u = (User) q.getSingleResult();
-		q.setParameter(1, username);
+		q.setParameter(1, email);
 		//se codifica el password
-		Boolean loginEncrypted = log.login(username, password);
+		Boolean loginEncrypted = log.login(email, password);
 		if(loginEncrypted) {
 		q.setParameter(2, password);
 		}
@@ -108,6 +109,24 @@ public class JPAUserManager implements UserManager {
 		em.remove(u);
 		em.getTransaction().commit();
 	}
+	
+	public JPAUserManager getJuserMan() {
+		return juserMan;
+	}
 
+	public void setJuserMan(JPAUserManager juserMan) {
+		this.juserMan = juserMan;
+	}
+
+	public static void main(String [] args) {
+		User u = new User("ramonperez@hospital.es", "pasword1", new Role("Doctor"));
+		User u2 = new User("elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
+		User u3 = new User("martagimenez@hospital.es", "martagm1", new Role("Manager"));
+		User u4 = new User("gerardoprados@hospital.es", "user1234", new Role("Nurse"));
+		UserManager userMan = new JPAUserManager();
+		System.out.println(userMan.login(u.getEmail(), u.getPassword()));
+		
+		
+	}
 
 }

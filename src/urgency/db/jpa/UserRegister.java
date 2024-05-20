@@ -7,10 +7,10 @@ import urgency.db.pojos.User;
 
 public class UserRegister {
 	
-	public static boolean register(String username, String password) throws NoSuchAlgorithmException {
+	public static boolean register(String email, String password) throws NoSuchAlgorithmException {
 		String passwordCodificada = MD5Cypher.encrypt(password);
 		Role role = new Role();
-		User user = new User(username, passwordCodificada, role);
+		User user = new User(email, passwordCodificada, role);
 		JPAUserManager jpau = new JPAUserManager();
 		jpau.register(user);
 		return true;

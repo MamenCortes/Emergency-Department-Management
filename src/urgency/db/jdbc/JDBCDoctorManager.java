@@ -84,13 +84,13 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void addDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
-			String template = "INSERT INTO Doctors (name, surname, username, speciality_type, in_box) VALUES "
+			String template = "INSERT INTO Doctors (name, surname, email, speciality_type, in_box) VALUES "
 					+ "(?,?,?,?,?)";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
 			pstmt.setString(1, doctor.getName());
 			pstmt.setString(2, doctor.getSurname());
-			pstmt.setString(3, doctor.getUsername());
+			pstmt.setString(3, doctor.getEmail());
 			pstmt.setString(4, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(5, doctor.getIn_box());
 			System.out.println("Doctor added");
@@ -117,7 +117,7 @@ public class JDBCDoctorManager implements DoctorManager {
 				    doctor.setid(rs.getInt("ID"));
 	                doctor.setName(rs.getString("name"));
 	                doctor.setSurname(rs.getString("surname"));
-	                doctor.setUsername("username");
+	                doctor.setEmail("email");
 	                Speciality speciality = new Speciality();
 	                speciality.setType(rs.getString("speciality_type"));
 	                doctor.setSpeciality_type(speciality);
@@ -141,7 +141,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
-			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname")/*, rs.getString("username")*/, 
+			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
 			System.out.println("Doctor has been got");
@@ -157,12 +157,12 @@ public class JDBCDoctorManager implements DoctorManager {
 	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
 		// TODO Auto-generated method stub
 		try {
-			String sql = "UPDATE Doctors SET name=?, surname=?, username=?, speciality_type=?, in_box=? WHERE id = ?";
+			String sql = "UPDATE Doctors SET name=?, surname=?, email=?, speciality_type=?, in_box=? WHERE id = ?";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, doctor.getName());
 			pstmt.setString(2, doctor.getSurname());
-			pstmt.setString(3, doctor.getUsername());
+			pstmt.setString(3, doctor.getEmail());
 			pstmt.setString(4, doctor.getSpeciality_type().getType());
 			pstmt.setBoolean(5,  doctor.getIn_box());
 			pstmt.setInt(6,  doctor.getid());
@@ -190,10 +190,10 @@ public class JDBCDoctorManager implements DoctorManager {
 				Integer id = rs.getInt("ID");
 				String doctorName = rs.getString("name");
 				String doctorSurname = rs.getString("surname");
-				String doctorUsername = rs.getString("username");
+				String doctorEmail = rs.getString("email");
 				String doctorSpeciality = rs.getString("speciality_type");
 				Boolean inbox = rs.getBoolean("in_box");
-				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorUsername, doctorSpeciality, inbox);
+				Doctor d = new Doctor(id, doctorName, doctorSurname, doctorEmail, doctorSpeciality, inbox);
 				doctors.add(d);
 			}
 			rs.close();

@@ -14,6 +14,7 @@ import urgency.db.pojos.User;
 public class JPARoleManager implements RoleManager{
 	
 	private EntityManager em;
+	private JPARoleManager jroleMan;
 	
 	public JPARoleManager() {
 		super();
@@ -76,6 +77,14 @@ public class JPARoleManager implements RoleManager{
 		em.getTransaction().commit();
 		}
 		//si es nulo?
+	}
+
+	public JPARoleManager getJroleMan() {
+		return jroleMan;
+	}
+
+	public void setJroleMan(JPARoleManager jroleMan) {
+		this.jroleMan = jroleMan;
 	}
 
 

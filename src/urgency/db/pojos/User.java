@@ -19,10 +19,8 @@ public class User implements Serializable {
 	@TableGenerator(name = "users", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column(nullable = false, unique = true, name = "")
-	
-	private String username; // validar xq el username tiene q ser un email corporativo del email.
-	//private String email;
+	@Column(nullable = false, unique = true, name = "email")
+	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="pasword")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -33,9 +31,9 @@ public class User implements Serializable {
 	}
 
 	
-	public User(String username, String password, Role role2)throws IllegalArgumentException {
+	public User(String email, String password, Role role2)throws IllegalArgumentException {
 		super();
-		this.username = username;
+		this.email = email;
 	
 		validatePassword(password);
 		
@@ -65,13 +63,14 @@ public class User implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -109,6 +108,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
 }
