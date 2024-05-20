@@ -2,34 +2,33 @@
 to be CDATA instead of ID, since DTD doesn't allow
 IDs that start with a number-->
 
-<!DOCTYPE Doctor [		
 <!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate)>
-<!ATTLIST Patient 
+	<!ATTLIST Patient 
 	id CDATA #REQUIRED 
     weight CDATA #IMPLIED
     height CDATA #IMPLIED
     urgency CDATA #IMPLIED
-> 
-<!ELEMENT Doctor (id, name, surname, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
-<!ATTLIST Doctor 
+	> 
+	<!ELEMENT Doctor (id, name, surname, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
+	<!ATTLIST Doctor 
 	id CDATA #REQUIRED
 	in_box CDATA > 
 	
-<!ELEMENT Box (id, available, speciality)>
-<!ATTLIST Box 
+	<!ELEMENT Box (id, available, speciality)>
+	<!ATTLIST Box 
 	id CDATA #REQUIRED 
 	available CDATA>
 	
-<!ELEMENT name (#PCDATA)>
-<!ELEMENT surname (#PCDATA)>
-<!ELEMENT status (#PCDATA)>
-<!ELEMENT sex (#PCDATA)>
-<!ELEMENT birthDate (#PCDATA)>
-<!ELEMENT speciality (#PCDATA)>
-<!ELEMENT patients (Patient+)>
-<!ELEMENT boxes (Box+)>
-
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT surname (#PCDATA)>
+	<!ELEMENT status (#PCDATA)>
+	<!ELEMENT sex (#PCDATA)>
+	<!ELEMENT birthDate (#PCDATA)>
+	<!ELEMENT speciality (#PCDATA)>
+	<!ELEMENT patients (Patient+)>
+	<!ELEMENT boxes (Box+)>
 ]>
+
 <!-- <!ELEMENT Triage (id?, available, patients)>
 <!ATTLIST Triage
 	id ID #IMPLIED

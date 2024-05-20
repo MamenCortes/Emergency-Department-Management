@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 public class DTDChecker {
 
     public static void main(String[] args) {
-        File xmlFile = new File("./xmls/urgency.dtd"); 
+        File xmlFile = new File("./xmls/urgency.xml"); 
         try {
         	// Create a DocumentBuilderFactory
             DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
