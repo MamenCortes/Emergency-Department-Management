@@ -86,6 +86,13 @@ public class JPARoleManager implements RoleManager{
 	public void setJroleMan(JPARoleManager jroleMan) {
 		this.jroleMan = jroleMan;
 	}
+	
+	public static void main(String args[]) {
+		
+		RoleManager rolMan = new JPARoleManager();
+		rolMan.createRole(new Role("Nurse"));
+		
+	}
 
 
 }

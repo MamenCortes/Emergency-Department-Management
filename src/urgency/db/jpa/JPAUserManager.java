@@ -62,23 +62,17 @@ public class JPAUserManager implements UserManager {
 	*/ //no deberia validar aqui o si?
 	
 	@Override
-	public void register(User u) {
+	public void register(User u) throws NoSuchAlgorithmException {
 		em.getTransaction().begin();
 		String password = u.getPassword();
 		String email = u.getEmail();
-		UserRegister reg = null;
-		Boolean availableRegister;
-		try {
-			availableRegister = reg.register(email, password);
+		//UserRegister reg;
+		Boolean availableRegister = UserRegister.register(email, password);
 			if(!availableRegister) {
 				System.out.println("The register cannot be done");
 			}
 			em.persist(u);
 			em.getTransaction().commit();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 
@@ -86,13 +80,13 @@ public class JPAUserManager implements UserManager {
 	@Override
 	public User login(String email, String password) {
 		User u = null;
-		Login log = null;
-		Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
+		//Login log = null;
+		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
 		try {
 		u = (User) q.getSingleResult();
 		q.setParameter(1, email);
 		//se codifica el password
-		Boolean loginEncrypted = log.login(email, password);
+		Boolean loginEncrypted = Login.login(email, password);
 		if(loginEncrypted) {
 		q.setParameter(2, password);
 		}
@@ -119,10 +113,10 @@ public class JPAUserManager implements UserManager {
 	}
 
 	public static void main(String [] args) {
-		User u = new User("ramonperez@hospital.es", "pasword1", new Role("Doctor"));
-		User u2 = new User("elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
-		User u3 = new User("martagimenez@hospital.es", "martagm1", new Role("Manager"));
-		User u4 = new User("gerardoprados@hospital.es", "user1234", new Role("Nurse"));
+		User u = new User(1, "ramonperez@hospital.es", "pasword1", new Role("Doctor"));
+		User u2 = new User(2, "elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
+		User u3 = new User(3, "martagimenez@hospital.es", "martagm1", new Role("Manager"));
+		User u4 = new User(4, "gerardoprados@hospital.es", "user1234", new Role("Nurse"));
 	    UserManager userMan = new JPAUserManager();
 	    userMan.login(u.getEmail(), u.getPassword());
 		

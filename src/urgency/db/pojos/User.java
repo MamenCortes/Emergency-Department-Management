@@ -21,13 +21,21 @@ public class User implements Serializable {
 	private Integer id;
 	@Column(nullable = false, unique = true, name = "email")
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
-	@Column(name="pasword")
+	@Column(name="password")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
 	
 	public User() {
 		super();
+	}
+	
+	public User(Integer id, String email, String password, Role role) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.role = role;
 	}
 
 	
