@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 // import urgency.xml.utils.SQLDateAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"id", "name", "surname", "weight", "height", "status", "urgency", "sex", "birthDate", "boxesOfPatient", "specialitiesOfPatient", "triagesOfPatient"})
+@XmlType(propOrder = {"id", "name", "surname", "weight", "height", "status", "urgency", "sex", "birthDate"})
 public class Patient implements Serializable{
 	
 	private static final long serialVersionUID = -569581925088569537L;
