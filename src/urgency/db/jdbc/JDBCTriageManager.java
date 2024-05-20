@@ -90,36 +90,38 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public Patient getPatientInTriage(int id) { // FUNCIONA
+	public Patient getPatientInTriage(int triage_id) { // FUNCIONA
 		Patient patient = null;
 		try {
 			String sql = "SELECT * "
 					+ "	FROM Patients JOIN PatientTriage ON Patients.id = PatientTriage.patient_id "
 					+ "	JOIN Triages ON Triages.id = PatientTriage.triage_id "
-					+ "	WHERE Triages.id = ?" 
+					+ "	WHERE Triages.id = ? AND status = 'assisted'"
 					+ "	ORDER BY PatientTriage.date DESC";
 			PreparedStatement pstmt = connection.prepareStatement(sql);
-			pstmt.setInt(1, id);
+			pstmt.setInt(1, triage_id);
 			ResultSet rs = pstmt.executeQuery();
 			
 			rs.next(); //We only want the last Patient assigned to triage
 			Integer id1 = rs.getInt(1);
-			String name = rs.getString(2);
-			String surname = rs.getString(3);
-			String status = rs.getString(8);
-			Integer urgency = rs.getInt(9);
-			String sex = rs.getString(5);
-			Date birthDate = rs.getDate(4);
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			Float weight = rs.getFloat("weight"); 
+			Float height = rs.getFloat("height"); 
+			String status = rs.getString("status");
+			Integer urgency = rs.getInt("urgency");
+			String sex = rs.getString("sex");
+			Date birthDate = rs.getDate("birthdate");
 
-			patient = new Patient(id1, name, surname, 0, 0, status, urgency, sex, birthDate);
+			patient = new Patient(id1, name, surname, weight, height, status, urgency, sex, birthDate);
 			System.out.print(patient);
 			
 			rs.close();
 			pstmt.close();
 			return patient;
 		} catch (SQLException e) {
-			System.out.println("error");
-			//e.printStackTrace();
+			System.out.println("No patient assigned to triage");
+			e.printStackTrace();
 			return null; 
 		}
 	}
@@ -163,9 +165,11 @@ public class JDBCTriageManager implements TriageManager {
 		ConnectionManager conManager = new ConnectionManager();
 		JDBCTriageManager conTriage = new JDBCTriageManager(conManager);
 		
-		conTriage.assingPatientToTriage(1, 1);
-		conTriage.assingPatientToTriage(2, 2);
-		conTriage.assingPatientToTriage(2, 1);
+		//conTriage.assingPatientToTriage(1, 1);
+		//conTriage.assingPatientToTriage(2, 2);
+		//conTriage.assingPatientToTriage(3, 1);
+		conTriage.assingPatientToTriage(1,1); 
+		conTriage.assingPatientToTriage(2,1); 
 		
 		
 		conTriage.getPatientInTriage(1);

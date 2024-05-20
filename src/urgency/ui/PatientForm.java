@@ -1,10 +1,13 @@
 package urgency.ui;
 
 import java.awt.event.ActionEvent;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 import com.toedter.calendar.JDateChooser;
 
+import urgency.PatientLifeCycle.PatientLifeCycle;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.PatientBox;
@@ -93,7 +96,9 @@ public class PatientForm extends FormTemplate{
 	private void initPhysiologicalDataPanel() {
 		comments = new MyTextField(); 
 		weight = new MyTextField(); 
+		weight.setText(String.valueOf(patient.getWeight()));
 		height = new MyTextField(); 
+		height.setText(String.valueOf(patient.getHeight()));
 		speciality = new MyComboBox<String>(); 
 		List<String> specialityList = appMain.conMan.getSpecialityManager().getSpecialities(); 
         for (String string : specialityList) {
@@ -180,14 +185,17 @@ public class PatientForm extends FormTemplate{
 				patient.setStatus("hospitalized");
 			}else {
 				showErrorMessage("Select the Patient's Urgency");
+				return false; 
 			}
 			
 			String commentsString = comments.getText(); 
 			appMain.conMan.getPatientMan().addComments(patient.getId(), patientBox.getId(), commentsString);
+		}else {
+			patient.setStatus("waitingInLine");
 		}
 		
 		appMain.conMan.getPatientMan().updatePatient(patient);
-		appMain.conMan.getSpecialityManager().assignPatientSpeciality(patient.getId(), specialitySelected);
+		appMain.conMan.getSpecialityManager().assignPatientSpeciality(patient.getId(), specialitySelected, Timestamp.from(Instant.now()));
 		System.out.println(patient);
 		return true; 
 	}

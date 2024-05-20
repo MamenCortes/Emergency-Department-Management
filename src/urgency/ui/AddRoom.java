@@ -78,10 +78,10 @@ public class AddRoom extends FormTemplate {
 		if(isBoxToAdd) {
 			String specialityType = this.speciality.getSelectedItem().toString();
 			Speciality speciality = new Speciality(specialityType);
-			Box box = new Box(true, speciality);
+			Box box = new Box(false, speciality);
 			appMain.conMan.getBoxManager().addBox(box);
 		}else {
-			Triage triage = new Triage(true);
+			Triage triage = new Triage(false);
 			appMain.conMan.getTriageManager().addTriage(triage);
 		}
 		

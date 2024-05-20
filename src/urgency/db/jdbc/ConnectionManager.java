@@ -17,9 +17,7 @@ public class ConnectionManager {
 	private PatientManager patientMan; 
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
-	private SpecialityManager specialityManager; 
-	private RoleManager roleManager;
-	private UserManager userManager;
+	private SpecialityManager specialityManager;
 	
 	public Connection getConnection() {
 		return connection;
@@ -32,7 +30,6 @@ public class ConnectionManager {
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		//this.roleManager = new JPARoleManager(this);
 		
 		
 		createTables();
@@ -102,7 +99,7 @@ public class ConnectionManager {
 					+ " sex TEXT NOT NULL CHECK (sex = 'Man' OR sex ='Woman'),"
 					+ " weight INTEGER,"
 					+ " height INTEGER,"
-					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'assisted' OR status = 'emergency room' "
+					+ " status TEXT NOT NULL CHECK (status = 'waiting' OR status = 'waitingInLine' OR status = 'assisted' OR status = 'assistedInBox' OR status = 'emergency room' "
 					+ "OR status = 'discharged' OR status = 'hospitalized'),"
 					+ " urgency INTEGER CHECK (urgency = 1 OR urgency = 2 OR urgency = 3 OR urgency = 4 OR urgency = 5))";
 			createTables1.executeUpdate(createPatients);
@@ -119,6 +116,7 @@ public class ConnectionManager {
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
+					+ "username TEXT NOT NULL,"
 					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " in_box Boolean NOT NULL)"; 
 			createTables2.executeUpdate(createDoctors);

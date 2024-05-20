@@ -18,6 +18,8 @@ public class AddDoctor extends FormTemplate {
 	private static final long serialVersionUID = 150788289055975404L;
 	private Application appMain; 
 	private List<String> specialities; 
+	private MyTextField email; 
+	private MyTextField password; 
 
 	public AddDoctor(Application appMain) {
 		this.option2Text = null; 
@@ -28,8 +30,10 @@ public class AddDoctor extends FormTemplate {
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
 		speciality = new MyComboBox<String>(); 
+		email = new MyTextField(); 
+		password = new MyTextField(); 
 		specialities = appMain.conMan.getSpecialityManager().getSpecialities(); 
-		form1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities); 
+		form1 = new FormPanel("Add New Doctor", name, surname, speciality, specialities, email, password); 
 		initPatientForm(); 
 	}
 	
@@ -66,6 +70,7 @@ public class AddDoctor extends FormTemplate {
 		
 		String specText = speciality.getSelectedItem().toString(); 
 		Speciality patientSpec = new Speciality(specText); 
+		//TODO Create UserName
 		Doctor doctor = new Doctor(name, surname, patientSpec);
 		appMain.conMan.getDocMan().addDoctor(doctor);
 		System.out.println(doctor);

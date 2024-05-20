@@ -77,7 +77,7 @@ public class ModifyRoom extends FormTemplate {
 			appMain.changeToSearchRoom();
 			resetPanel();
 		}else if(e.getSource() == applyChanges) {
-			//TODO Create a Room
+			updateBox();
 			resetPanel();
 			appMain.changeToManagerMenu(); 
 			//showErrorMessage(errorMessage); 
@@ -92,7 +92,6 @@ public class ModifyRoom extends FormTemplate {
 				speciality.setEnabled(true);
 			}
 		}else if(e.getSource() == deleteButton) {
-			//TODO test delete functionality
 			if(box != null) {
 				appMain.conMan.getBoxManager().deleteBox(box.getId());
 			}else if(triage != null) {
@@ -108,6 +107,13 @@ public class ModifyRoom extends FormTemplate {
 		roomType.setSelectedItem(null);
 		box = null; 
 		triage = null; 
+	}
+	
+	private void updateBox() {
+		if(box != null) {
+			box.setSpeciality(speciality.getModel().getSelectedItem().toString());
+			appMain.conMan.getBoxManager().updateBox(box);
+		}
 	}
 
 	

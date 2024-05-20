@@ -12,20 +12,21 @@ public class User implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
 	@GeneratedValue(generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column(nullable = false, unique = true)
-	private String username;
-	private String email;
+	@Column(nullable = false, unique = true, name = "")
+	
+	private String username; // validar xq el username tiene q ser un email corporativo del email.
+	//private String email;
+	@Column(name="pasword")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
-	
-	//HAGO UN JPARecepcionistManager donde implemento sus metodos, = con nurse y doctor
 	
 	public User() {
 		super();
@@ -44,11 +45,18 @@ public class User implements Serializable {
 	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
 		if(passwordVacia || password.length() < 8) {
+			for(int i=0; i<8; i++) {
+			if(Character.isDigit(password.charAt(i))) {
+			goodPassword = true;
+			}if(i == 8 && !goodPassword) {
+				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
+			}
 		 throw new IllegalArgumentException("Password is empty");
-		}
-	}
-
+		 }
+	   }
+	 }
 
 	public Integer getId() {
 		return id;
