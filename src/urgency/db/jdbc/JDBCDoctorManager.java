@@ -19,6 +19,28 @@ public class JDBCDoctorManager implements DoctorManager {
 		this.conMan = conMan;
 		this.connection = conMan.getConnection();
 	}
+	
+	@Override
+	public Doctor getDoctorByEmail(String email) {
+		
+		try {
+			String sql = "SELECT * FROM Doctors WHERE email = " + email;
+			Statement st;
+			st=connection.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			rs.next();
+			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
+					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
+			rs.close();
+			System.out.println("Doctor has been got");
+			return d;
+		}catch(SQLException e) {
+			System.out.println("Error in getting the doctor.");
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 
 	@Override
 	public void assignBox(int Doctor_id, int Box_id) {

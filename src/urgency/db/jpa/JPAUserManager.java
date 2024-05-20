@@ -123,8 +123,8 @@ public class JPAUserManager implements UserManager {
 		User u2 = new User("elenagomez@hospital.es", "elena123", new Role("Recepcionist"));
 		User u3 = new User("martagimenez@hospital.es", "martagm1", new Role("Manager"));
 		User u4 = new User("gerardoprados@hospital.es", "user1234", new Role("Nurse"));
-		UserManager userMan = new JPAUserManager();
-		System.out.println(userMan.login(u.getEmail(), u.getPassword()));
+	    UserManager userMan = new JPAUserManager();
+	    userMan.login(u.getEmail(), u.getPassword());
 		
 		
 	}
