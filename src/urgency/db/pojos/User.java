@@ -11,7 +11,7 @@ public class User implements Serializable {
 
 	/**
 	 * 
-	 */ //
+	 */
 	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
@@ -26,9 +26,9 @@ public class User implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
 	
-	/*public User() {
+	public User() {
 		super();
-	}*/
+	}
 	
 	public User(Integer id, String email, String password, Role role) {
 		super();

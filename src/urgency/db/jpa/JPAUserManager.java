@@ -76,7 +76,9 @@ public class JPAUserManager implements UserManager {
 	@Override
 	public Boolean getUser(String email, String password) {
 
-		Query q = em.createNativeQuery("SELECT email, password FROM users WHERE email = email AND password = password", User.class);
+		Query q = em.createNativeQuery("SELECT email, password FROM users WHERE email = ? AND password = ?", User.class);
+		q.setParameter(1, email);
+		q.setParameter(2, password);
 		try {
 			User u = (User) q.getSingleResult();
 			return (u.getEmail().equals(email) && u.getPassword().equals(password));
@@ -92,6 +94,8 @@ public class JPAUserManager implements UserManager {
 		User u = null;
 		//Login log = null;
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
+		q.setParameter(1, email);
+		q.setParameter(2, password);
 		try {
 		u = (User) q.getSingleResult();
 		q.setParameter(1, email);

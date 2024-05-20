@@ -31,7 +31,7 @@ public class UserRegister {
 	    }
 	    System.out.println("User was registered");
 	    //juserMan.login(u.getEmail(), u.getPassword());
-	    //a
+	   
 		
 		
 	}
