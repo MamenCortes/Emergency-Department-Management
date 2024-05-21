@@ -8,9 +8,19 @@ import urgency.db.pojos.User;
 
 public class UserRegister {
 	
-	public static boolean register(String email, String password, String newRole) throws NoSuchAlgorithmException {
+	public static boolean register(String email, String password, String roleName) throws NoSuchAlgorithmException {
 		String passwordCodificada = MD5Cypher.encrypt(password);
-		Role role = new Role(newRole);
+		Role role = null;
+		JPARoleManager jrm = new JPARoleManager();
+		System.out.println("error in register encrypted");
+		try {
+			role = jrm.getRole(roleName);
+			System.out.println(role.getName());
+			System.out.println(role.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		User user = new User(email, passwordCodificada, role);
 		JPAUserManager jum = new JPAUserManager();
 		return jum.register(user);

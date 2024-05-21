@@ -22,18 +22,17 @@ public class JPARoleManager implements RoleManager{
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
 		addRoles();
-		em.close();
 	}
 	
 	private void addRoles() {
 			Role role1 = new Role("Recepcionist");
 			createRole(role1);
 			Role role2 = new Role("Nurse");
-			createRole(role1);
+			createRole(role2);
 			Role role3 = new Role("Manager");
-			createRole(role1);
+			createRole(role3);
 			Role role4 = new Role("Doctor");
-			createRole(role1);
+			createRole(role4);
 		
 	}
 	
@@ -45,18 +44,17 @@ public class JPARoleManager implements RoleManager{
 	
 	@Override
 	public void createRole(Role r) {
-		r.setId(100);
 		em.getTransaction().begin();
 		em.persist(r);
 		em.getTransaction().commit();
 	}
 
 	@Override
-	public Role getRole(String name) {
-		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
-		q.setParameter(1, name);
-		Role r = (Role) q.getSingleResult();
-		return r;
+	public Role getRole(String rolename) {
+		Query q = em.createNativeQuery("SELECT roleName FROM roles WHERE roleName = ?", Role.class);
+		q.setParameter(1, "%" + rolename + "%");
+		Role role = (Role) q.getSingleResult();
+		return role;
 	}
 	
 	@Override
@@ -74,7 +72,6 @@ public class JPARoleManager implements RoleManager{
 		r.addUser(u);
 		em.getTransaction().commit();
 		}
-		//si es nulo?
 	}
 
 	public JPARoleManager getJroleMan() {
