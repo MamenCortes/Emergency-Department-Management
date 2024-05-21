@@ -116,7 +116,7 @@ public class ConnectionManager {
 					+ " id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ " name TEXT NOT NULL,"
 					+ " surname TEXT NOT NULL,"
-					+ "username TEXT NOT NULL,"
+					+ " email TEXT NOT NULL,"
 					+ " speciality_type TEXT NOT NULL REFERENCES Specialities(type) ON DELETE RESTRICT,"
 					+ " in_box Boolean NOT NULL)"; 
 			createTables2.executeUpdate(createDoctors);

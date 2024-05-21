@@ -20,22 +20,30 @@ public class Role implements Serializable {
 	@TableGenerator(name = "roles", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
+	@Column(name="role")
 	private String name;
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	@JoinColumn
 	private List<User> users;
-	
+
 	public Role() {
-		super();
 		this.users = new ArrayList<User>();
 	}
 
 	public Role(String name) {
-		super();
 		this.name = name;
 		this.users = new ArrayList<User>();
 	}
-
+	
+	
+	
+	/*private boolean validationRoles(String name) {
+		if(!name.contentEquals("Recepcionist") || !name.contentEquals("Nurse")|| !name.contentEquals("Manager") || !name.contentEquals("Doctor")) {
+			return false;
+		}
+		return true;
+	} */
+		
 	public Integer getId() {
 		return id;
 	}

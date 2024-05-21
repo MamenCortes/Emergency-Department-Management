@@ -15,15 +15,13 @@ public class User implements Serializable {
 	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
-	@GeneratedValue(generator = "users")
+	@GeneratedValue(strategy=GenerationType.TABLE, generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
-	@Column(nullable = false, unique = true, name = "")
-	
-	private String username; // validar xq el username tiene q ser un email corporativo del email.
-	//private String email;
-	@Column(name="pasword")
+	@Column(nullable = false, unique = true, name = "email")
+	private String email; // validar xq el username tiene q ser un email corporativo del email.
+	@Column(name="password")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
@@ -31,11 +29,19 @@ public class User implements Serializable {
 	public User() {
 		super();
 	}
+	
+	public User(Integer id, String email, String password, Role role) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
 
 	
-	public User(String username, String password, Role role2)throws IllegalArgumentException {
+	public User(String email, String password, Role role2)throws IllegalArgumentException {
 		super();
-		this.username = username;
+		this.email = email;
 	
 		validatePassword(password);
 		
@@ -45,12 +51,18 @@ public class User implements Serializable {
 	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
 		if(passwordVacia || password.length() < 8) {
+			for(int i=0; i<8; i++) {
+			if(Character.isDigit(password.charAt(i))) {
+			goodPassword = true;
+			}if(i == 8 && !goodPassword) {
+				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
+			}
 		 throw new IllegalArgumentException("Password is empty");
-		}
-		//que contenga al menos un numero y un caracter
-	}
-
+		 }
+	   }
+	 }
 
 	public Integer getId() {
 		return id;
@@ -59,13 +71,14 @@ public class User implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -103,6 +116,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
 }

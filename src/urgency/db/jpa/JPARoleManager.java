@@ -8,21 +8,44 @@ import javax.persistence.Query;
 import urgency.db.interfaces.RoleManager;
 
 import urgency.db.pojos.Role;
+import urgency.db.pojos.Speciality;
 import urgency.db.pojos.User;
 
 public class JPARoleManager implements RoleManager{
 	
 	private EntityManager em;
+	private JPARoleManager jroleMan;
 	
 	public JPARoleManager() {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
+		addRoles();
+		em.close();
 	}
+	
+	private void addRoles() {
+			Role role1 = new Role("Recepcionist");
+			createRole(role1);
+			Role role2 = new Role("Nurse");
+			createRole(role1);
+			Role role3 = new Role("Manager");
+			createRole(role1);
+			Role role4 = new Role("Doctor");
+			createRole(role1);
+		
+	}
+	
+	/*private void addRole(Role r) {
+		List<Role> roles = getAllRoles();
+		if(!roles.contains(r)) {
+			roles.add(r);
+		}*/
 	
 	@Override
 	public void createRole(Role r) {
+		r.setId(100);
 		em.getTransaction().begin();
 		em.persist(r);
 		em.getTransaction().commit();
@@ -52,6 +75,21 @@ public class JPARoleManager implements RoleManager{
 		em.getTransaction().commit();
 		}
 		//si es nulo?
+	}
+
+	public JPARoleManager getJroleMan() {
+		return jroleMan;
+	}
+
+	public void setJroleMan(JPARoleManager jroleMan) {
+		this.jroleMan = jroleMan;
+	}
+	
+	public static void main(String args[]) {
+		
+		RoleManager rolMan = new JPARoleManager();
+		rolMan.createRole(new Role("Nurse"));
+		
 	}
 
 
