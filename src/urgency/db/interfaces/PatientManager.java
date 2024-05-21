@@ -13,6 +13,7 @@ public interface PatientManager {
 	public void addComments(int Patient_id, int Box_id, String comments); 
 	public List<PatientBox> getPatientRecords(Patient patient);
 	public void createRandomPatients(); 
+	public Boolean checkIfPatientExists(String name, String surname); 
 	
 	
 	

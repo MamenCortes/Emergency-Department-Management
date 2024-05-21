@@ -95,10 +95,13 @@ public class AdmitPatient extends FormTemplate {
 
 		String emergencyString = this.emergency.getSelectedItem().toString();
 		Integer emergency = 0;
+		String status; 
 		if (emergencyString.equals("Low")) {
 			emergency = 1; 
+			status = "waiting"; 
 		}else if(emergencyString.equals("High")){
 			emergency = 5; 
+			status = "emergency room"; 
 		}else {
 			showErrorMessage("Select the urgency");
 			return false; 
@@ -109,7 +112,7 @@ public class AdmitPatient extends FormTemplate {
 		patient.setSex(sex);
 		patient.setAge(date);
 		patient.setUrgency(emergency);
-		patient.setStatus("waiting");
+		patient.setStatus(status);
 		
 		appMain.conMan.getPatientMan().updatePatient(patient);;
 		System.out.println(patient);

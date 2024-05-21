@@ -28,7 +28,7 @@ public class AddPatient extends FormTemplate {
 		name = new MyTextField(); 
 		surname = new MyTextField(); 
 		sex = new MyComboBox<String>(); 
-		emergency = new MyComboBox<String>(); 
+		emergency = new MyComboBox<String>();
 		birthDate = new JDateChooser(); //Date format yyyy-MM-dd
 		
 		form1 = new FormPanel("Add New Patient", name, surname, sex, birthDate, emergency); 
@@ -60,7 +60,13 @@ public class AddPatient extends FormTemplate {
 	
 	private Boolean createPatient() {
 		String name = this.name.getText(); 
-		String surname = this.surname.getText(); 
+		String surname = this.surname.getText();
+		
+		//First checks if patient with same name and surname exists
+		if(appMain.conMan.getPatientMan().checkIfPatientExists(name, surname)) {
+			showErrorMessage("Patient already exists");
+			return false; 
+		}
 		String sex = this.sex.getSelectedItem().toString();
 		//System.out.println(sex);
 		
@@ -73,15 +79,18 @@ public class AddPatient extends FormTemplate {
 
 		String emergencyString = this.emergency.getSelectedItem().toString();
 		Integer emergency = 0;
+		String status; 
 		if (emergencyString.equals("Low")) {
 			emergency = 1; 
+			status = "waiting"; 
 		}else if(emergencyString.equals("High")){
 			emergency = 5; 
+			status = "emergency room";
 		}else {
 			showErrorMessage("Select the urgency");
 			return false; 
 		}
-		Patient patient = new Patient(name, surname, "waiting", emergency, sex, date.toLocalDate());
+		Patient patient = new Patient(name, surname, status, emergency, sex, date.toLocalDate());
 		appMain.conMan.getPatientMan().addPatient(patient);
 		System.out.println(patient);
 		return true; 

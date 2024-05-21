@@ -18,6 +18,7 @@ public class Application extends JFrame{
 	//JDBC Objects
 	public ConnectionManager conMan;
 	public ConnectionManagerJPA userMan; 
+	//public XmlManager xmlMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -47,12 +48,16 @@ public class Application extends JFrame{
 	//TODO create method getDoctorByUserName(User user); 
 	//TODO change addDoctor to create and check user
 	//TODO check setUser Method
+	//TODO add button in doctor to export info to XML file 
+	//TODO add button in manager to add doctor from XML eligiendo la ruta a un archivo 
+	//TODO create methods in managers to insert random data at the begining
 
 
 	public Application() {
 		conMan = new ConnectionManager();
 		userMan = new ConnectionManagerJPA(); 
 		appPanels = new ArrayList<JPanel>(); 
+		//xmlMan = new XmlManager(); 
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,7 +112,7 @@ public class Application extends JFrame{
 		doctorView = new DoctorView(this); 
 		appPanels.add(doctorView);		
 
-		setContentPane(logInPanel);
+		setContentPane(actorsMenu);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -242,7 +247,7 @@ public class Application extends JFrame{
 		this.setContentPane(generalView); 
 	}
 	public void changeToNurseView() {
-		//nurseView.updateView(); 
+		nurseView.updateTriageOptions(); 
 		hideAllPanels();
 		nurseView.setVisible(true);
 		this.setContentPane(nurseView); 
