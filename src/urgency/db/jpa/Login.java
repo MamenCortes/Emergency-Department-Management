@@ -3,6 +3,7 @@ package urgency.db.jpa;
 import java.security.NoSuchAlgorithmException;
 
 import urgency.db.jpa.JPAUserManager;
+import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
 
 public class Login {
@@ -16,4 +17,6 @@ public class Login {
 		return (null!=user);
 		
 	}
+	
 }
+

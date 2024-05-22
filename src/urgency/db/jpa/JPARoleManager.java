@@ -21,6 +21,7 @@ public class JPARoleManager implements RoleManager{
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
+		// TODO: IF Roles not present, add them
 		addRoles();
 	}
 	
@@ -51,8 +52,8 @@ public class JPARoleManager implements RoleManager{
 
 	@Override
 	public Role getRole(String rolename) {
-		Query q = em.createNativeQuery("SELECT roleName FROM roles WHERE roleName = ?", Role.class);
-		q.setParameter(1, "%" + rolename + "%");
+		Query q = em.createNativeQuery("SELECT * FROM roles WHERE roleName = ?", Role.class);
+		q.setParameter(1, rolename);
 		Role role = (Role) q.getSingleResult();
 		return role;
 	}
@@ -62,16 +63,6 @@ public class JPARoleManager implements RoleManager{
 		Query q = em.createNativeQuery("SELECT * FROM roles", Role.class);
 		List<Role> roles = (List<Role>) q.getResultList();
 		return roles;
-	}
-
-	@Override
-	public void assignRole(User u, Role r) {
-		em.getTransaction().begin();
-		if(u!=null) {
-		u.setRole(r);
-		r.addUser(u);
-		em.getTransaction().commit();
-		}
 	}
 
 	public JPARoleManager getJroleMan() {

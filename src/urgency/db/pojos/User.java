@@ -17,13 +17,13 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE, generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	@Column(nullable = false, unique = true, name = "email")
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private Role role;
 	
 	public User() {
@@ -38,15 +38,15 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-	
-	public User(String email, String password, Role role2)throws IllegalArgumentException {
+    /*	
+	public User(String email, String password, Role role)throws IllegalArgumentException {
 		super();
 		this.email = email;
 	
 		validatePassword(password);
 		
 		this.password = password;
-		this.role = role2;
+		this.role = role;
 	}
 	
 	private void validatePassword(String password) throws IllegalArgumentException {
@@ -63,9 +63,17 @@ public class User implements Serializable {
 		 }
 	   }
 	 }
+	 */
 
 	public Integer getId() {
 		return id;
+	}
+
+	public User(String email, String password, Role role) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.role = role;
 	}
 
 	public void setId(Integer id) {

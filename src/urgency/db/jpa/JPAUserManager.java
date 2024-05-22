@@ -14,6 +14,7 @@ public class JPAUserManager implements UserManager {
 
 	private EntityManager em;
 	private JPAUserManager juserMan;
+	private JPAUserManager jum;
 	
 	public JPAUserManager() {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
@@ -57,20 +58,29 @@ public class JPAUserManager implements UserManager {
 	
 	@Override
 	public boolean register(User u) throws NoSuchAlgorithmException {
-		em.getTransaction().begin();
-		String password = u.getPassword();
-		String email = u.getEmail();
-		//UserRegister reg;
-		//Boolean availableRegister = UserRegister.register(email, password);
-		Boolean userAlreadyRegistered = getUser(email, password);
-			if(userAlreadyRegistered) {
-				//System.out.println("The register cannot be done");
+
+		// UserRegister.register(jum, email, password, role);
+
+		try {
+			em.getTransaction().begin();
+
+			String password = u.getPassword();
+			String email = u.getEmail();
+			Role role = u.getRole();
+			// UserRegister reg;
+			Boolean userAlreadyRegistered = this.getUser(email, password);
+			// Boolean userAlreadyRegistered = getUser(email, password);
+			if (userAlreadyRegistered) {
+				// System.out.println("The register cannot be done");
 				return false;
 			}
 			em.persist(u);
 			em.getTransaction().commit();
 			return true;
-		
+		} catch (Exception e) {
+			throw e;
+		}
+
 	}
 	
 	@Override
@@ -118,6 +128,17 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().commit();
 	}
 	
+	@Override
+	public void assignRole(User u, Role r) {
+		em.getTransaction().begin();
+		if(u!=null) {
+		u.setRole(r);
+		r.addUser(u);
+		em.getTransaction().commit();
+		}
+	}
+
+	
 	public JPAUserManager getJuserMan() {
 		return juserMan;
 	}
@@ -125,5 +146,5 @@ public class JPAUserManager implements UserManager {
 	public void setJuserMan(JPAUserManager juserMan) {
 		this.juserMan = juserMan;
 	}
-
+	
 }

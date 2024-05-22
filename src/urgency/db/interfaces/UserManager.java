@@ -12,4 +12,5 @@ public interface UserManager {
 	void changePassword(User u, String password);
 	String getPassword(User u);
 	Boolean getUser(String email, String password);
+	void assignRole(User u, Role r);
 }

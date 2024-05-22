@@ -10,8 +10,6 @@ public interface RoleManager {
 	public void createRole(Role r);
 	public Role getRole(String name);
 	public List<Role> getAllRoles();
-	public void assignRole(User u, Role r);
-	
-	
+
 
 }
