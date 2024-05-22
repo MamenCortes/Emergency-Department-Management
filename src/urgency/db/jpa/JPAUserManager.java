@@ -33,7 +33,7 @@ public class JPAUserManager implements UserManager {
 		if(u.getPassword().isEmpty()) {
 			System.out.println("There password do not exist");
 		}
-		return u.getPassword();
+		return u.getPassword(); 
 		
 	}
 	
@@ -42,7 +42,7 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.persist(u);
 		u.setPassword(password);
-		em.getTransaction().commit();
+		em.getTransaction().commit(); //a
 		
 	}
 	

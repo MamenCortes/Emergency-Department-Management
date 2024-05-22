@@ -159,13 +159,13 @@ public class FormPanel extends JPanel {
 	    sexText.setForeground(contentColor);
 	    add(sexText, "grow");
 	    
-	    JLabel spec = new JLabel("Date of Birth*");
+	    JLabel spec = new JLabel("Date of Birth (yyyy-mm-dd)*");
 	    spec.setFont(contentFont);
 	    spec.setForeground(contentColor);
 	    add(spec, "grow");
 	    
 	    sex =Sex; 
-	    sex.addItem("...");
+	    sex.getModel().setSelectedItem("Select the sex...");
         sex.addItem("Man");
         sex.addItem("Woman");
         add(sex, "grow");
@@ -199,7 +199,7 @@ public class FormPanel extends JPanel {
 	    add(emergencyText, "grow");
         
 	    emergency = Emergency; 
-	    emergency.addItem("...");
+	    emergency.getModel().setSelectedItem("Select the urgency...");
         emergency.addItem("Low");
         emergency.addItem("High");
         add(emergency, "grow, skip 1, span");

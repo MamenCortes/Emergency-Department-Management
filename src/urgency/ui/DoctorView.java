@@ -33,6 +33,7 @@ public class DoctorView extends SearchTemplate {
 	private Application appMain; 
 	private MyButton logOutButton; 
 	private MyButton nextPatient; 
+	private MyButton printToXML; 
 	private JPanel mainPanel;  
 	private PanelCoverForMenu cover;
 	private Doctor doctor; 
@@ -156,7 +157,13 @@ public class DoctorView extends SearchTemplate {
         nextPatient.setForeground(new Color(250, 250, 250));
         nextPatient.addActionListener(this);
         
-	    mainPanel.add(logOutButton, "cell 1 5, split 3, center, gapy 5, gapx 10");
+        printToXML  = new MyButton("INTO XML"); 
+        printToXML.setBackground(new Color(7, 164, 121));
+        printToXML.setForeground(new Color(250, 250, 250));
+        printToXML.addActionListener(this);
+        
+	    mainPanel.add(logOutButton, "cell 1 5, split 4, center, gapy 5, gapx 10");
+	    mainPanel.add(printToXML, "cell 1 5, center, gapy 5, gapx 10");
 	    mainPanel.add(openFormButton, "cell 1 5, center, gapy 5, gapx 10");
 	    mainPanel.add(nextPatient, "cell 1 5, center, gapy 5, gapx 10");
 	    
@@ -221,6 +228,15 @@ public class DoctorView extends SearchTemplate {
 				updateView();
 			}
 			
+		}else if(e.getSource() == printToXML) {
+			//TODO descomentar
+			/*if(appMain.xmlMan.Java2Xml(doctor)) {
+				System.out.println("Turn into XML");
+			}else {
+				showErrorMessage("XML file couldn't be created");
+			}*/
+			
+			 
 		}
 	}
 	
