@@ -42,7 +42,7 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().begin();
 		em.persist(u);
 		u.setPassword(password);
-		em.getTransaction().commit(); //a
+		em.getTransaction().commit();
 		
 	}
 	
