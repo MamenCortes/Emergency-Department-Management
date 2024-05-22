@@ -16,23 +16,27 @@ public class Role implements Serializable {
 	 */
 	private static final long serialVersionUID = -5192341069760955022L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles")
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "roles")
 	@TableGenerator(name = "roles", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
 	private Integer id;
 	@Column(name="roleName")
-	private String roleName;
+	private String name;
 
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn
 	private List<User> users;
+	
+	
 
 	public Role() {
 		this.users = new ArrayList<User>();
 	}
 
+
+
 	public Role(String name) {
-		this.roleName = name;
+		this.name = name;
 		this.users = new ArrayList<User>();
 	}
 	
@@ -45,28 +49,35 @@ public class Role implements Serializable {
 		return true;
 	} */
 	
-	public String getRoleName() {
-		return roleName;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
-		
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
 	}
 
 	@Override
@@ -88,7 +99,7 @@ public class Role implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + roleName + "]";
+		return "Role [id=" + id + ", name=" + name + "]";
 	}
 	
 	

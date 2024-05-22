@@ -15,7 +15,7 @@ public class User implements Serializable {
 	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE, generator = "users")
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
@@ -23,20 +23,19 @@ public class User implements Serializable {
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //revisar
 	private Role role;
 	
 	public User() {
-		super();
+		
 	}
 	
-	public User(Integer id, String email, String password, Role role) {
-		super();
-		this.id = id;
+	public User(String email, String password, Role role) {
 		this.email = email;
 		this.password = password;
 		this.role = role;
 	}
+
 
     /*	
 	public User(String email, String password, Role role)throws IllegalArgumentException {
@@ -67,13 +66,6 @@ public class User implements Serializable {
 
 	public Integer getId() {
 		return id;
-	}
-
-	public User(String email, String password, Role role) {
-		super();
-		this.email = email;
-		this.password = password;
-		this.role = role;
 	}
 
 	public void setId(Integer id) {

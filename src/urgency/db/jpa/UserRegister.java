@@ -8,28 +8,19 @@ import urgency.db.pojos.User;
 
 public class UserRegister {
 
-	private static JPAUserManager jpaUserManager;
-
-	public UserRegister(JPAUserManager jpaUserManager) {
-		this.jpaUserManager = jpaUserManager;
-	}
-
 	public static boolean register(String email, String password, Role role) throws NoSuchAlgorithmException {
 		String passwordCodificada = MD5Cypher.encrypt(password);
-		System.out.println("R:" + password);
-		System.out.println("R:" + passwordCodificada);
 		JPAUserManager jum = new JPAUserManager();
-		System.out.println("error in register encrypted");
+		//System.out.println("error in register encrypted");
 
 		User user = new User(email, passwordCodificada, role);
-		jum.register(user);
-		if(jum.getUser(user.getEmail(), user.getPassword())) {
-			return true;
-		}
-		return false;
-		// return jum.register(user));
+		
+		return jum.register(user);
+		//al llamarlo desde la applicacion se envian mensajes de error
+		//si retorna true es q el usuario de ha registrado
 
 	}
+	
 
 	/*
 	 * public static void main(String [] args) throws NoSuchAlgorithmException {
@@ -55,11 +46,10 @@ public class UserRegister {
 	public static void main(String args[]) throws NoSuchAlgorithmException {
 		
 		  JPAUserManager jum = new JPAUserManager();
-		  UserRegister userRegister = new UserRegister(jpaUserManager);
 		  JPARoleManager roleMan = new JPARoleManager();
 		  Role r = roleMan.getRole("Doctor");
 		   System.out.println(UserRegister.register("email@hospital.com", "password1", r));
-		   System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
+		  //System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
 		   System.out.println(jum.login("email@hospital.com", "password1"));
 		}
 

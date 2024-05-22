@@ -21,8 +21,12 @@ public class JPARoleManager implements RoleManager{
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
+		List<Role> roles = getAllRoles();
 		// TODO: IF Roles not present, add them
-		addRoles();
+		if(roles.isEmpty()) {
+		  addRoles();	
+		}
+		
 	}
 	
 	private void addRoles() {
@@ -72,13 +76,5 @@ public class JPARoleManager implements RoleManager{
 	public void setJroleMan(JPARoleManager jroleMan) {
 		this.jroleMan = jroleMan;
 	}
-	
-	public static void main(String args[]) {
-		
-		RoleManager rolMan = new JPARoleManager();
-		rolMan.createRole(new Role("Nurse"));
-		
-	}
-
 
 }

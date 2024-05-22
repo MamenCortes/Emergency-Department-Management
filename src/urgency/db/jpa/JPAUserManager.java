@@ -57,9 +57,7 @@ public class JPAUserManager implements UserManager {
 	*/ //no deberia validar aqui o si?
 	
 	@Override
-	public boolean register(User u) throws NoSuchAlgorithmException {
-
-		// UserRegister.register(jum, email, password, role);
+	public boolean register(User u) {
 
 		try {
 			em.getTransaction().begin();
@@ -67,9 +65,7 @@ public class JPAUserManager implements UserManager {
 			String password = u.getPassword();
 			String email = u.getEmail();
 			Role role = u.getRole();
-			// UserRegister reg;
 			Boolean userAlreadyRegistered = this.getUser(email, password);
-			// Boolean userAlreadyRegistered = getUser(email, password);
 			if (userAlreadyRegistered) {
 				// System.out.println("The register cannot be done");
 				return false;
@@ -78,7 +74,7 @@ public class JPAUserManager implements UserManager {
 			em.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			throw e;
+			return false;
 		}
 
 	}
@@ -86,7 +82,7 @@ public class JPAUserManager implements UserManager {
 	@Override
 	public Boolean getUser(String email, String password) {
 
-		Query q = em.createNativeQuery("SELECT email, password FROM users WHERE email = ? AND password = ?", User.class);
+		Query q = em.createNativeQuery("SELECT id, email, password FROM users WHERE email = ? AND password = ?", User.class);
 		q.setParameter(1, email);
 		q.setParameter(2, password);
 		try {
@@ -101,9 +97,9 @@ public class JPAUserManager implements UserManager {
 	
 	@Override
 	public User login(String email, String password) {
-		User u = null;
+		User u;
 		//Login log = null;
-		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
+		Query q = em.createNativeQuery("SELECT id, email, password FROM users WHERE email = ? AND password = ?", User.class);
 		q.setParameter(1, email);
 		q.setParameter(2, password);
 		try {
