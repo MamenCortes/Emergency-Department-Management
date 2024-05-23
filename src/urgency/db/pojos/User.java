@@ -23,7 +23,7 @@ public class User implements Serializable {
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //revisar
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Role role;
 	
 	public User() {
@@ -38,16 +38,6 @@ public class User implements Serializable {
 
 
     /*	
-	public User(String email, String password, Role role)throws IllegalArgumentException {
-		super();
-		this.email = email;
-	
-		validatePassword(password);
-		
-		this.password = password;
-		this.role = role;
-	}
-	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
 		boolean goodPassword=false;

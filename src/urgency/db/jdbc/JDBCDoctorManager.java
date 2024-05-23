@@ -231,32 +231,34 @@ public class JDBCDoctorManager implements DoctorManager {
 	public static void main(String[] args) {
 		ConnectionManager conMan = new ConnectionManager();
 		DoctorManager docMan = conMan.getDocMan();
-		//conMan.getSpecialityManager();
-		
-		/*
-		Speciality s = new Speciality("Psychiatry");
 		
 		Doctor d;
 		
-		d = new Doctor(1,"Jorge", "Fernandez", s, true);
+		d = new Doctor(1,"Jorge", "Fernandez", "jorgefernandez@hospital.com", "Internal medicine", true);
 		
 		docMan.addDoctor(d);
 		
 		System.out.println("Doctor added");
 		
-		Doctor d2 = new Doctor(2, "Maria", "Perez", s, false);
+		Doctor d2 = new Doctor(2, "Maria", "Perez", "mariaperez@hospital.com", "Pediatrics", false);
 		
 		docMan.addDoctor(d2);
+		
+        Doctor d3 = new Doctor(1,"Maria", "Blanco", "mariablanco@hospital.com", "Psychiatry", true);
+		
+		docMan.addDoctor(d3);
 		
 		conMan.getDocMan().deleteDoctor(d2.getid());
 		
 		conMan.getDocMan().changeStatus(1, false);
 		
+		Speciality s = new Speciality("Psychiatry");
+		
 		List<Doctor> doctors = conMan.getDocMan().getDoctorsBySpeciality(s.getType());
 		
-		Doctor d3 = conMan.getDocMan().getDoctor(1);
+		Doctor d4 = conMan.getDocMan().getDoctor(1);
 		
-		System.out.println(d3);
+		System.out.println(d4);
 		
 		List<Doctor> doctors2 = conMan.getDocMan().searchDoctorsBySurname("Fernandez");
 		
@@ -267,7 +269,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		conMan.getDocMan().updateDoctor(d2);
 		
 		System.out.println(d2);
-		*/
+		
 		
 		System.out.println(docMan.getDoctorsBySpeciality("Internal medicine"));
 		conMan.closeConnection();								

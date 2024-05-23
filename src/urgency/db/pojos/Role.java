@@ -40,15 +40,6 @@ public class Role implements Serializable {
 		this.users = new ArrayList<User>();
 	}
 	
-	
-	
-	/*private boolean validationRoles(String name) {
-		if(!name.contentEquals("Recepcionist") || !name.contentEquals("Nurse")|| !name.contentEquals("Manager") || !name.contentEquals("Doctor")) {
-			return false;
-		}
-		return true;
-	} */
-	
 	public List<User> getUsers() {
 		return users;
 	}

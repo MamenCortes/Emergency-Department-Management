@@ -41,12 +41,6 @@ public class JPARoleManager implements RoleManager{
 		
 	}
 	
-	/*private void addRole(Role r) {
-		List<Role> roles = getAllRoles();
-		if(!roles.contains(r)) {
-			roles.add(r);
-		}*/
-	
 	@Override
 	public void createRole(Role r) {
 		em.getTransaction().begin();
