@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import urgency.db.interfaces.UserManager;
 import urgency.db.jdbc.*;
-import urgency.db.jpa.ConnectionManagerJPA;
+import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.*;
 
 
@@ -17,7 +15,7 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	public ConnectionManagerJPA userMan; 
+	public JPAUserManager userMan; 
 	//public XmlManager xmlMan; 
 	
 	//UI Panels
@@ -55,7 +53,7 @@ public class Application extends JFrame{
 
 	public Application() {
 		conMan = new ConnectionManager();
-		userMan = new ConnectionManagerJPA(); 
+		userMan = new JPAUserManager(); 
 		appPanels = new ArrayList<JPanel>(); 
 		//xmlMan = new XmlManager(); 
 		
