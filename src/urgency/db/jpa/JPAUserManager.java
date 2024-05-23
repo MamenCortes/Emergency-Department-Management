@@ -102,8 +102,8 @@ public class JPAUserManager implements UserManager {
 		
 		  JPAUserManager jum = new JPAUserManager();
 		  JPARoleManager roleMan = new JPARoleManager();
-		  Role r = roleMan.getRole("Doctor");
-		  User u = new User("email561@hospital.com", "password1", r);
+		  Role r = roleMan.getRole("Recepcionist");
+		  User u = new User("josefinamendez@hospital.com", "concepciong", r);
 		   System.out.println(jum.register(u));
 		  //System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
 		   System.out.println(jum.login("email56@hospital.com", "password1"));
