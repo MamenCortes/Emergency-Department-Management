@@ -4,8 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -172,8 +171,7 @@ public class UserLogIn extends JPanel implements ActionListener{
     	String email = emailTxFLogIn.getText(); 
     	String password = passwordTxFLogIn.getText(); 
     	//TODO create userManager in connectionJPA
-    	User user = null; 
-    	//User user = appMenu.userMan.getUserManager().login(email, password); 
+    	User user = appMenu.userMan.login(email, password); 
     	if(user != null) {
     		appMenu.setUser(user); 
     	}else {
@@ -193,7 +191,15 @@ public class UserLogIn extends JPanel implements ActionListener{
     	}
     	
     	//TODO create userManager in connectionJPA
-    	//appMenu.userMan.getUserManager().register(new User(email, password, new Role(role)));
+    	try {
+			appMenu.userMan.register(new User(email, password, new Role(role)));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			panelLogIn.showErrorMessage();
+			e.printStackTrace();
+		}
     	showLogIn(); 
     	
     }

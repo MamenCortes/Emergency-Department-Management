@@ -18,13 +18,7 @@ public class JPAUserManager implements UserManager {
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
-		em.getTransaction().commit();
-			
-	}
-	
-	public JPAUserManager(EntityManager em) {
-		super();
-		this.em=em;
+		em.getTransaction().commit();	
 	}
 	
 	public void close() {
@@ -32,69 +26,57 @@ public class JPAUserManager implements UserManager {
 	}
 	
 	@Override
-	public String getPassword(User u) {
-		em.getTransaction().begin();
-		if(u.getPassword().isEmpty()) {
-			System.out.println("There password do not exist");
-		}
-		return u.getPassword();
-		
-	}
-	
-	@Override
 	public void changePassword(User u, String password) {
 		em.getTransaction().begin();
-		em.persist(u);
 		u.setPassword(password);
 		em.getTransaction().commit();
 		
 	}
 	
-	/*
-	public void userDoctor(User u) {
-		Doctor doc = new Doctor();
-		String username = u.getUsername();
-		if(u.getRole() == new Role("Doctor")) {
-			doc.getUsername() == username;
-		}
-	}
-	*/ //no deberia validar aqui o si?
-	
 	@Override
-	public void register(User u) {
-		em.getTransaction().begin();
-		String password = u.getPassword();
-		String username = u.getUsername();
-		UserRegister reg = null;
-		Boolean availableRegister;
+	public boolean register(User u) throws NoSuchAlgorithmException {
+
 		try {
-			availableRegister = reg.register(username, password);
-			if(!availableRegister) {
-				System.out.println("The register cannot be done");
-			}
+			em.getTransaction().begin();
+
+			String password = u.getPassword();
+			String passwordCodificada = MD5Cypher.encrypt(password);
+			u.setPassword(passwordCodificada);
 			em.persist(u);
 			em.getTransaction().commit();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
+		}
+
+	}
+	
+	@Override
+	public boolean isUser(String email) {
+
+		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? ", User.class);
+		q.setParameter(1, email);
+		try {
+			User u = (User) q.getSingleResult();
+			return true;
+		}catch(Exception e){
+			return false;
 		}
 		
 	}
 
 	
 	@Override
-	public User login(String username, String password) {
-		User u = null;
-		Login log = null;
-		Query q = em.createNativeQuery("SELECT * FROM users WHERE username = ? AND password = ?", User.class);
+	public User login(String email, String password) {
+		User u;
 		try {
+		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
+		q.setParameter(1, email);
+		String passwordCodificada = MD5Cypher.encrypt(password);
+		q.setParameter(2, passwordCodificada);
+
 		u = (User) q.getSingleResult();
-		q.setParameter(1, username);
-		//se codifica el password
-		Boolean loginEncrypted = log.login(username, password);
-		if(loginEncrypted) {
-		q.setParameter(2, password);
-		}
 		} catch (NoResultException | NoSuchAlgorithmException e) {
 			return null;
 		}
@@ -104,10 +86,28 @@ public class JPAUserManager implements UserManager {
 	@Override
 	public void deleteUser(User u) {
 		em.getTransaction().begin();
-		em.persist(u);
 		em.remove(u);
 		em.getTransaction().commit();
 	}
+	
+	@Override
+	public void assignRole(User u, Role r) {
+		em.getTransaction().begin();
+		u.setRole(r);
+		r.addUser(u);
+		em.getTransaction().commit();
+	}
+	
+	public static void main(String args[]) throws NoSuchAlgorithmException {
+		
+		  JPAUserManager jum = new JPAUserManager();
+		  JPARoleManager roleMan = new JPARoleManager();
+		  Role r = roleMan.getRole("Recepcionist");
+		  User u = new User("josefinamendez@hospital.com", "concepciong", r);
+		   System.out.println(jum.register(u));
+		  //System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
+		   System.out.println(jum.login("email56@hospital.com", "password1"));
+		}
 
 
 }

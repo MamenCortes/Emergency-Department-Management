@@ -121,7 +121,7 @@ public class JDBCTriageManager implements TriageManager {
 			return patient;
 		} catch (SQLException e) {
 			System.out.println("No patient assigned to triage");
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null; 
 		}
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import urgency.db.pojos.*;
 
 public interface DoctorManager {
+	public Doctor getDoctorByEmail(String email);
 	public void addDoctor(Doctor doctor);
 	public List<Doctor> searchDoctorsBySurname(String surname); 
 	public Doctor getDoctor(int id); 

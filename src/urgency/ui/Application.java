@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import urgency.db.interfaces.UserManager;
 import urgency.db.jdbc.*;
-import urgency.db.jpa.ConnectionManagerJPA;
+import urgency.db.jpa.JPARoleManager;
+import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.*;
 
 
@@ -17,7 +16,11 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	public ConnectionManagerJPA userMan; 
+	//public ConnectionManagerJPA userMan; 
+		public JPAUserManager jpaUserMan;
+		public JPARoleManager jpaRoleMan; //necesitas esto para seleccionar cada rol del usuario
+		//para q se muestren las ventanas correspondientes de cada rol
+	//public XmlManager xmlMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -47,12 +50,38 @@ public class Application extends JFrame{
 	//TODO create method getDoctorByUserName(User user); 
 	//TODO change addDoctor to create and check user
 	//TODO check setUser Method
+	//TODO add button in doctor to export info to XML file 
+	//TODO add button in manager to add doctor from XML eligiendo la ruta a un archivo 
+	//TODO create methods in managers to insert random data at the begining
 
 
 	public Application() {
 		conMan = new ConnectionManager();
-		userMan = new ConnectionManagerJPA(); 
+		//userMan = new ConnectionManagerJPA();
+		jpaUserMan = new JPAUserManager();
 		appPanels = new ArrayList<JPanel>(); 
+		//xmlMan = new XmlManager(); 
+		
+		//Mamen hay que validar las contraseñas, tengo este metodo tipo que es mejor introducrilo en la interfaz 
+		//grafica que tenerlo en el pojo de User:
+		
+		/*
+		 * private void validatePassword(String password) throws IllegalArgumentException {
+		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
+		if(passwordVacia || password.length() < 8) {
+			for(int i=0; i<8; i++) {
+			if(Character.isDigit(password.charAt(i))) {
+			goodPassword = true;
+			}if(i == 8 && !goodPassword) {
+				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
+			}
+		 throw new IllegalArgumentException("Password is empty");
+		 }
+	   }
+	 }
+		 * 
+		 */
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,7 +136,7 @@ public class Application extends JFrame{
 		doctorView = new DoctorView(this); 
 		appPanels.add(doctorView);		
 
-		setContentPane(logInPanel);
+		setContentPane(actorsMenu);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -242,7 +271,7 @@ public class Application extends JFrame{
 		this.setContentPane(generalView); 
 	}
 	public void changeToNurseView() {
-		//nurseView.updateView(); 
+		nurseView.updateTriageOptions(); 
 		hideAllPanels();
 		nurseView.setVisible(true);
 		this.setContentPane(nurseView); 

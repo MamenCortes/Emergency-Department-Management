@@ -255,6 +255,10 @@ public class NurseView extends SearchTemplate{
 
 	}
 	
+	public void updateTriageOptions() {
+        showTriages(appMain.conMan.getTriageManager().getTriages());
+	}
+	
 
 
 	

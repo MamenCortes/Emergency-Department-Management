@@ -14,35 +14,31 @@ import urgency.db.pojos.User;
 public class JPARoleManager implements RoleManager{
 	
 	private EntityManager em;
+	private JPARoleManager jroleMan;
 	
 	public JPARoleManager() {
-		super();
 		em = Persistence.createEntityManagerFactory("emergency-provider").createEntityManager();
 		em.getTransaction().begin();
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
-		addRoles();
+		List<Role> roles = getAllRoles();
+		// TODO: IF Roles not present, add them
+		if(roles.isEmpty()) {
+		  addRoles();	
+		}
+		
 	}
 	
 	private void addRoles() {
-		List<Role> roles = getAllRoles();
-		if(roles.isEmpty()) {
 			Role role1 = new Role("Recepcionist");
-			addRole(role1);
+			createRole(role1);
 			Role role2 = new Role("Nurse");
-			addRole(role1);
+			createRole(role2);
 			Role role3 = new Role("Manager");
-			addRole(role1);
+			createRole(role3);
 			Role role4 = new Role("Doctor");
-			addRole(role1);
-		}
-	}
-	
-	private void addRole(Role r) {
-		List<Role> roles = getAllRoles();
-		if(!roles.contains(r)) {
-			roles.add(r);
-		}
+			createRole(role4);
+		
 	}
 	
 	@Override
@@ -53,11 +49,11 @@ public class JPARoleManager implements RoleManager{
 	}
 
 	@Override
-	public Role getRole(String name) {
-		Query q = em.createNativeQuery("SELECT * FROM roles WHERE name LIKE ?", Role.class);
-		q.setParameter(1, name);
-		Role r = (Role) q.getSingleResult();
-		return r;
+	public Role getRole(String rolename) {
+		Query q = em.createNativeQuery("SELECT * FROM roles WHERE roleName = ?", Role.class);
+		q.setParameter(1, rolename);
+		Role role = (Role) q.getSingleResult();
+		return role;
 	}
 	
 	@Override
@@ -67,16 +63,12 @@ public class JPARoleManager implements RoleManager{
 		return roles;
 	}
 
-	@Override
-	public void assignRole(User u, Role r) {
-		em.getTransaction().begin();
-		if(u!=null) {
-		u.setRole(r);
-		r.addUser(u);
-		em.getTransaction().commit();
-		}
-		//si es nulo?
+	public JPARoleManager getJroleMan() {
+		return jroleMan;
 	}
 
+	public void setJroleMan(JPARoleManager jroleMan) {
+		this.jroleMan = jroleMan;
+	}
 
 }

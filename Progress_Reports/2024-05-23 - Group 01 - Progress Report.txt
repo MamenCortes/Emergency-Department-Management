@@ -1,0 +1,23 @@
+This week we expected to be able to do...
+=========================================
+Finish XML, JPA, the patient life cycle and the interface. 
+
+Reasons why
+-----------
+To finish with the system development. 
+ 
+This week we did...
+===================
+We mostly finished the user interface, XML and JPA. We prepared the system's documentation. 
+
+Reasons why
+------------
+Finish with the system development. 
+
+Next weeks we will do...
+========================
+Finish the last touches and details of the system. Finish the documentation and send the final project. 
+
+Reasons why
+-----------
+To finish with the project.  

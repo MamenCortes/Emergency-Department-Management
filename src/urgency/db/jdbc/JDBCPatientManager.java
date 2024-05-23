@@ -230,6 +230,33 @@ public class JDBCPatientManager implements PatientManager {
 		}
 		
 	}
+	
+	
+	/**
+	 * Returns true if the patient already exists, false if not, and null if there has been an error. 
+	 */
+	@Override
+	public Boolean checkIfPatientExists(String name, String surname) {
+		String sql = "SELECT COUNT(*) FROM Patients WHERE name = ? AND surname = ?"; 
+		try {
+			PreparedStatement pstm = connection.prepareStatement(sql);
+			pstm.setString(1, name);
+			pstm.setString(2, surname);
+			ResultSet rs = pstm.executeQuery(); 
+			rs.next(); 
+			if(rs.getInt(1) == 0) {
+				return false; 
+			}else {
+				return true; 
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} 
+		
+		
+	}
 
 
 	public static void main(String[] args) {
@@ -280,12 +307,17 @@ public class JDBCPatientManager implements PatientManager {
 		//System.out.println(boxesOfPatient);
 		
 		
-		Patient patient1 = new Patient("Paula","Blanco", "waiting", 1, "Woman", LocalDate.of(2004,11,24)); 
+		/*Patient patient1 = new Patient("Paula","Blanco", "waiting", 1, "Woman", LocalDate.of(2004,11,24)); 
 		patMan.addPatient(patient1);
 		Patient patient2 = new Patient("Luis","Blanco", "waiting", 1, "Man", LocalDate.of(2007,9,15)); 
-		patMan.addPatient(patient2);
+		patMan.addPatient(patient2);*/
+		
+		Boolean exists = patMan.checkIfPatientExists("Marta", "Blanco"); 
+		System.out.println(exists);
 		conMan.closeConnection();
 	}
+
+
 
 
 

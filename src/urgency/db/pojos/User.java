@@ -15,34 +15,29 @@ public class User implements Serializable {
 	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
-	@GeneratedValue(generator = "users")
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
-	@Column(nullable = false, unique = true, name = "")
-	
-	private String username; // validar xq el username tiene q ser un email corporativo del email.
-	//private String email;
-	@Column(name="pasword")
+	@Column(nullable = false, unique = true, name = "email")
+	private String email; // validar xq el username tiene q ser un email corporativo del email.
+	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Role role;
 	
 	public User() {
-		super();
+		
+	}
+	
+	public User(String email, String password, Role role) {
+		this.email = email;
+		this.password = password;
+		this.role = role;
 	}
 
-	
-	public User(String username, String password, Role role2)throws IllegalArgumentException {
-		super();
-		this.username = username;
-	
-		validatePassword(password);
-		
-		this.password = password;
-		this.role = role2;
-	}
-	
+
+    /*	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
 		boolean goodPassword=false;
@@ -57,6 +52,7 @@ public class User implements Serializable {
 		 }
 	   }
 	 }
+	 */
 
 	public Integer getId() {
 		return id;
@@ -65,13 +61,14 @@ public class User implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -109,6 +106,6 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", email=" + email + ", password=" + password + ", role=" + role + "]";
 	}
 }
