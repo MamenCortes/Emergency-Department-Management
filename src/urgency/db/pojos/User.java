@@ -15,40 +15,29 @@ public class User implements Serializable {
 	
 	private static final long serialVersionUID = -4330290027484220589L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE, generator = "users")
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator = "users")
 	@TableGenerator(name = "users", table = "sqlite_sequence",
-		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "roles")
+		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	@Column(nullable = false, unique = true, name = "email")
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Role role;
 	
 	public User() {
-		super();
+		
 	}
 	
-	public User(Integer id, String email, String password, Role role) {
-		super();
-		this.id = id;
+	public User(String email, String password, Role role) {
 		this.email = email;
 		this.password = password;
 		this.role = role;
 	}
 
-	
-	public User(String email, String password, Role role2)throws IllegalArgumentException {
-		super();
-		this.email = email;
-	
-		validatePassword(password);
-		
-		this.password = password;
-		this.role = role2;
-	}
-	
+
+    /*	
 	private void validatePassword(String password) throws IllegalArgumentException {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
 		boolean goodPassword=false;
@@ -63,6 +52,7 @@ public class User implements Serializable {
 		 }
 	   }
 	 }
+	 */
 
 	public Integer getId() {
 		return id;
