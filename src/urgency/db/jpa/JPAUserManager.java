@@ -25,6 +25,9 @@ public class JPAUserManager implements UserManager {
 		em.close();
 	}
 	
+	/**
+	 * Changes the password of a given user
+	 */
 	@Override
 	public void changePassword(User u, String password) {
 		em.getTransaction().begin();
@@ -33,6 +36,12 @@ public class JPAUserManager implements UserManager {
 		
 	}
 	
+	/**
+	 * Inserts a user in the DB. 
+	 * Returns true if the user is inserted. 
+	 * returns false if the user couldn't be inserted  
+	 * throws NoSuchalgorithmException when the password couldn't be encrypted.
+	 */
 	@Override
 	public boolean register(User u) throws NoSuchAlgorithmException {
 
@@ -52,6 +61,9 @@ public class JPAUserManager implements UserManager {
 
 	}
 	
+	/**
+	 * Checks if a user exists by a given email
+	 */
 	@Override
 	public boolean isUser(String email) {
 
@@ -67,6 +79,11 @@ public class JPAUserManager implements UserManager {
 	}
 
 	
+
+	/**
+	 * Retrieves a user from the DB with a given name and password. 
+	 * If the user doesn't exist or the password doesn't match, returns null
+	 */
 	@Override
 	public User login(String email, String password) {
 		User u;

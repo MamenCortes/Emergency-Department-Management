@@ -24,10 +24,11 @@ public class JDBCDoctorManager implements DoctorManager {
 	public Doctor getDoctorByEmail(String email) {
 		
 		try {
-			String sql = "SELECT * FROM Doctors WHERE email = " + email;
-			Statement st;
-			st=connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			String sql = "SELECT * FROM Doctors WHERE email = ?";
+			PreparedStatement pstm;
+			pstm=connection.prepareStatement(sql); 
+			pstm.setString(1, email);
+			ResultSet rs = pstm.executeQuery();
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
