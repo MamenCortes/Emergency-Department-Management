@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.toedter.calendar.JDateChooser;
 
-import urgency.PatientLifeCycle.PatientLifeCycle;
+import urgency.db.jdbc.PatientLifeCycle;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.PatientBox;

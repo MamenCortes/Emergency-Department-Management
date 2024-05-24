@@ -16,10 +16,8 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	//public ConnectionManagerJPA userMan; 
-		public JPAUserManager jpaUserMan;
-		public JPARoleManager jpaRoleMan; //necesitas esto para seleccionar cada rol del usuario
-		//para q se muestren las ventanas correspondientes de cada rol
+	public JPAUserManager jpaUserMan;
+	public JPARoleManager jpaRoleMan; 
 	//public XmlManager xmlMan; 
 	
 	//UI Panels
@@ -57,8 +55,8 @@ public class Application extends JFrame{
 
 	public Application() {
 		conMan = new ConnectionManager();
-		//userMan = new ConnectionManagerJPA();
 		jpaUserMan = new JPAUserManager();
+		jpaRoleMan = new JPARoleManager(); 
 		appPanels = new ArrayList<JPanel>(); 
 		//xmlMan = new XmlManager(); 
 		
@@ -136,7 +134,7 @@ public class Application extends JFrame{
 		doctorView = new DoctorView(this); 
 		appPanels.add(doctorView);		
 
-		setContentPane(actorsMenu);
+		setContentPane(logInPanel);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -154,9 +152,7 @@ public class Application extends JFrame{
 		Role role = user.getRole(); 
 		switch (role.getName()) {
 		case  "Doctor":{
-			//TODO create method getDoctorByUserName(User user); 
-			Doctor doctor = null; 
-			//doctor = conMan.getDocMan().getDoctorByUserName(user); 
+			Doctor doctor = conMan.getDocMan().getDoctorByEmail(user.getEmail()); 
 			changeToDoctorView(doctor);
 		} case "Recepcionist":changeToRecepcionistMenu(); break; 
 		case "Nurse": changeToNurseView();break; 
@@ -194,13 +190,9 @@ public class Application extends JFrame{
 	}
 	
 	public void changeToUserLogIn() {
-		/*
 		hideAllPanels();
 		logInPanel.setVisible(true);
-		this.setContentPane(logInPanel);*/
-		hideAllPanels();
-		actorsMenu.setVisible(true);
-		this.setContentPane(actorsMenu);
+		this.setContentPane(logInPanel);
 	}
 	
 	public void changeToManagerMenu() {

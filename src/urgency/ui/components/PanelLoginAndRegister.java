@@ -20,7 +20,6 @@ public class PanelLoginAndRegister extends JPanel{
 	private static final long serialVersionUID = 1L;
     private javax.swing.JPanel login;
     private javax.swing.JPanel register;
-	private MyTextField txtUser; 
 	private MyTextField txtEmailReg; 
 	private  MyTextField txtPassReg;
 	private MyTextField txtEmailLI; 
@@ -35,12 +34,11 @@ public class PanelLoginAndRegister extends JPanel{
     private MyButton cmdForget; 
 
 
-	public PanelLoginAndRegister(MyButton logIn, MyButton register, MyButton changepassword, MyTextField userNameTxf, 
+	public PanelLoginAndRegister(MyButton logIn, MyButton register, MyButton changepassword, 
 			MyTextField emailTxf, MyTextField passwordTxf, MyComboBox<String> roleCb, MyTextField emailTxf2, MyTextField passwordTxf2) {
 		logInButton = logIn; 
 		registerButton = register; 
 		
-		txtUser = userNameTxf; 
 		txtEmailReg = emailTxf; 
 		txtPassReg = passwordTxf; 
 		roleCB = roleCb; 
@@ -76,10 +74,6 @@ public class PanelLoginAndRegister extends JPanel{
         label.setForeground(new Color(7, 164, 121));
         register.add(label);
         
-        //txtUser = new MyTextField();
-        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/user.png")));
-        txtUser.setHint("UserName");
-        register.add(txtUser, "w 60%");
         
         //txtEmail = new MyTextField();
         txtEmailReg.setPrefixIcon(new ImageIcon(getClass().getResource("/urgency/ui/icon/mail.png")));

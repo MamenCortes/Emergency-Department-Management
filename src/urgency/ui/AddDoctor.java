@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import urgency.ui.components.MyComboBox;
 import urgency.ui.components.MyTextField;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
+import urgency.db.pojos.Role;
 import urgency.db.pojos.Speciality;
 import urgency.db.pojos.User;
 import urgency.ui.components.ChangePassword;
@@ -88,21 +90,23 @@ public class AddDoctor extends FormTemplate {
 		
 		String specText = speciality.getSelectedItem().toString(); 
 		Speciality patientSpec = new Speciality(specText); 
-		//TODO Create UserName
-		/*String email = this.email.getText();
+
+		String email = this.email.getText();
 		String password = this.password.getText(); 
 		User u; 
 		try {
-			u = new User(email, password, "Doctor"); 
-		}catch(IllegalArgumentException e) {
+			Role role = appMain.jpaRoleMan.getRole("Doctor"); 
+			u = new User(email, password, role);
+			Doctor doctor = new Doctor(name, surname, patientSpec, u.getEmail());
+			appMain.jpaUserMan.register(u);
+			appMain.conMan.getDocMan().addDoctor(doctor);
+			System.out.println(doctor);
+			return true; 
+		}catch(NoSuchAlgorithmException e) {
 			showErrorMessage("Password not valid");
 			return false; 
-		}*/
-		//Doctor doctor = new Doctor(name, surname, patientSpec, user.getUserName());
-		Doctor doctor = new Doctor(name, surname, patientSpec);
-		appMain.conMan.getDocMan().addDoctor(doctor);
-		System.out.println(doctor);
-		return true; 
+		}
+
 	}
 	
 	

@@ -45,7 +45,7 @@ public class Doctor implements Serializable{
 		super();
 	}
 
-	public Doctor(Integer id, String name, String surname, Speciality speciality_type, Boolean in_box) {
+	public Doctor(Integer id, String name, String surname, Speciality speciality_type, Boolean in_box, String email) {
 		super();
 		this.id=id;
 		this.name=name;
@@ -67,12 +67,12 @@ public class Doctor implements Serializable{
 		
 	}
 	
-	public Doctor(String name, String surname, Speciality speciality_type) {
+	public Doctor(String name, String surname, Speciality speciality_type, String email) {
 		super();
-		//this.id = -1; 
 		this.name = name;
 		this.surname = surname;
 		this.in_box = false;
+		this.email = email; 
 		this.speciality_type = speciality_type;
 		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
