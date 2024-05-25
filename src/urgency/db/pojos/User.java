@@ -31,11 +31,21 @@ public class User implements Serializable {
 	}
 	
 	public User(String email, String password, Role role) {
-		this.email = email;
+		if(validateEmail(email)) {
+			this.email = email;
+		}else {
+			this.email = email + "@hospital.com";
+		}
 		this.password = password;
 		this.role = role;
 	}
 
+	
+	private boolean validateEmail(String email) {
+		
+		return email.endsWith("@hospital.com");
+		
+	}
 
     /*	
 	private void validatePassword(String password) throws IllegalArgumentException {

@@ -34,7 +34,7 @@ public class JPAUserManager implements UserManager {
 	}
 	
 	@Override
-	public boolean register(User u) throws NoSuchAlgorithmException {
+	public boolean register(User u) throws NoSuchAlgorithmException, RollbackException {
 
 		try {
 			em.getTransaction().begin();
@@ -46,7 +46,7 @@ public class JPAUserManager implements UserManager {
 			em.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 
@@ -103,10 +103,16 @@ public class JPAUserManager implements UserManager {
 		  JPAUserManager jum = new JPAUserManager();
 		  JPARoleManager roleMan = new JPARoleManager();
 		  Role r = roleMan.getRole("Recepcionist");
-		  User u = new User("josefinamendez@hospital.com", "concepciong", r);
-		   System.out.println(jum.register(u));
+		  Role r2 = roleMan.getRole("Doctor");
+		  User u = new User("concepciongimenez@hospital.com", "concepciong", r);
+		  //System.out.println(jum.register(u)); //si da false es proque solo deja registrar una vez
 		  //System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
-		   System.out.println(jum.login("email56@hospital.com", "password1"));
+		  //System.out.println(jum.register(new User("josefinamendez@hospital.com", "password1", r2)));
+		  System.out.println(jum.login("josefinamendez@hospital.com", "password1"));
+		  Role r3 = roleMan.getRole("Nurse");
+		  //System.out.println(jum.register(new User("manuelfernandez@hospital.com", "manu123", r3)));
+		  System.out.println(jum.login("manuelfernandez@hospital.com", "manu123"));
+		   
 		}
 
 
