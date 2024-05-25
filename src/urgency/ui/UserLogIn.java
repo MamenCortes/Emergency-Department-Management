@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
+import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
 import urgency.ui.components.ChangePassword;
@@ -32,7 +33,6 @@ public class UserLogIn extends JPanel implements ActionListener{
 	private MyButton changePanels; 
 	private MyButton changePassword; 
 	private Application appMenu; 
-	private MyTextField userNameTxF; 
 	private MyTextField emailTxF; 
 	private MyTextField passwordTxF; 
 	private MyTextField emailTxFLogIn; 
@@ -60,8 +60,6 @@ public class UserLogIn extends JPanel implements ActionListener{
 		changePassword = new MyButton(); 
 		changePassword.addActionListener(this);
 		
-		userNameTxF = new MyTextField(); 
-		userNameTxF.addActionListener(this);
 		emailTxF = new MyTextField(); 
 		emailTxF.addActionListener(this);
 		passwordTxF = new MyTextField(); 
@@ -74,11 +72,11 @@ public class UserLogIn extends JPanel implements ActionListener{
 		roleCB.addActionListener(this);
 		//roleCB.addItem("Doctor");
 		roleCB.addItem("Recepcionist");
-		roleCB.addItem("Triage Nurse");
+		roleCB.addItem("Nurse");
 		roleCB.addItem("Manager");
 		
 		panelCoverLogIn = new PanelCoverLogIn(changePanels); 
-		panelLogIn = new PanelLoginAndRegister(applyLogIn, applyRegister, changePassword, userNameTxF,
+		panelLogIn = new PanelLoginAndRegister(applyLogIn, applyRegister, changePassword,
 				emailTxF, passwordTxF, roleCB, emailTxFLogIn, passwordTxFLogIn); 
 		//Dimensiones del panel.
 		
@@ -108,25 +106,28 @@ public class UserLogIn extends JPanel implements ActionListener{
 			}
 		}else if(e.getSource() == applyLogIn) {
 			System.out.println("LogIn");
-			logIn();
+			if(logIn()) {
+				resetPanel();
+			}
 			
 		}else if(e.getSource() == applyRegister) {
 			System.out.println("Register");
-			register(); 
+			if(register()) {
+				showLogIn(); 
+			}
 			
 		}else if(e.getSource() == changePassword) {
 			if(canChangePassword()) {
 				showChangePasswordPane(appMenu);
-			}else {
-				panelLogIn.showErrorMessage("Invalid user or password");
 			}
 			
 		}
 	}
     
 
-    private static void showChangePasswordPane(JFrame parentFrame) {
-    	MyTextField password1 = new MyTextField(); 
+    private void showChangePasswordPane(JFrame parentFrame) {
+    	String emailString = emailTxFLogIn.getText(); 
+		MyTextField password1 = new MyTextField(); 
     	MyTextField password2 = new MyTextField(); 
         MyButton okButton = new MyButton("Aceptar");
         MyButton cancelButton = new MyButton("Cancelar");
@@ -150,6 +151,9 @@ public class UserLogIn extends JPanel implements ActionListener{
             	String pass1 = password1.getText();
             	String pass2 = password2.getText(); 
                 if(pass1 != null && pass1.equals(pass2) && !pass1.isBlank()) {
+                	//TODO get User
+                	//User u = appMenu.jpaUserMan.getUser(); 
+                	appMenu.jpaUserMan.changePassword(null, pass2);
                 	dialog.dispose();
                 }else{
                 	panel.showErrorMessage("Passwords do not match");
@@ -167,47 +171,129 @@ public class UserLogIn extends JPanel implements ActionListener{
 
         dialog.setVisible(true);
     }
+    	
     
-    private void logIn() {
+    
+    private Boolean logIn() {
     	String email = emailTxFLogIn.getText(); 
     	String password = passwordTxFLogIn.getText(); 
-    	//TODO create userManager in connectionJPA
-    	User user = null; 
-    	//User user = appMenu.userMan.getUserManager().login(email, password); 
-    	if(user != null) {
-    		appMenu.setUser(user); 
+    	if(!email.isBlank() && !password.isBlank()) {
+    		
+    		User user = appMenu.jpaUserMan.login(email, password); 
+    		System.out.println(user);
+        	
+        	//User is null if it doesn't exist
+        	if(user != null) {
+        		appMenu.setUser(user); 
+        		return true; 
+        	}else {
+        		panelLogIn.showErrorMessage("Invalid user or password");
+        		return false; 
+        	}
+    		
     	}else {
-    		panelLogIn.showErrorMessage("Invalid user or password");
+    		showErrorMessage("Complete all fields");
+    		return false; 
     	}
     }
     
-    private void register() {
-    	String userName = userNameTxF.getText(); 
+    private Boolean register() {
     	String email = emailTxF.getText(); 
     	String password = passwordTxF.getText(); 
-    	String role; 
-    	if(roleCB.getModel().getSelectedItem() != null) {
-    		role = roleCB.getModel().getSelectedItem().toString(); 
+    	String roleText = ""; 
+    	if(roleCB.getModel().getSelectedItem() != "Select your role...") {
+    		roleText = roleCB.getModel().getSelectedItem().toString(); 
     	}else {
     		panelLogIn.showErrorMessage("Select a role");
+    		return false; 
     	}
     	
-    	//TODO create userManager in connectionJPA
-    	//appMenu.userMan.getUserManager().register(new User(email, password, new Role(role)));
-    	showLogIn(); 
-    	
+    	//Register a user
+    	try {
+    		Role role = appMenu.jpaRoleMan.getRole(roleText); 
+    		System.out.println("Password valid = "+validatePassword(password));
+    		if(validateEmail(email) && validatePassword(password)) {
+    			if(appMenu.jpaUserMan.register(new User(email, password, role))) {
+    				return true; 
+    			}else {
+    				showErrorMessage("User already exists");
+        			return false; 
+    			}
+    		}else {
+    			return false; 
+    		}
+    		
+		} catch (NoSuchAlgorithmException e) {
+			showErrorMessage("Invalid password"); 
+			return false; 
+		}   	
     }
 
     public Boolean canChangePassword() {
     	String email = emailTxFLogIn.getText();
     	if(email != null && !email.isBlank()){
-    		//return appMenu.userMan.getUserManager().checkUser(String email); 
-    		return true; 
+    		Boolean isUser = appMenu.jpaUserMan.isUser(email); 
+    		if(isUser) {
+    			return true; 
+    		}else {
+    			showErrorMessage("Invalid user or password");
+    			return false; 
+    		}
     	}else {
-    		panelLogIn.showErrorMessage("Write the email first");
+    		showErrorMessage("Write the email first");
     		return false; 
     	}
     	
+    }
+    
+    private Boolean validatePassword(String password) {
+		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
+		System.out.println("password vacía "+passwordVacia);
+		if(!passwordVacia && password.length() >= 8) {
+			for(int i=0; i<password.length(); i++) {
+				
+				//The password must contain at least one number
+				if(Character.isDigit(password.charAt(i))) {
+				goodPassword = true;
+				}
+			}
+			if(!goodPassword) {
+				showErrorMessage("The password must contain at least one number.");
+				return false; 
+			}
+		 }else {
+			 showErrorMessage("Password's minimum lenght is of 8 characters");
+			 return false; 
+		 }
+		return true;
+		
+	 }
+    
+    
+    
+    private void showErrorMessage(String text) {
+    	panelLogIn.showErrorMessage(text); 
+    }
+    
+    private void resetPanel() {
+    	emailTxF.setText(null);
+    	emailTxFLogIn.setText(null);
+    	passwordTxF.setText(null);
+    	passwordTxFLogIn.setText(null);
+    	panelLogIn.hideErrorMessage();
+    }
+    
+	public Boolean validateEmail(String email) {
+    	if(!email.isBlank() && email.contains("@")) {
+    		String[] emailSplit = email.split("@"); 
+        	if(emailSplit.length >1 && emailSplit[1].equals("hospital.com")){
+        		return true; 
+        	}
+    	}
+    	//System.out.println("Valid email? "+validEmail);
+    	showErrorMessage("Invalid Email");
+    	return false; 
     }
 
 }

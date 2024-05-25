@@ -17,7 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
-import urgency.PatientLifeCycle.PatientLifeCycle;
+import urgency.db.jdbc.PatientLifeCycle;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.Triage;

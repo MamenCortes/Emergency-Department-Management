@@ -1,4 +1,4 @@
-package urgency.PatientLifeCycle;
+package urgency.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,7 +15,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-import urgency.db.jdbc.ConnectionManager;
 import urgency.db.pojos.*;
 
 public class PatientLifeCycle {

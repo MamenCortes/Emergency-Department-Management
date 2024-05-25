@@ -10,12 +10,17 @@ import org.apache.commons.codec.binary.Base64;
 
 public class MD5Cypher {
 	
+<<<<<<< HEAD
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		//String password = "123456789";
 		String password = "password2";
+=======
+	/*public static void main(String[] args) throws NoSuchAlgorithmException {
+		String password = "123456789";
+>>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management.git
 		String passwordCodificada = MD5Cypher.encrypt(password);
 		System.out.println(passwordCodificada);
-	}
+	}*/
 	
 	public static String encrypt(String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance(MessageDigestAlgorithms.MD5);

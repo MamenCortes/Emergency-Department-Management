@@ -89,6 +89,16 @@ public class DoctorCell implements ListCellRenderer<DoctorBox> {
 		listCell.add(box, "grow, left"); 
 		listCell.add(doctorBox, "grow, left");
 		
+		JLabel email = new JLabel("Email: ");
+		email.setForeground(titleColor);
+		email.setFont(titleFont); 
+		
+		JLabel emailText = new JLabel(value.getDoctor().getEmail());
+		emailText.setForeground(contentColor);
+		emailText.setFont(contentFont);
+		listCell.add(email, "grow, left"); 
+		listCell.add(emailText, "grow, span, left"); 
+		
 		if(isSelected)
 		{
 			listCell.setBackground(backgroundColor);

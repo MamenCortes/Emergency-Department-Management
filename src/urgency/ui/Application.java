@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import urgency.db.jdbc.*;
 import urgency.db.jpa.JPARoleManager;
 import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.*;
+import urgency.xml.utils.XmlManager;
 
 
 public class Application extends JFrame{
@@ -17,11 +17,9 @@ public class Application extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//JDBC Objects
 	public ConnectionManager conMan;
-	//public ConnectionManagerJPA userMan; 
 	public JPAUserManager jpaUserMan;
-	public JPARoleManager jpaRoleMan; //necesitas esto para seleccionar cada rol del usuario
-	//para q se muestren las ventanas correspondientes de cada rol
-	//public XmlManager xmlMan; 
+	public JPARoleManager jpaRoleMan; 
+	public XmlManager xmlMan; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -58,31 +56,10 @@ public class Application extends JFrame{
 
 	public Application() {
 		conMan = new ConnectionManager();
-		//userMan = new ConnectionManagerJPA();
 		jpaUserMan = new JPAUserManager();
+		jpaRoleMan = new JPARoleManager(); 
 		appPanels = new ArrayList<JPanel>(); 
-		//xmlMan = new XmlManager(); 
-		
-		//Mamen hay que validar las contraseñas, tengo este metodo tipo que es mejor introducrilo en la interfaz 
-		//grafica que tenerlo en el pojo de User:
-		
-		/*
-		 * private void validatePassword(String password) throws IllegalArgumentException {
-		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
-		boolean goodPassword=false;
-		if(passwordVacia || password.length() < 8) {
-			for(int i=0; i<8; i++) {
-			if(Character.isDigit(password.charAt(i))) {
-			goodPassword = true;
-			}if(i == 8 && !goodPassword) {
-				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
-			}
-		 throw new IllegalArgumentException("Password is empty");
-		 }
-	   }
-	 }
-		 * 
-		 */
+		xmlMan = new XmlManager();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +114,7 @@ public class Application extends JFrame{
 		doctorView = new DoctorView(this); 
 		appPanels.add(doctorView);		
 
-		setContentPane(actorsMenu);
+		setContentPane(logInPanel);
 		//conMan.closeConnection();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -148,21 +125,26 @@ public class Application extends JFrame{
 		});
 	}
 	
+
+	
 	public void setUser(User user) {
 		//TODO Also add here the initialization of only the panels to use. 
 		this.user = user; 
-		
 		Role role = user.getRole(); 
+		System.out.println(role);
 		switch (role.getName()) {
 		case  "Doctor":{
-			//TODO create method getDoctorByUserName(User user); 
-			Doctor doctor = null; 
-			//doctor = conMan.getDocMan().getDoctorByUserName(user); 
+			Doctor doctor = conMan.getDocMan().getDoctorByEmail(user.getEmail()); 
 			changeToDoctorView(doctor);
-		} case "Recepcionist":changeToRecepcionistMenu(); break; 
-		case "Nurse": changeToNurseView();break; 
-		case "Manager":changeToManagerMenu(); break;
-		default: changeToUserLogIn(); break;
+			System.out.println("Changed to Doctor View");
+			break; 
+		} case "Recepcionist": {
+			changeToRecepcionistMenu();
+			System.out.println("Changed to Recepcionist View");
+			break; }
+		case "Nurse": { changeToNurseView();break; }
+		case "Manager": {changeToManagerMenu(); break;}
+		default: {changeToUserLogIn(); break;}
 		}
 	}
 	
@@ -195,13 +177,9 @@ public class Application extends JFrame{
 	}
 	
 	public void changeToUserLogIn() {
-		/*
 		hideAllPanels();
 		logInPanel.setVisible(true);
-		this.setContentPane(logInPanel);*/
-		hideAllPanels();
-		actorsMenu.setVisible(true);
-		this.setContentPane(actorsMenu);
+		this.setContentPane(logInPanel);
 	}
 	
 	public void changeToManagerMenu() {

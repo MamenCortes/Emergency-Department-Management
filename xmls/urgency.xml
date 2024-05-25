@@ -11,12 +11,14 @@
 	<!ELEMENT Doctor (id, name, surname, username, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
 	<!ATTLIST Doctor 
 	id CDATA #REQUIRED
-	in_box CDATA > 
+	in_box CDATA #IMPLIED
+	> 
 	
 	<!ELEMENT Box (id, available, speciality)>
 	<!ATTLIST Box 
 	id CDATA #REQUIRED 
-	available CDATA>
+	available CDATA #IMPLIED
+	>
 	
 	<!ELEMENT name (#PCDATA)>
 	<!ELEMENT surname (#PCDATA)>
@@ -30,20 +32,22 @@
 
 ]>
 
-<Doctor>
-    <name>External Sales Report</name>
-    <content>Eh, better than expected!</content>
-    <date>2016-11-09</date>
-    <Authors>
-        <Employee name="Employee-0" id="2">
-            <dob>2016-12-20</dob>
-            <address>Address-0</address>
-            <salary>0.0</salary>
-        </Employee>
-        <Employee name="Employee-1" id="3">
-            <dob>2016-12-21</dob>
-            <address>Address-1</address>
-            <salary>101.0</salary>
-        </Employee>
-    </Authors>
+<Doctor id="1" in_box="true"> <!-- check if it converts correctly or not-->
+    <name>John</name>
+    <surname>Doe</surname>
+    <speciality>Cardiology</speciality>
+    <patients>
+        <Patient id="5", weight="47", height="165", urgency="1">
+            <id>P001</id>
+            <name>Jane</name>
+            <surname>Smith</surname>
+            <sex>Female</sex>
+            <birthDate>1985-05-15</birthDate>
+        </Patient>
+    </patients>
+    <boxes>
+        <Box id="12" available="true">
+            <speciality>Cardiology</speciality>
+        </Box>
+    </boxes>
 </Doctor>

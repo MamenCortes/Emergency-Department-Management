@@ -24,10 +24,11 @@ public class JDBCDoctorManager implements DoctorManager {
 	public Doctor getDoctorByEmail(String email) {
 		
 		try {
-			String sql = "SELECT * FROM Doctors WHERE email = " + email;
-			Statement st;
-			st=connection.createStatement();
-			ResultSet rs = st.executeQuery(sql);
+			String sql = "SELECT * FROM Doctors WHERE email = ?";
+			PreparedStatement pstm;
+			pstm=connection.prepareStatement(sql); 
+			pstm.setString(1, email);
+			ResultSet rs = pstm.executeQuery();
 			rs.next();
 			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
@@ -55,7 +56,6 @@ public class JDBCDoctorManager implements DoctorManager {
 			System.out.println("Doctor assigned to box");
 			pstmt.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("Error in asingning the doctor to the box");
 			e.printStackTrace();
 		}
@@ -64,7 +64,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void deleteDoctor(int id) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		//Doctor d = conMan.getDocMan().getDoctor(id);
 		try {
 		String template = "DELETE FROM Doctors WHERE id = ? ";
@@ -83,7 +82,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void changeStatus(int id, boolean in_box) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		//Doctor d = conMan.getDocMan().getDoctor(id);
 		try{
 		String template = "UPDATE Doctors SET in_box = ? WHERE id = ?";
@@ -104,7 +102,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void addDoctor(Doctor doctor) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		try {
 			String template = "INSERT INTO Doctors (name, surname, email, speciality_type, in_box) VALUES "
 					+ "(?,?,?,?,?)";
@@ -127,7 +124,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public List<Doctor> searchDoctorsBySurname(String surname) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
 			String sql = "SELECT * FROM Doctors WHERE surname LIKE ?";
@@ -139,7 +135,7 @@ public class JDBCDoctorManager implements DoctorManager {
 				    doctor.setid(rs.getInt("ID"));
 	                doctor.setName(rs.getString("name"));
 	                doctor.setSurname(rs.getString("surname"));
-	                doctor.setEmail("email");
+	                doctor.setEmail(rs.getString("email"));
 	                Speciality speciality = new Speciality();
 	                speciality.setType(rs.getString("speciality_type"));
 	                doctor.setSpeciality_type(speciality);
@@ -156,9 +152,8 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public Doctor getDoctor(int id) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		try {
-			String sql = "SELECT * FROM Doctors WHERE ID = " + id; //deberia hacer un join?
+			String sql = "SELECT * FROM Doctors WHERE ID = " + id; 
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
@@ -177,7 +172,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		try {
 			String sql = "UPDATE Doctors SET name=?, surname=?, email=?, speciality_type=?, in_box=? WHERE id = ?";
 			PreparedStatement pstmt;
@@ -200,7 +194,6 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //WORKS CORRECTLY
-		// TODO Auto-generated method stub
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
 			String sql = "SELECT * FROM Doctors WHERE speciality_type LIKE ?";
