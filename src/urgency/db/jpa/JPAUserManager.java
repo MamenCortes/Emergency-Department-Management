@@ -123,7 +123,6 @@ public class JPAUserManager implements UserManager {
 		  Role r2 = roleMan.getRole("Doctor");
 		  User u = new User("concepciongimenez@hospital.com", "concepciong", r);
 		  //System.out.println(jum.register(u)); //si da false es proque solo deja registrar una vez
-		  //System.out.println(UserRegister.register("email2@hospital.com", "password1", r));
 		  //System.out.println(jum.register(new User("josefinamendez@hospital.com", "password1", r2)));
 		  System.out.println(jum.login("josefinamendez@hospital.com", "password1"));
 		  Role r3 = roleMan.getRole("Nurse");
