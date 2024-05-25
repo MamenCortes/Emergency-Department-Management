@@ -229,14 +229,11 @@ public class DoctorView extends SearchTemplate {
 			}
 			
 		}else if(e.getSource() == printToXML) {
-			//TODO descomentar
-			/*if(appMain.xmlMan.Java2Xml(doctor)) {
+			if(appMain.xmlMan.Java2Xml(doctor)) {
 				System.out.println("Turn into XML");
 			}else {
 				showErrorMessage("XML file couldn't be created");
-			}*/
-			
-			 
+			}
 		}
 	}
 	

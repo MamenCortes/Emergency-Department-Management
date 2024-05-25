@@ -55,7 +55,7 @@ public class JPAUserManager implements UserManager {
 			em.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 		}
 

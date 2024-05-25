@@ -73,7 +73,7 @@ public class SearchDoctor extends SearchTemplate {
     		int rd1 = ThreadLocalRandom.current().nextInt(0, names.length);
     		int rd2 = ThreadLocalRandom.current().nextInt(0, surnames.length);
     		int rd3 = ThreadLocalRandom.current().nextInt(0, specialities.size());
-    		doctors.add(new Doctor(names[rd1], surnames[rd2],new Speciality(specialities.get(rd3)), false));
+    		doctors.add(new Doctor(names[rd1], surnames[rd2],new Speciality(specialities.get(rd3))));
     	}
     	
 		return doctors;

@@ -58,4 +58,17 @@ public class XmlManager {
 			return null;
 		}
 	}
+	
+	public static void main(String[] args) {
+		XmlManager xmlManager = new XmlManager(); 
+		ConnectionManager conMan = new ConnectionManager(); 
+		
+		Doctor doctor = conMan.getDocMan().getDoctor(8); 
+		if(xmlManager.Java2Xml(doctor)) {
+			System.out.println("XML File created");
+		}else {
+			System.out.println("Error generating XML file");
+		}
+		
+	}
 }
