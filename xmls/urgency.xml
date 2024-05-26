@@ -8,37 +8,35 @@
     height CDATA #IMPLIED
     urgency CDATA #IMPLIED
 	> 
-	<!ELEMENT Doctor (id, name, surname, username, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
+<!ELEMENT Doctor (id, name, surname, username, email, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
 	<!ATTLIST Doctor 
 	id CDATA #REQUIRED
-	in_box CDATA #IMPLIED
-	> 
+	in_box CDATA > 
 	
-	<!ELEMENT Box (id, available, speciality)>
+<!ELEMENT Box (id, available, speciality)>
 	<!ATTLIST Box 
 	id CDATA #REQUIRED 
-	available CDATA #IMPLIED
-	>
+	available CDATA>
 	
 	<!ELEMENT name (#PCDATA)>
 	<!ELEMENT surname (#PCDATA)>
+	<!ELEMENT username (#PCDATA)>
 	<!ELEMENT status (#PCDATA)>
 	<!ELEMENT sex (#PCDATA)>
 	<!ELEMENT birthDate (#PCDATA)>
+	
 	<!ELEMENT speciality (#PCDATA)>
 	<!ELEMENT username (#PCDATA)>
 	<!ELEMENT patients (Patient+)>
 	<!ELEMENT boxes (Box+)>
-
 ]>
 
-<Doctor id="1" in_box="true"> <!-- check if it converts correctly or not-->
+<!--<Doctor id="1" in_box="true"> <!-- check if it converts correctly or not->
     <name>John</name>
     <surname>Doe</surname>
     <speciality>Cardiology</speciality>
     <patients>
         <Patient id="5", weight="47", height="165", urgency="1">
-            <id>P001</id>
             <name>Jane</name>
             <surname>Smith</surname>
             <sex>Female</sex>
@@ -50,4 +48,4 @@
             <speciality>Cardiology</speciality>
         </Box>
     </boxes>
-</Doctor>
+</Doctor> -->

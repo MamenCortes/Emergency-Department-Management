@@ -10,15 +10,16 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import urgency.db.jdbc.ConnectionManager;
+import urgency.db.jdbc.JDBCTriageManager;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
 
 public class XmlManager {
 	
-	private XmlManager XmlManager;
+	private ConnectionManager XmlManager;
 	
-	public XmlManager() {
+	public XmlManager(ConnectionManager XmlManager) {
 		super();
 		this.XmlManager = XmlManager;
 	}
@@ -58,4 +59,9 @@ public class XmlManager {
 			return null;
 		}
 	}
+	
+	public static void main(String[] args) {
+		ConnectionManager conManager = new ConnectionManager();
+		XmlManager conXml = new XmlManager(conManager);
+}
 }

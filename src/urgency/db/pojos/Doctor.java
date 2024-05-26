@@ -17,7 +17,7 @@ import urgency.db.jpa.JPAUserManager;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
-@XmlType(propOrder = {"id", "name", "surname", "username", "speciality", "in_box", "patients", "boxes"})
+@XmlType(propOrder = {"id", "name", "surname", "username", "email", "speciality_type", "in_box", "patients", "boxes"})
 public class Doctor implements Serializable{
 
 
