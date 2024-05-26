@@ -15,7 +15,6 @@ public class Speciality implements Serializable{
 	public Speciality() {
 		super();
 		this.patients = new ArrayList<Patient>();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Speciality(String type) {

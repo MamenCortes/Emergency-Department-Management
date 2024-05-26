@@ -13,7 +13,6 @@ import javax.swing.border.Border;
 import net.miginfocom.swing.MigLayout;
 import urgency.db.pojos.PatientBox;
 
-//TODO finish cell
 public class PatientBoxCell implements ListCellRenderer<PatientBox> {
 
 	private final Color titleColor = new Color(7, 164, 121); //Bluish

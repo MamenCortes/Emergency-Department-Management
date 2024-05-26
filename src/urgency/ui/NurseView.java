@@ -164,7 +164,6 @@ public class NurseView extends SearchTemplate{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO change to patient form when triage selected
 		if(e.getSource() == selectButton) {
 			Triage triage = triageList.getSelectedValue(); 
 			if(triage != null) {
