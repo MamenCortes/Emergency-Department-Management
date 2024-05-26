@@ -115,6 +115,19 @@ public class JPAUserManager implements UserManager {
 		em.getTransaction().commit();
 	}
 	
+	@Override
+	public User getUserByEmail(String email) {
+		User u;
+		try {
+			Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ?", User.class);
+			q.setParameter(1, email);
+			u = (User) q.getSingleResult();
+		}catch(NoResultException nre){
+			return null;
+		}
+		return u;
+	}
+	
 	public static void main(String args[]) throws NoSuchAlgorithmException {
 		
 		  JPAUserManager jum = new JPAUserManager();

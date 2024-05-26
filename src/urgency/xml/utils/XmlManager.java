@@ -16,11 +16,8 @@ import urgency.db.pojos.Patient;
 
 public class XmlManager {
 	
-	private XmlManager XmlManager;
-	
 	public XmlManager() {
 		super();
-		this.XmlManager = XmlManager;
 	}
 
 	public Boolean Java2Xml (Doctor doctor) {
@@ -60,15 +57,5 @@ public class XmlManager {
 	}
 	
 	public static void main(String[] args) {
-		XmlManager xmlManager = new XmlManager(); 
-		ConnectionManager conMan = new ConnectionManager(); 
-		
-		Doctor doctor = conMan.getDocMan().getDoctor(8); 
-		if(xmlManager.Java2Xml(doctor)) {
-			System.out.println("XML File created");
-		}else {
-			System.out.println("Error generating XML file");
-		}
-		
-	}
+}
 }
