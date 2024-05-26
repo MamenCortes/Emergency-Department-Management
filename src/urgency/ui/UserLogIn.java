@@ -113,6 +113,8 @@ public class UserLogIn extends JPanel implements ActionListener{
 		}else if(e.getSource() == applyRegister) {
 			System.out.println("Register");
 			if(register()) {
+				resetPanel(); 
+				changePanels.setText("REGISTER");
 				showLogIn(); 
 			}
 			

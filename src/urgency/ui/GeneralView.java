@@ -84,7 +84,6 @@ public class GeneralView extends SearchTemplate{
         List<Doctor> doctors = appMain.conMan.getDocMan().getDoctorsBySpeciality(null); 
         showDoctors(getDoctorBoxList(doctors));
         
-        //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 0 2 1 8, grow, gap 10");
         add(scrollPane2,  "cell 2 2 1 8, grow, gap 10");
 		
@@ -110,6 +109,7 @@ public class GeneralView extends SearchTemplate{
 	}
 	
 	private void hideErrorMessage() {
+		explanationText2.setVisible(true);
 		explanationText2.setText("Select maximum 3 doctors using ctrl");
 		explanationText2.setForeground(contentColor);
 	}

@@ -56,7 +56,6 @@ public class DoctorView extends SearchTemplate {
 		add(cover, "cell 0 0, grow");
 		
 		this.doctor = doctor; 
-		//TODO create method get Doctor Box 
 		DoctorBox boxDoctor = appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor); 
 		System.out.println(boxDoctor);
 		//box = appMain.conMan.getBoxManager().getBox(2); 

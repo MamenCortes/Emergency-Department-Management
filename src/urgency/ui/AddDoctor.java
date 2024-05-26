@@ -79,6 +79,8 @@ public class AddDoctor extends FormTemplate {
 		name.setText(null);
 		surname.setText(null);
 		speciality.setSelectedItem(null);
+		email.setText(null);
+		password.setText(null);
 	}
 	
 	
@@ -113,30 +115,9 @@ public class AddDoctor extends FormTemplate {
     			return false; 
     		}
 		}catch(NoSuchAlgorithmException e) {
-			showErrorMessage("Password not valid");
+			showErrorMessage("Invalid Password");
 			return false; 
 		}
-		
-		
-		/*
-		 * try {
-    		Role role = appMenu.jpaRoleMan.getRole(roleText); 
-    		System.out.println("Password valid = "+validatePassword(password));
-    		if(validateEmail(email) && validatePassword(password)) {
-    			if(appMenu.jpaUserMan.register(new User(email, password, role))) {
-    				return true; 
-    			}else {
-    				showErrorMessage("User already exists");
-        			return false; 
-    			}
-    		}else {
-    			return false; 
-    		}
-    		
-		} catch (NoSuchAlgorithmException e) {
-			showErrorMessage("Invalid password"); 
-			return false; 
-		} */
 
 	}
 	

@@ -98,11 +98,11 @@ public class Box implements Serializable{
 	}
 	
 	private void setDoctors(ArrayList<DoctorBox> arrayList) {
-		// TODO Auto-generated method stub
+		doctorBox = arrayList; 
 	}
 
 	private void setPatients(ArrayList<PatientBox> arrayList) {
-		// TODO Auto-generated method stub
+		patientBox = arrayList; 
 	}
 
 	public List<PatientBox> getPatientBox() {
