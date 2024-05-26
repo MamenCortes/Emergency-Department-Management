@@ -18,8 +18,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import urgency.db.pojos.*;
 
 public class PatientLifeCycle {
-	//TODO metodos de implementacion de la interfaz x detras del recorrido del paciente con la base de datos
-
 	private Connection connection;
 	private ConnectionManager conMan;
 	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -55,7 +53,6 @@ public class PatientLifeCycle {
 		} 
 	}
 	
-	//TODO test 
 	//Assign a new patient with status = waitingInLine to a box of same spec. 
 	//We assume the patientSpec date and patientTriage date are the same 
 	public void assignNewPatient2Box(Box box, Speciality spec_type) {

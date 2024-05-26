@@ -63,7 +63,6 @@ public class PanelMenu extends JPanel {
 				numColumns = numColumns + 2; 
 			}
 		} else { //número de botones múltiplo de 3+2
-			//TODO revisar
 			for(int i = 0; i<numButtons/3; i++) {
 				stringRows = stringRows+"[]"; 
 				numRows++; 

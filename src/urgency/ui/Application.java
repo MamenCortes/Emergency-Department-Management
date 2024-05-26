@@ -9,16 +9,19 @@ import urgency.db.jdbc.*;
 import urgency.db.jpa.JPARoleManager;
 import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.*;
+import urgency.xml.utils.XmlManager;
 
 
 public class Application extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	//JDBC Objects
+	
+	//Manager Objects
 	public ConnectionManager conMan;
 	public JPAUserManager jpaUserMan;
 	public JPARoleManager jpaRoleMan; 
-	//public XmlManager xmlMan; 
+	public XmlManager xmlMan; 
+	private User user; 
 	
 	//UI Panels
 	private ArrayList<JPanel> appPanels; 
@@ -39,15 +42,9 @@ public class Application extends JFrame{
 	private NurseView nurseView; 
 	private PatientForm patientForm; 
 	private DoctorView doctorView; 
-	
-	//For tests
-	private ActorsMenu actorsMenu; 
-	private User user; 
 
-	//TODO add UserName/email in Doctor to implement a fake foreign key with JPA
-	//TODO create method getDoctorByUserName(User user); 
-	//TODO change addDoctor to create and check user
-	//TODO check setUser Method
+
+
 	//TODO add button in doctor to export info to XML file 
 	//TODO add button in manager to add doctor from XML eligiendo la ruta a un archivo 
 	//TODO create methods in managers to insert random data at the begining
@@ -58,81 +55,18 @@ public class Application extends JFrame{
 		jpaUserMan = new JPAUserManager();
 		jpaRoleMan = new JPARoleManager(); 
 		appPanels = new ArrayList<JPanel>(); 
-		//xmlMan = new XmlManager(); 
-		
-		//Mamen hay que validar las contraseñas, tengo este metodo tipo que es mejor introducrilo en la interfaz 
-		//grafica que tenerlo en el pojo de User:
-		
-		/*
-		 * private void validatePassword(String password) throws IllegalArgumentException {
-		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
-		boolean goodPassword=false;
-		if(passwordVacia || password.length() < 8) {
-			for(int i=0; i<8; i++) {
-			if(Character.isDigit(password.charAt(i))) {
-			goodPassword = true;
-			}if(i == 8 && !goodPassword) {
-				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
-			}
-		 throw new IllegalArgumentException("Password is empty");
-		 }
-	   }
-	 }
-		 * 
-		 */
+		xmlMan = new XmlManager();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 602, 436);
 		
-		//For tests
-		actorsMenu = new ActorsMenu(this); 
-		appPanels.add(actorsMenu); 
-		////////////////////
-		
 		logInPanel = new UserLogIn(this); 
 		appPanels.add(logInPanel); 
 		logInPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		recepcionistMenu = new RecepcionistMenu(this); 
-		appPanels.add(recepcionistMenu); 
-		managerMenu = new ManagerMenu(this);
-		appPanels.add(managerMenu);
-		addPatient = new AddPatient(this); 
-		appPanels.add(addPatient); 
-		
-		//Example patient
-		admitPatient = new AdmitPatient(this); 
-		appPanels.add(admitPatient); 
-		
-		addDoctor = new AddDoctor(this);
-		appPanels.add(addDoctor); 
-		addSpeciality = new AddSpeciality(this); 
-		appPanels.add(addSpeciality); 
-		addRoom = new AddRoom(this); 
-		appPanels.add(addRoom); 
-		
-		searchPatient = new SearchPatients(this); 
-		appPanels.add(searchPatient); 
-		searchDoctor = new SearchDoctor(this); 
-		appPanels.add(searchDoctor); 
-		
-		
-		modifyDoctor = new ModifyDoctor(new DoctorBox(), this);
-		appPanels.add(modifyDoctor);
-		searchRoom = new SearchRoom(this); 
-		appPanels.add(searchRoom); 
-		modifyRoom = new ModifyRoom(this); 
-		appPanels.add(modifyRoom);
-		generalView = new GeneralView(this); 
-		appPanels.add(generalView); 
-		nurseView = new NurseView(this); 
-		appPanels.add(nurseView); 
-		nurseView = new NurseView(this); 
-		appPanels.add(nurseView); 
 		patientForm = new PatientForm(this); 
 		appPanels.add(patientForm); 
-		doctorView = new DoctorView(this); 
-		appPanels.add(doctorView);		
+			
 
 		setContentPane(logInPanel);
 		//conMan.closeConnection();
@@ -145,19 +79,81 @@ public class Application extends JFrame{
 		});
 	}
 	
+
+	
 	public void setUser(User user) {
-		//TODO Also add here the initialization of only the panels to use. 
 		this.user = user; 
-		
 		Role role = user.getRole(); 
+		System.out.println(role);
 		switch (role.getName()) {
 		case  "Doctor":{
+			//Initialize panels
+			if (doctorView == null) {
+				doctorView = new DoctorView(this); 
+				appPanels.add(doctorView);
+				System.out.println("Doctor Panels initialized");
+			}
+				
+			
 			Doctor doctor = conMan.getDocMan().getDoctorByEmail(user.getEmail()); 
 			changeToDoctorView(doctor);
-		} case "Recepcionist":changeToRecepcionistMenu(); break; 
-		case "Nurse": changeToNurseView();break; 
-		case "Manager":changeToManagerMenu(); break;
-		default: changeToUserLogIn(); break;
+			System.out.println("Changed to Doctor View");
+			break; 
+		} case "Recepcionist": {
+			//Initialize panels
+			if(recepcionistMenu == null) {
+				addPatient = new AddPatient(this); 
+				appPanels.add(addPatient); 
+				searchPatient = new SearchPatients(this); 
+				appPanels.add(searchPatient);
+				admitPatient = new AdmitPatient(this); 
+				appPanels.add(admitPatient); 
+				recepcionistMenu = new RecepcionistMenu(this); 
+				appPanels.add(recepcionistMenu); 
+				System.out.println("Recpecionist panels initialized");
+			}
+
+			
+			changeToRecepcionistMenu();
+			System.out.println("Changed to Recepcionist View");
+			break; }
+		case "Nurse": { 
+			//Init panels
+			if(nurseView == null) {
+				nurseView = new NurseView(this); 
+				appPanels.add(nurseView); 
+				System.out.println("Nurse panels initialized");
+			}
+
+			changeToNurseView();
+			break; 
+		}
+		case "Manager": {
+			//Initialize panels 
+			if(managerMenu == null) {
+				managerMenu = new ManagerMenu(this);
+				appPanels.add(managerMenu);
+				addDoctor = new AddDoctor(this);
+				appPanels.add(addDoctor); 
+				addSpeciality = new AddSpeciality(this); 
+				appPanels.add(addSpeciality); 
+				addRoom = new AddRoom(this); 
+				appPanels.add(addRoom); 
+				searchDoctor = new SearchDoctor(this); 
+				appPanels.add(searchDoctor); 
+				modifyDoctor = new ModifyDoctor(new DoctorBox(), this);
+				appPanels.add(modifyDoctor);
+				searchRoom = new SearchRoom(this); 
+				appPanels.add(searchRoom); 
+				modifyRoom = new ModifyRoom(this); 
+				appPanels.add(modifyRoom);
+				generalView = new GeneralView(this); 
+				appPanels.add(generalView); 
+				System.out.println("Manager Menus initialized");
+			}
+			changeToManagerMenu(); 
+			break;}
+		default: {changeToUserLogIn(); break;}
 		}
 	}
 	

@@ -38,7 +38,6 @@ public class ConnectionManager {
 
 	//Creates a connection with the database
 	private void createConnection() {
-		//TODO if the tables are already created, skip this step. 
 		try {
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:./db/EmergencyDB.db"); //The folder must exist. If the database doesn't exist, it will be created. 
@@ -46,11 +45,11 @@ public class ConnectionManager {
 			System.out.println("Connection and table created");
 			this.createTables();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error opening connection");
+			//e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error opening connection");
+			//e.printStackTrace();
 		} 
 	}
 	
@@ -59,8 +58,8 @@ public class ConnectionManager {
 			connection.close();
 			System.out.println("Connection closed");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error closing connection");
+			//e.printStackTrace();
 		} 
 	}
 

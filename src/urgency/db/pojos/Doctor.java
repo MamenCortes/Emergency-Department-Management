@@ -79,7 +79,7 @@ public class Doctor implements Serializable{
 	}
 	
 
-	public Doctor(String name, String surname, Speciality speciality_type, Boolean in_box) {
+	public Doctor(String name, String surname, Speciality speciality_type) {
 		super();
 		this.name = name;
 		this.surname = surname;

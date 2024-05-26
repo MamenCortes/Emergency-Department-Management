@@ -49,7 +49,6 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 	protected DefaultListModel<Triage> triageDefListModel;
 	protected JList<Box> boxList; 
 	protected DefaultListModel<Box> boxDefListModel;
-	//TODO create methods for box and triage List
 	protected JLabel errorMessage; 
 	protected JScrollPane scrollPane2; 
 
@@ -303,13 +302,11 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(patientList != null) {
 			Patient patient = patientList.getSelectedValue(); 
 			System.out.println(patient);
@@ -336,25 +333,21 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

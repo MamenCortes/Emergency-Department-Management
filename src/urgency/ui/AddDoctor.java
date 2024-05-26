@@ -9,9 +9,11 @@ import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,6 +39,7 @@ public class AddDoctor extends FormTemplate {
 	private List<String> specialities; 
 	private MyTextField email; 
 	private MyTextField password;  
+	private Doctor doctor; 
 
 	public AddDoctor(Application appMain) {
 		this.option2Text = null; 
@@ -66,8 +69,8 @@ public class AddDoctor extends FormTemplate {
 				appMain.changeToManagerMenu(); 
 			}
 		}else if(e.getSource() == fromXMLButton) {
-			//TODO open Dialog that allows the user to include the path of the file
-			showInputFilePath(appMain);
+			selectXmlFile();
+			//showInputFilePath(appMain);
 		}
 	}
 	
@@ -76,6 +79,8 @@ public class AddDoctor extends FormTemplate {
 		name.setText(null);
 		surname.setText(null);
 		speciality.setSelectedItem(null);
+		email.setText(null);
+		password.setText(null);
 	}
 	
 	
@@ -96,14 +101,21 @@ public class AddDoctor extends FormTemplate {
 		User u; 
 		try {
 			Role role = appMain.jpaRoleMan.getRole("Doctor"); 
-			u = new User(email, password, role);
-			Doctor doctor = new Doctor(name, surname, patientSpec, u.getEmail());
-			appMain.jpaUserMan.register(u);
-			appMain.conMan.getDocMan().addDoctor(doctor);
-			System.out.println(doctor);
-			return true; 
+			if(validateEmail(email) && validatePassword(password)) {
+				u = new User(email, password, role);
+				if(appMain.jpaUserMan.register(u)) {
+					Doctor doctor = new Doctor(name, surname, patientSpec, u.getEmail());
+					appMain.conMan.getDocMan().addDoctor(doctor);
+    				return true; 
+    			}else {
+    				showErrorMessage("User already exists");
+        			return false; 
+    			}
+    		}else {
+    			return false; 
+    		}
 		}catch(NoSuchAlgorithmException e) {
-			showErrorMessage("Password not valid");
+			showErrorMessage("Invalid Password");
 			return false; 
 		}
 
@@ -186,6 +198,66 @@ public class AddDoctor extends FormTemplate {
         });
 
         dialog.setVisible(true);
+    }
+    
+    private void selectXmlFile() {
+    	JFileChooser fileChooser = new JFileChooser(); 
+    	fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    	int returnValue = fileChooser.showOpenDialog(this);
+    	if(returnValue == JFileChooser.APPROVE_OPTION) {
+    		File selectedFile = fileChooser.getSelectedFile(); 
+    		System.out.println("File : "+selectedFile.getAbsolutePath()); 
+    		if(selectedFile.getName().contains(".xml")) {
+    			Doctor doctor = appMain.xmlMan.Xml2Java(selectedFile.getAbsolutePath()); 
+    			showDoctorData(doctor); 
+    		}else {
+    			showErrorMessage("The file should be an XML file");
+    		}
+    	}
+    }
+    
+    private void showDoctorData(Doctor doctor) {
+    	name.setText(doctor.getName());
+    	surname.setText(doctor.getSurname());
+    	email.setText(doctor.getEmail());
+    	speciality.setSelectedItem(doctor.getSpeciality_type().getType());
+    	showErrorMessage("Set Doctor's password and check the data");
+    }
+    
+    private Boolean validatePassword(String password) {
+		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
+		boolean goodPassword=false;
+		System.out.println("password vacía "+passwordVacia);
+		if(!passwordVacia && password.length() >= 8) {
+			for(int i=0; i<password.length(); i++) {
+				
+				//The password must contain at least one number
+				if(Character.isDigit(password.charAt(i))) {
+				goodPassword = true;
+				}
+			}
+			if(!goodPassword) {
+				showErrorMessage("The password must contain at least one number.");
+				return false; 
+			}
+		 }else {
+			 showErrorMessage("Password's minimum lenght is of 8 characters");
+			 return false; 
+		 }
+		return true;
+		
+	 }
+    
+    public Boolean validateEmail(String email) {
+    	if(!email.isBlank() && email.contains("@")) {
+    		String[] emailSplit = email.split("@"); 
+        	if(emailSplit.length >1 && emailSplit[1].equals("hospital.com")){
+        		return true; 
+        	}
+    	}
+    	//System.out.println("Valid email? "+validEmail);
+    	showErrorMessage("Invalid Email");
+    	return false; 
     }
 	
 }

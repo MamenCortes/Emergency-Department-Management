@@ -65,7 +65,6 @@ public class FormTemplate extends JPanel implements ActionListener{
 	}
 	
 	protected void initPatientForm() {
-		//TODO que la letra aumente con la pantalla
 		this.setLayout(new MigLayout("fill, inset 15, gap 0, wrap 4", "[][][][]", "[][][][][][][][][][]"));
 		forms = new ArrayList<JPanel>(); 
 		optionTexts = new ArrayList<JLabel>(); 

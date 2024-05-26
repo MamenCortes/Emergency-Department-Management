@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
 import urgency.ui.components.ChangePassword;
@@ -112,14 +113,14 @@ public class UserLogIn extends JPanel implements ActionListener{
 		}else if(e.getSource() == applyRegister) {
 			System.out.println("Register");
 			if(register()) {
+				resetPanel(); 
+				changePanels.setText("REGISTER");
 				showLogIn(); 
 			}
 			
 		}else if(e.getSource() == changePassword) {
 			if(canChangePassword()) {
 				showChangePasswordPane(appMenu);
-			}else {
-				panelLogIn.showErrorMessage("Invalid user or password");
 			}
 			
 		}
@@ -127,57 +128,59 @@ public class UserLogIn extends JPanel implements ActionListener{
     
 
     private void showChangePasswordPane(JFrame parentFrame) {
-    	if(appMenu.jpaUserMan.isUser(emailTxFLogIn.getText())) {
-    		MyTextField password1 = new MyTextField(); 
-        	MyTextField password2 = new MyTextField(); 
-            MyButton okButton = new MyButton("Aceptar");
-            MyButton cancelButton = new MyButton("Cancelar");
-            
-            ChangePassword panel = new ChangePassword(password1, password2, okButton, cancelButton); 
-            panel.setBackground(Color.white);
-            panel.setPreferredSize(new Dimension(400, 300));
+    	String emailString = emailTxFLogIn.getText(); 
+		MyTextField password1 = new MyTextField(); 
+    	MyTextField password2 = new MyTextField(); 
+        MyButton okButton = new MyButton("Aceptar");
+        MyButton cancelButton = new MyButton("Cancelar");
+        
+        ChangePassword panel = new ChangePassword(password1, password2, okButton, cancelButton); 
+        panel.setBackground(Color.white);
+        panel.setPreferredSize(new Dimension(400, 300));
 
-            // Crear el JDialog para contener el panel personalizado
-            JDialog dialog = new JDialog(parentFrame, "Change Password", true);
-            dialog.getContentPane().add(panel);
-            dialog.getContentPane().setBackground(Color.white);
-            dialog.pack();
-            dialog.setLocationRelativeTo(parentFrame);
-            //dialog.setSize(400, 200);
+        // Crear el JDialog para contener el panel personalizado
+        JDialog dialog = new JDialog(parentFrame, "Change Password", true);
+        dialog.getContentPane().add(panel);
+        dialog.getContentPane().setBackground(Color.white);
+        dialog.pack();
+        dialog.setLocationRelativeTo(parentFrame);
+        //dialog.setSize(400, 200);
 
-            // Añadir acción a los botones
-            okButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                	String pass1 = password1.getText();
-                	String pass2 = password2.getText(); 
-                    if(pass1 != null && pass1.equals(pass2) && !pass1.isBlank()) {
-                    	dialog.dispose();
-                    }else{
-                    	panel.showErrorMessage("Passwords do not match");
-                    }
-                    
+        // Añadir acción a los botones
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	String pass1 = password1.getText();
+            	String pass2 = password2.getText(); 
+                if(pass1 != null && pass1.equals(pass2) && !pass1.isBlank()) {
+                	//TODO get User
+                	//User u = appMenu.jpaUserMan.getUser(); 
+                	appMenu.jpaUserMan.changePassword(null, pass2);
+                	dialog.dispose();
+                }else{
+                	panel.showErrorMessage("Passwords do not match");
                 }
-            });
+                
+            }
+        });
 
-            cancelButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialog.dispose();
-                }
-            });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        });
 
-            dialog.setVisible(true);
-    	}else {
-    		showErrorMessage("Invalid user");
-    	}
-    	
+        dialog.setVisible(true);
     }
+    	
+    
     
     private Boolean logIn() {
     	String email = emailTxFLogIn.getText(); 
     	String password = passwordTxFLogIn.getText(); 
     	if(!email.isBlank() && !password.isBlank()) {
+    		
     		User user = appMenu.jpaUserMan.login(email, password); 
     		System.out.println(user);
         	
@@ -194,8 +197,6 @@ public class UserLogIn extends JPanel implements ActionListener{
     		showErrorMessage("Complete all fields");
     		return false; 
     	}
-    	
-    	
     }
     
     private Boolean register() {
@@ -213,24 +214,33 @@ public class UserLogIn extends JPanel implements ActionListener{
     	try {
     		Role role = appMenu.jpaRoleMan.getRole(roleText); 
     		System.out.println("Password valid = "+validatePassword(password));
-    		if(validatePassword(password) && appMenu.jpaUserMan.register(new User(email, password, role))) {
-    			return true; 
+    		if(validateEmail(email) && validatePassword(password)) {
+    			if(appMenu.jpaUserMan.register(new User(email, password, role))) {
+    				return true; 
+    			}else {
+    				showErrorMessage("User already exists");
+        			return false; 
+    			}
     		}else {
-    			//showErrorMessage("Invalid user or password");
     			return false; 
     		}
     		
 		} catch (NoSuchAlgorithmException e) {
 			showErrorMessage("Invalid password"); 
 			return false; 
-		}     	
+		}   	
     }
 
     public Boolean canChangePassword() {
     	String email = emailTxFLogIn.getText();
     	if(email != null && !email.isBlank()){
-    		//return appMenu.userMan.getUserManager().checkUser(String email); 
-    		return true; 
+    		Boolean isUser = appMenu.jpaUserMan.isUser(email); 
+    		if(isUser) {
+    			return true; 
+    		}else {
+    			showErrorMessage("Invalid user or password");
+    			return false; 
+    		}
     	}else {
     		showErrorMessage("Write the email first");
     		return false; 
@@ -238,7 +248,6 @@ public class UserLogIn extends JPanel implements ActionListener{
     	
     }
     
-    //TODO método mal hecho
     private Boolean validatePassword(String password) {
 		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
 		boolean goodPassword=false;
@@ -263,6 +272,8 @@ public class UserLogIn extends JPanel implements ActionListener{
 		
 	 }
     
+    
+    
     private void showErrorMessage(String text) {
     	panelLogIn.showErrorMessage(text); 
     }
@@ -275,10 +286,16 @@ public class UserLogIn extends JPanel implements ActionListener{
     	panelLogIn.hideErrorMessage();
     }
     
-    //TODO check if carmen validates the email
-    private Boolean validateEmail() {
-		return null;
-    	
+	public Boolean validateEmail(String email) {
+    	if(!email.isBlank() && email.contains("@")) {
+    		String[] emailSplit = email.split("@"); 
+        	if(emailSplit.length >1 && emailSplit[1].equals("hospital.com")){
+        		return true; 
+        	}
+    	}
+    	//System.out.println("Valid email? "+validEmail);
+    	showErrorMessage("Invalid Email");
+    	return false; 
     }
 
 }
