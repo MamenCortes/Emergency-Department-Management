@@ -13,11 +13,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import urgency.db.jpa.JPAUserManager;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
-@XmlType(propOrder = {"id", "name", "surname", "username", "email", "speciality_type", "in_box", "patients", "boxes"})
+@XmlType(propOrder = {"id", "name", "surname", "email", "speciality_type", "in_box", "patients", "boxes"}) //quite username xq es el email
 public class Doctor implements Serializable{
 
 
@@ -38,7 +36,7 @@ public class Doctor implements Serializable{
     @XmlElementWrapper(name = "Doctor") //the following list is going to be surrounded by an element
 	private List<Patient> patients;
 	@XmlElement
-	@XmlElementWrapper(name = "Doctor")
+	@XmlElementWrapper(name = "Boxes") //no tiene sentido q se llame doctor
 	private List<Box> boxes;
 
 	public Doctor() {
