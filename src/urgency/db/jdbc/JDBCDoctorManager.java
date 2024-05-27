@@ -132,7 +132,7 @@ public class JDBCDoctorManager implements DoctorManager {
 			ResultSet rs = search.executeQuery();
 			while(rs.next()) {
 				Doctor doctor = new Doctor();
-				    doctor.setid(rs.getInt("ID"));
+				    doctor.setid(rs.getInt("id"));
 	                doctor.setName(rs.getString("name"));
 	                doctor.setSurname(rs.getString("surname"));
 	                doctor.setEmail(rs.getString("email"));
@@ -153,12 +153,12 @@ public class JDBCDoctorManager implements DoctorManager {
 	@Override
 	public Doctor getDoctor(int id) { //WORKS CORRECTLY
 		try {
-			String sql = "SELECT * FROM Doctors WHERE ID = " + id; 
+			String sql = "SELECT * FROM Doctors WHERE id = " + id; 
 			Statement st;
 			st=connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
-			Doctor d = new Doctor(rs.getInt("ID"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
+			Doctor d = new Doctor(rs.getInt("id"), rs.getString("name"), rs.getString("surname"), rs.getString("email"), 
 					    rs.getString("speciality_type"),  rs.getBoolean("in_box"));
 			rs.close();
 			System.out.println("Doctor has been got");

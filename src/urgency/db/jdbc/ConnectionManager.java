@@ -1,7 +1,6 @@
 package urgency.db.jdbc;
 
 import urgency.db.interfaces.*;
-import urgency.db.jpa.JPAUserManager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
