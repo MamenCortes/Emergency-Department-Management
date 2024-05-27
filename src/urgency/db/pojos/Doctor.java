@@ -13,8 +13,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import urgency.db.jpa.JPAUserManager;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
 @XmlType(propOrder = {"id", "name", "surname", "email", "speciality_type", "in_box", "boxes"})
@@ -80,7 +78,7 @@ public class Doctor implements Serializable{
 		this.name = name;
 		this.surname = surname;
 		this.speciality_type = speciality_type;
-		this.in_box = in_box;
+		this.in_box = false; 
 		this.boxes = new ArrayList<>();
 	}
 

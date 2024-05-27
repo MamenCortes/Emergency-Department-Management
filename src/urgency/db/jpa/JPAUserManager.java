@@ -1,9 +1,8 @@
 package urgency.db.jpa;
 
 import java.security.NoSuchAlgorithmException;
-
+import java.util.List;
 import javax.persistence.*;
-
 import urgency.db.interfaces.UserManager;
 import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
