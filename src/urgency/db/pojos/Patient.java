@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-// import urgency.xml.utils.SQLDateAdapter;
+import urgency.xml.utils.SQLDateAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {"id", "name", "surname", "weight", "height", "status", "urgency", "sex", "birthDate"})
@@ -33,7 +33,7 @@ public class Patient implements Serializable{
 	@XmlElement
 	private String sex;
 	@XmlElement
-	// @XmlJavaTypeAdapter(SQLDateAdapter.class)
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
 	private Date birthDate; 
 	@XmlTransient
 	private List<PatientBox> boxesOfPatient;

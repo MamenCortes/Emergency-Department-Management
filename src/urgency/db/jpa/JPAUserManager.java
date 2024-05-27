@@ -24,15 +24,24 @@ public class JPAUserManager implements UserManager {
 	public void close() {
 		em.close();
 	}
-	
+
 	/**
 	 * Changes the password of a given user
 	 */
 	@Override
-	public void changePassword(User u, String password) {
-		em.getTransaction().begin();
-		u.setPassword(password);
-		em.getTransaction().commit();
+	public boolean changePassword(User u, String password) {
+		try {
+			em.getTransaction().begin();
+			String passwordCodificada;
+			passwordCodificada = MD5Cypher.encrypt(password);
+			u.setPassword(passwordCodificada);
+			em.getTransaction().commit();
+			return true; 
+		} catch (NoSuchAlgorithmException e) {
+			return false; 
+			//e.printStackTrace();
+		}
+
 		
 	}
 	
@@ -128,21 +137,11 @@ public class JPAUserManager implements UserManager {
 		return u;
 	}
 	
-	public static void main(String args[]) throws NoSuchAlgorithmException {
-		
-		  JPAUserManager jum = new JPAUserManager();
-		  JPARoleManager roleMan = new JPARoleManager();
-		  Role r = roleMan.getRole("Recepcionist");
-		  Role r2 = roleMan.getRole("Doctor");
-		  User u = new User("concepciongimenez@hospital.com", "concepciong", r);
-		  //System.out.println(jum.register(u)); //si da false es proque solo deja registrar una vez
-		  //System.out.println(jum.register(new User("josefinamendez@hospital.com", "password1", r2)));
-		  System.out.println(jum.login("josefinamendez@hospital.com", "password1"));
-		  Role r3 = roleMan.getRole("Nurse");
-		  //System.out.println(jum.register(new User("manuelfernandez@hospital.com", "manu123", r3)));
-		  System.out.println(jum.login("manuelfernandez@hospital.com", "manu123"));
-		   
-		}
-
+	@Override
+	public List<User> getAllUsers() {
+		Query q = em.createNativeQuery("SELECT * FROM users", User.class);
+		List<User> users = (List<User>) q.getResultList();
+		return users;
+	}
 
 }

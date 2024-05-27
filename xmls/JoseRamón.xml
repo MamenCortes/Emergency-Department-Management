@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Doctor id="3" inBox="true">
+    <name>Jose</name>
+    <surname>Ramón</surname>
+    <email>jose.ramon@hospital.com</email>
+    <speciality>
+        <type>Family medicine</type>
+    </speciality>
+    <Boxes>
+        <box id="2" available="true">
+            <speciality>
+                <type>Family medicine</type>
+            </speciality>
+            <Patients>
+                <patients id="1" weight="47.0" height="161.0" urgency="1">
+                    <name>Paula</name>
+                    <surname>Blanco</surname>
+                    <status>discharged</status>
+                    <sex>Woman</sex>
+                    <birthDate/>
+                </patients>
+            </Patients>
+>
+        </box>
+    </Doctor>
+</Doctor>

@@ -1,13 +1,10 @@
 package urgency.db.jdbc;
 
 import urgency.db.pojos.*;
-
 import java.sql.*;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import urgency.db.interfaces.DoctorManager;
 
 public class JDBCDoctorManager implements DoctorManager {
@@ -18,6 +15,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	public JDBCDoctorManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.connection = conMan.getConnection();
+		
 	}
 	
 	@Override
@@ -219,55 +217,4 @@ public class JDBCDoctorManager implements DoctorManager {
 		}
 		return doctors;
 	}
-	
-	
-	public static void main(String[] args) {
-		ConnectionManager conMan = new ConnectionManager();
-		DoctorManager docMan = conMan.getDocMan();
-		
-		Doctor d;
-		
-		d = new Doctor(1,"Jorge", "Fernandez", "jorgefernandez@hospital.com", "Internal medicine", true);
-		
-		docMan.addDoctor(d);
-		
-		System.out.println("Doctor added");
-		
-		Doctor d2 = new Doctor(2, "Maria", "Perez", "mariaperez@hospital.com", "Pediatrics", false);
-		
-		docMan.addDoctor(d2);
-		
-        Doctor d3 = new Doctor(1,"Maria", "Blanco", "mariablanco@hospital.com", "Psychiatry", true);
-		
-		docMan.addDoctor(d3);
-		
-		conMan.getDocMan().deleteDoctor(d2.getid());
-		
-		conMan.getDocMan().changeStatus(1, false);
-		
-		Speciality s = new Speciality("Psychiatry");
-		
-		List<Doctor> doctors = conMan.getDocMan().getDoctorsBySpeciality(s.getType());
-		
-		Doctor d4 = conMan.getDocMan().getDoctor(1);
-		
-		System.out.println(d4);
-		
-		List<Doctor> doctors2 = conMan.getDocMan().searchDoctorsBySurname("Fernandez");
-		
-		System.out.println(doctors2);
-		
-		d2.setName("Juan");
-		
-		conMan.getDocMan().updateDoctor(d2);
-		
-		System.out.println(d2);
-		
-		
-		System.out.println(docMan.getDoctorsBySpeciality("Internal medicine"));
-		conMan.closeConnection();								
-	}
-	
-
-
 }

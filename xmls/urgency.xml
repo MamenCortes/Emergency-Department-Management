@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE Doctor [
-  	<!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate)>
+ <!ELEMENT Patient (id, name, surname, weight, height, status, urgency, sex, birthDate)>
 	<!ATTLIST Patient 
 	id CDATA #REQUIRED 
     weight CDATA #IMPLIED
     height CDATA #IMPLIED
     urgency CDATA #IMPLIED
 	> 
-<!ELEMENT Doctor (id, name, surname, username, email, speciality, in_box, patients, boxes)> <!-- he cambiado speciality_type por speciality para escribir menos-->
+<!ELEMENT Doctor (id, name, surname, username, email, speciality, in_box, box)> <!-- he cambiado speciality_type por speciality para escribir menos-->
 	<!ATTLIST Doctor 
 	id CDATA #REQUIRED
 	in_box CDATA > 
 	
-<!ELEMENT Box (id, available, speciality)>
+<!ELEMENT Box (id, available, speciality, patients)>
 	<!ATTLIST Box 
 	id CDATA #REQUIRED 
 	available CDATA>
@@ -28,7 +28,7 @@
 	<!ELEMENT speciality (#PCDATA)>
 	<!ELEMENT username (#PCDATA)>
 	<!ELEMENT patients (Patient+)>
-	<!ELEMENT boxes (Box+)>
+	<!ELEMENT box (Box+)>
 ]>
 
 <!--<Doctor id="1" in_box="true"> <!-- check if it converts correctly or not->

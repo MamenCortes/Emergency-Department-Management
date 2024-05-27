@@ -17,7 +17,7 @@ import urgency.db.jpa.JPAUserManager;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Doctor")
-@XmlType(propOrder = {"id", "name", "surname", "username", "email", "speciality_type", "in_box", "patients", "boxes"})
+@XmlType(propOrder = {"id", "name", "surname", "email", "speciality_type", "in_box", "boxes"})
 public class Doctor implements Serializable{
 
 
@@ -34,11 +34,8 @@ public class Doctor implements Serializable{
 	private Speciality speciality_type;
 	@XmlAttribute
 	private Boolean in_box;
-	@XmlElement 
-    @XmlElementWrapper(name = "Doctor") //the following list is going to be surrounded by an element
-	private List<Patient> patients;
-	@XmlElement
-	@XmlElementWrapper(name = "Doctor")
+	@XmlElement(name = "box")
+	@XmlElementWrapper(name = "Boxes")
 	private List<Box> boxes;
 
 	public Doctor() {
@@ -52,7 +49,6 @@ public class Doctor implements Serializable{
 		this.surname = surname; 
 		this.speciality_type=speciality_type;
 		this.in_box=in_box;
-		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
 	}
 	
@@ -64,6 +60,7 @@ public class Doctor implements Serializable{
 		this.email = email;
 		this.speciality_type = new Speciality(speciality_type);
 		this.in_box = in_box;
+		this.boxes=new ArrayList<> ();
 		
 	}
 	
@@ -74,7 +71,6 @@ public class Doctor implements Serializable{
 		this.in_box = false;
 		this.email = email; 
 		this.speciality_type = speciality_type;
-		this.patients=new ArrayList<> ();
 		this.boxes=new ArrayList<> ();
 	}
 	
@@ -85,7 +81,6 @@ public class Doctor implements Serializable{
 		this.surname = surname;
 		this.speciality_type = speciality_type;
 		this.in_box = in_box;
-		this.patients = new ArrayList<>();
 		this.boxes = new ArrayList<>();
 	}
 
@@ -96,7 +91,6 @@ public class Doctor implements Serializable{
 		this.surname = surname;
 		this.speciality_type= new Speciality(type); 
 		this.in_box = in_box;
-		this.patients = new ArrayList<>();
 		this.boxes = new ArrayList<>();
 	}
 
@@ -157,14 +151,6 @@ public class Doctor implements Serializable{
 		this.in_box = in_box;
 	}
 
-	public List<Patient> getPatients() {
-		return patients;
-	}
-
-	public void setPatients(List<Patient> patients) {
-		this.patients = patients;
-	}
-
 	public List<Box> getBoxes() {
 		return boxes;
 	}
@@ -176,7 +162,7 @@ public class Doctor implements Serializable{
 	@Override
 	public String toString() {
 		return "Doctor [ID=" + id + ", name=" + name + ", surname=" + surname +", email=" + email + ", speciality_type=" + speciality_type.getType() + ", in_box=" + in_box
-				+ ", patients=" + patients + ", boxes=" + boxes + "]";
+				+"boxes=" + boxes + "]";
 	}
 
 	public String getEmail() {

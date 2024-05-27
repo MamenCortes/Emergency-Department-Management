@@ -122,7 +122,7 @@ public class PatientForm extends FormTemplate{
 		}if(e.getSource() == applyChanges) {
 			if(form3 == null) { //nurse patient form
 				if(updatePatient()) {
-					appMain.changeToNurseView();
+					appMain.changeToPreviousNurseView();
 					resetPanel();
 				}
 				

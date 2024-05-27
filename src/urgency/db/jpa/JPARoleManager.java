@@ -1,15 +1,12 @@
 package urgency.db.jpa;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.*;
 import javax.persistence.Query;
 import urgency.db.interfaces.RoleManager;
-
 import urgency.db.pojos.Role;
-import urgency.db.pojos.Speciality;
-import urgency.db.pojos.User;
+
 
 public class JPARoleManager implements RoleManager{
 	
@@ -22,7 +19,7 @@ public class JPARoleManager implements RoleManager{
 		em.createNativeQuery("PRAGMA foreign_keys=ON").executeUpdate();
 		em.getTransaction().commit();
 		List<Role> roles = getAllRoles();
-		// TODO: IF Roles not present, add them
+		// IF Roles not present, add them
 		if(roles.isEmpty()) {
 		  addRoles();	
 		}
@@ -38,7 +35,6 @@ public class JPARoleManager implements RoleManager{
 			createRole(role3);
 			Role role4 = new Role("Doctor");
 			createRole(role4);
-		
 	}
 	
 	@Override

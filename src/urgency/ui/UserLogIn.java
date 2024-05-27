@@ -153,10 +153,16 @@ public class UserLogIn extends JPanel implements ActionListener{
             	String pass1 = password1.getText();
             	String pass2 = password2.getText(); 
                 if(pass1 != null && pass1.equals(pass2) && !pass1.isBlank()) {
-                	//TODO get User
-                	//User u = appMenu.jpaUserMan.getUser(); 
-                	appMenu.jpaUserMan.changePassword(null, pass2);
-                	dialog.dispose();
+                	if(validatePassword(pass2)) {
+                    	User u = appMenu.jpaUserMan.getUserByEmail(emailString); 
+                    	if(!appMenu.jpaUserMan.changePassword(u, pass2)) {
+                    		showErrorMessage("Password could't be changed"); 
+                    	}
+                    	dialog.dispose();
+                	}else {
+                		panel.showErrorMessage("Password must contain 1 number and minimum 8 characters"); 
+                	}
+
                 }else{
                 	panel.showErrorMessage("Passwords do not match");
                 }

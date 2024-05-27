@@ -1,12 +1,22 @@
 package urgency.db.jdbc;
 
 import urgency.db.interfaces.*;
+import urgency.db.jpa.JPARoleManager;
 import urgency.db.jpa.JPAUserManager;
+import urgency.db.pojos.Doctor;
+import urgency.db.pojos.Role;
+import urgency.db.pojos.Speciality;
+import urgency.db.pojos.User;
+import urgency.xml.utils.XmlManager;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import javax.persistence.RollbackException;
 
 
 
@@ -18,6 +28,9 @@ public class ConnectionManager {
 	private BoxManager boxManager; 
 	private TriageManager triageManager; 
 	private SpecialityManager specialityManager;
+	private XmlManager xmlMan; 
+	private JPAUserManager userMan; 
+	private JPARoleManager roleMan; 
 	
 	public Connection getConnection() {
 		return connection;
@@ -25,16 +38,24 @@ public class ConnectionManager {
 	
 	public ConnectionManager() {
 		this.createConnection();
+		createTables();
 		this.specialityManager = new JDBCSpecialityManager(this); //se tiene q crear antes sino da error
 	    this.patientMan = new JDBCPatientManager(this); 
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
 		this.triageManager = new JDBCTriageManager(this); 
-		
-		
-		createTables();
+		this.xmlMan = new XmlManager(this); 
+		userMan = new JPAUserManager(); 
+		roleMan = new JPARoleManager();
+		specialityManager.addRandomSpecialities();
+		createUsers(); 
+		patientMan.createRandomPatients();
+		triageManager.createRandomTriages();
+		boxManager.createRandomBoxes(); 
 		
 	}
+	
+	
 
 	//Creates a connection with the database
 	private void createConnection() {
@@ -61,6 +82,94 @@ public class ConnectionManager {
 			System.out.println("Error closing connection");
 			//e.printStackTrace();
 		} 
+	}
+	
+	private void createUsers() {
+		List<User> users = userMan.getAllUsers(); 
+		try {	
+			if(users.isEmpty()) {
+				Role nurseRole = roleMan.getRole("Nurse"); 
+				User u = new User("maria.gala@hospital.com", "12345678", nurseRole);
+				userMan.register(u); 
+				Role managerRole = roleMan.getRole("Manager"); 
+				User u2 = new User("mamen.cortes@hospital.com", "12345678", managerRole);
+				userMan.register(u2); 
+				Role recepRole = roleMan.getRole("Recepcionist");
+				User u3 = new User("carmen.navarro@hospital.com", "12345678", recepRole);
+				userMan.register(u3); 
+				System.out.println("Random users added");
+			}
+		}catch (RollbackException | NoSuchAlgorithmException e) {
+			System.out.println("Error adding random Doctor users");
+			//e.printStackTrace();
+		} 
+		try {	
+			String sql = "SELECT COUNT(*) FROM Doctors"; 
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql); 
+			rs.next(); 
+			int numDoctors = rs.getInt(1); 
+			rs.close();
+			if(numDoctors == 0) {
+				//Doctors 
+				Role doctorRole = roleMan.getRole("Doctor"); 
+				User u = new User("sam.bennett@hospital.com", "12345678", doctorRole); 
+				Doctor d1 = new Doctor("Sam", "Bennett", new Speciality("Family medicine"), "sam.bennett@hospital.com");
+				userMan.register(u);
+				docMan.addDoctor(d1);
+				User u2 = new User("meredith.grey@hospital.com", "12345678", doctorRole);
+				Doctor d2 = new Doctor("Meredith", "Grey", new Speciality("Internal medicine"), "meredith.grey@hospital.com");
+				userMan.register(u2); 
+				docMan.addDoctor(d2);
+				User u3 = new User("owen.hunt@hospital.com", "12345678", doctorRole);
+				Doctor d3 = new Doctor("Owen", "Hunt", new Speciality("Emergency medicine"), "owen.hunt@hospital.com");
+				userMan.register(u3); 
+				docMan.addDoctor(d3);
+				User u4 = new User("carina.deluca@hospital.com", "12345678", doctorRole);
+				Doctor d4 = new Doctor("Carina", "DeLuca", new Speciality("Obstetrics and gynecology"), "carina.deluca@hospital.com");
+				userMan.register(u4); 
+				docMan.addDoctor(d4);
+				User u5 = new User("alex.karev@hospital.com", "12345678", doctorRole);
+				Doctor d5 = new Doctor("Alex", "Karev", new Speciality("Pediatrics"), "alex.karev@hospital.com");
+				userMan.register(u5); 
+				docMan.addDoctor(d5);
+				User u6 = new User("raj.sen@hospital.com", "12345678", doctorRole);
+				Doctor d6 = new Doctor("Raj", "Sen", new Speciality("Psychiatry"), "raj.sen@hospital.com");
+				userMan.register(u6); 
+				docMan.addDoctor(d6);
+				System.out.println("Random doctors added");
+			}
+		} catch (RollbackException | NoSuchAlgorithmException |SQLException e) {
+			System.out.println("Error adding random Doctor users");
+			//e.printStackTrace();
+		} 
+
+	}
+		
+
+	
+	public JPAUserManager getUserMan() {
+		return userMan;
+	}
+
+	public void setUserMan(JPAUserManager userMan) {
+		this.userMan = userMan;
+	}
+
+	public JPARoleManager getRoleMan() {
+		return roleMan;
+	}
+
+	public void setRoleMan(JPARoleManager roleMan) {
+		this.roleMan = roleMan;
+	}
+
+	public XmlManager getXmlMan() {
+		return xmlMan;
+	}
+
+	public void setXmlMan(XmlManager xmlMan) {
+		this.xmlMan = xmlMan;
 	}
 
 	public DoctorManager getDocMan() {
@@ -185,14 +294,6 @@ public class ConnectionManager {
 				System.out.println(sqlE.getMessage());
 			}
 		}
-	}
-	
-	
-	public static void main(String[] args) {
-		ConnectionManager conMan = new ConnectionManager(); 
-		conMan.createConnection();
-		conMan.createTables();
-		conMan.closeConnection();
 	}
 	
 }

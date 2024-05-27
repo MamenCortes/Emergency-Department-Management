@@ -13,6 +13,11 @@ import urgency.xml.utils.XmlManager;
 
 
 public class Application extends JFrame{
+	
+	public static void main(String[] args) {
+		Application app = new Application(); 
+		app.setVisible(true);
+	}
 
 	private static final long serialVersionUID = 1L;
 	
@@ -44,18 +49,12 @@ public class Application extends JFrame{
 	private DoctorView doctorView; 
 
 
-
-	//TODO add button in doctor to export info to XML file 
-	//TODO add button in manager to add doctor from XML eligiendo la ruta a un archivo 
-	//TODO create methods in managers to insert random data at the begining
-
-
 	public Application() {
 		conMan = new ConnectionManager();
-		jpaUserMan = new JPAUserManager();
-		jpaRoleMan = new JPARoleManager(); 
+		jpaUserMan = conMan.getUserMan(); 
+		jpaRoleMan = conMan.getRoleMan();  
 		appPanels = new ArrayList<JPanel>(); 
-		xmlMan = new XmlManager();
+		xmlMan = conMan.getXmlMan(); 
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -260,6 +259,12 @@ public class Application extends JFrame{
 	}
 	public void changeToNurseView() {
 		nurseView.updateTriageOptions(); 
+		hideAllPanels();
+		nurseView.setVisible(true);
+		this.setContentPane(nurseView); 
+	}
+	
+	public void changeToPreviousNurseView() {
 		hideAllPanels();
 		nurseView.setVisible(true);
 		this.setContentPane(nurseView); 

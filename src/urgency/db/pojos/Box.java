@@ -9,11 +9,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {"id", "available", "speciality"})
+@XmlType(propOrder = {"id", "available", "speciality", "patients"})
 public class Box implements Serializable{
 	
 	
@@ -29,6 +30,11 @@ public class Box implements Serializable{
 	@XmlTransient
 	private List<DoctorBox> doctorBox;
 	
+	//For XML only
+	@XmlElement
+	@XmlElementWrapper(name = "Patients")
+	private List<Patient> patients; 
+	
 	public Box() {
 		super();
 	}
@@ -40,6 +46,7 @@ public class Box implements Serializable{
 		this.speciality = speciality;
 		this.setPatients(new ArrayList<PatientBox>());
 		this.setDoctors(new ArrayList<DoctorBox>());
+		this.patients = new ArrayList<Patient>(); 
 	}
 	
 
@@ -47,6 +54,9 @@ public class Box implements Serializable{
 		super();
 		this.available = available;
 		this.speciality = speciality;
+		this.patients = new ArrayList<Patient>(); 
+		this.setPatients(new ArrayList<PatientBox>());
+		this.setDoctors(new ArrayList<DoctorBox>());
 	}
 
 	@Override
@@ -67,6 +77,13 @@ public class Box implements Serializable{
 	}
 
 
+	public void setPatientList(List<Patient> patients) {
+		this.patients.addAll(patients); 
+	}
+	
+	public List<Patient> getPatientList(){
+		return patients; 
+	}
 
 	@Override
 	public String toString() {

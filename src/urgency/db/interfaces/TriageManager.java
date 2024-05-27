@@ -12,4 +12,5 @@ public interface TriageManager {
 	public void assingPatientToTriage (int patiend_id, int triage_id);
 	public Triage getTriage(int id);
 	public void changeAvailability (boolean available, int id);
+	public void createRandomTriages(); 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Doctor id="3" inBox="true">
+    <name>Emma</name>
+    <surname>Watson</surname>
+    <email>emma.watson@hospital.com</email>
+    <speciality>
+        <type>Obstetrics and gynecology</type>
+    </speciality>
+    <Boxes>
+    </Boxes>
+</Doctor>

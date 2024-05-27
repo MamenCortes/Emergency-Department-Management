@@ -16,4 +16,7 @@ public interface BoxManager {
 	public Boolean checkDoctorAssignedToBoxToday(int doctor_id, int box_id);
 	public void updateBox(Box box); 
 	public void setAvailability(Boolean available, Integer box_id); 
+	public List<Box> getDoctorBoxes(Doctor doctor); 
+	public List<Patient> getPatientsFromBox(Box box); 
+	public void createRandomBoxes(); 
 }

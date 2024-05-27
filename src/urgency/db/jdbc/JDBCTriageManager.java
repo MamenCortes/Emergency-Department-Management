@@ -1,7 +1,6 @@
 package urgency.db.jdbc;
 
 import urgency.db.pojos.*;
-
 import java.sql.*;
 import java.sql.Date;
 import java.time.Instant;
@@ -17,6 +16,28 @@ public class JDBCTriageManager implements TriageManager {
 	public JDBCTriageManager(ConnectionManager conManager) {
 		this.conManager = conManager;
 		this.connection = conManager.getConnection();
+	}
+	
+	@Override
+	public void createRandomTriages() {
+		
+		String sql = "SELECT COUNT(*) FROM Triages"; 
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql); 
+			rs.next(); 
+			int numTriages = rs.getInt(1); 
+			rs.close();
+			if(numTriages == 0) {
+				addTriage(new Triage(false));
+				addTriage(new Triage(false)); 
+				addTriage(new Triage(false)); 
+				System.out.println("Random Triages created");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
 	}
 
 	@Override
@@ -158,21 +179,6 @@ public class JDBCTriageManager implements TriageManager {
 			System.out.println("Error in the database");
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		ConnectionManager conManager = new ConnectionManager();
-		JDBCTriageManager conTriage = new JDBCTriageManager(conManager);
-		
-		//conTriage.assingPatientToTriage(1, 1);
-		//conTriage.assingPatientToTriage(2, 2);
-		//conTriage.assingPatientToTriage(3, 1);
-		conTriage.assingPatientToTriage(1,1); 
-		conTriage.assingPatientToTriage(2,1); 
-		
-		
-		conTriage.getPatientInTriage(1);
-		conManager.closeConnection();
 	}
 
 }

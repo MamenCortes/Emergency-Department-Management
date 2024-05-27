@@ -6,18 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import urgency.db.*;
 import urgency.db.interfaces.PatientManager;
 import urgency.db.pojos.Box;
-import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
 import urgency.db.pojos.PatientBox;
 
@@ -25,12 +19,11 @@ public class JDBCPatientManager implements PatientManager {
 	
 	private Connection connection;
 	private ConnectionManager conMan;
-	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	//private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCPatientManager(ConnectionManager conMan) {
 		this.conMan = conMan;
 		this.connection = conMan.getConnection();
-		createRandomPatients();
 	}
 
 	@Override
@@ -256,65 +249,6 @@ public class JDBCPatientManager implements PatientManager {
 		} 
 		
 		
-	}
-
-
-	public static void main(String[] args) {
-		ConnectionManager conMan = new ConnectionManager(); 
-		JDBCPatientManager patMan = new JDBCPatientManager(conMan); 
-		LocalDate birthDate = LocalDate.EPOCH; 
-		
-		//Patient patient = new Patient ("Marta", "Garcia", "hospitalized", 4, "Woman", birthDate);
-		//patMan.addPatient(patient);
-		//patMan.searchPatientsBySurname("Garcia");
-		//patMan.setStatus(10, "assisted");
-		//patMan.getPatient(10);
-		
-		/*Patient patient1 = new Patient("Rodrigo", "Gamarra", "waiting", 1, "Man", birthDate); 
-		System.out.println(patient1);
-		patMan.addPatient(patient1);*/
-		
-		/*Patient patient1 = patMan.getPatient(1);
-		System.out.println(patient1);*/
-		
-		/*Patient patient2 = new Patient("Paula", "Blanco", "assisted", 1, "Woman", birthDate); 
-		patMan.addPatient(patient2);
-		Patient patient3 = new Patient("Menganito", "Robledo", "emergency room", 2, "Man", birthDate); 
-		patMan.addPatient(patient3);
-		Patient patient4 = new Patient("Pepe", "de los parques", "waiting", 3, "Man", birthDate); 
-		patMan.addPatient(patient4);*/
-		
-		/*
-		Patient patient2 = new Patient("Luis", "Blanco", "waiting", 1, "Man", birthDate); 
-		patMan.addPatient(patient2);
-		
-		List<Patient> patients = patMan.searchPatientsBySurname("Blanco"); 
-		System.out.println(patients);*/
-		
-		/*Patient patient = patMan.getPatient(1);
-		List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
-		
-		Patient patient2 = patMan.getPatient(2);
-		List<PatientBox> boxesOfPatient2 = patMan.getPatientRecords(patient2); 
-		System.out.println(boxesOfPatient);
-		System.out.println(boxesOfPatient2);*/
-		
-		/*patMan.addComments(1, 2, "Second comment made");
-		patMan.addComments(2, 1, "Third comment made");
-		patMan.addComments(2, 3, "Fourth comment made");
-		Patient patient = patMan.getPatient(1);*/
-		//List<PatientBox> boxesOfPatient = patMan.getPatientRecords(patient); 
-		//System.out.println(boxesOfPatient);
-		
-		
-		/*Patient patient1 = new Patient("Paula","Blanco", "waiting", 1, "Woman", LocalDate.of(2004,11,24)); 
-		patMan.addPatient(patient1);
-		Patient patient2 = new Patient("Luis","Blanco", "waiting", 1, "Man", LocalDate.of(2007,9,15)); 
-		patMan.addPatient(patient2);*/
-		
-		Boolean exists = patMan.checkIfPatientExists("Marta", "Blanco"); 
-		System.out.println(exists);
-		conMan.closeConnection();
 	}
 
 

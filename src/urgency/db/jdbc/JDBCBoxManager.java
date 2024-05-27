@@ -9,11 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +21,6 @@ public class JDBCBoxManager implements BoxManager {
 
 	private ConnectionManager conManager;
 	private Connection connection;
-	private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public JDBCBoxManager(ConnectionManager conManager) {
 		this.conManager = conManager;
@@ -310,58 +306,81 @@ public class JDBCBoxManager implements BoxManager {
 		
 	}
 
-	public static void main (String [] args) {
-		ConnectionManager conManager = new ConnectionManager();
-		JDBCBoxManager conBox = new JDBCBoxManager(conManager);
-		
 	
-		/*Box box1 = new Box(1, true, null);
-		Box box2 = new Box(2, true, null);
-		Box box3 = new Box(3, false, null);
-		Box box4 = new Box(4, true, null);
-		Box box5 = new Box(5, false, null);
-		
-		
-		System.out.print(box1);
-		System.out.print(box2);
-		System.out.print(box3);
-		System.out.print(box4);
-		System.out.print(box5);*/
-
-		
-		//conBox.addBox(box1);
-		//conBox.addBox(box2);
-		//conBox.addBox(box3);
-		//conBox.getBox(1);
-		//conBox.getBoxes(1);
-		//conBox.deleteBox(1);
-		//conBox.assignPatientToBox(1, 1);
-		//conBox.getPatientInBox(1);
-		
-		
-		//PatientBox patientBox = conBox.getPatientInBox(1);
-		//System.out.println(patientBox);
-		/*conBox.assignPatientToBox(1, 1);
-		conBox.assignPatientToBox(1, 2);
-		conBox.assignPatientToBox(2, 1);
-		conBox.assignPatientToBox(2, 3);*/
-		//conBox.assignPatientToBox(1, 7);
-		conBox.assignPatientToBox(2, 7);
-		//System.out.println(conBox.getPatientInBox(4));
-		
-		
-		//Doctor doctor = conManager.getDocMan().getDoctor(1); 
-		//DoctorBox docBox = conBox.getLastBoxAssignedToDoctor(doctor); 
-		//System.out.println(docBox);
-		conManager.closeConnection();
-		
-		
+	@Override
+	public List<Box> getDoctorBoxes(Doctor doctor) {
+		List<Box> boxes = new ArrayList<Box>(); 
+		String sql = "SELECT * FROM BoxDoctor JOIN Boxes ON box_id = id WHERE doctor_id = ?"; 
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, doctor.getid());
+			ResultSet rs = pstmt.executeQuery(); 
+			while(rs.next()) {
+				Integer id = rs.getInt("box_id"); 
+				Boolean available = rs.getBoolean("available"); 
+				Speciality spec = new Speciality(rs.getString("speciality_type")); 
+				boxes.add(new Box(id, available, spec)); 
+			}
+			return boxes; 
+		} catch (SQLException e) {
+			System.out.println("Error retrieving boxes from doctor "+doctor.getName()+doctor.getSurname());
+			e.printStackTrace();
+		} 
+		return null; 
 		
 	}
+	
+	@Override
+	public List<Patient> getPatientsFromBox(Box box) {
+		List<Patient> patients = new ArrayList<Patient>(); 
+		String sql = "SELECT * FROM PatientBox JOIN Patients ON id = patient_id WHERE box_id = ?"; 
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(sql);
+			pstmt.setInt(1, box.getId());
+			ResultSet rs = pstmt.executeQuery(); 
+			while(rs.next()) {
+				Integer id = rs.getInt("id");
+				String namePatient = rs.getString("name");
+				String surnamePatient = rs.getString("surname");
+				Float weight = rs.getFloat("weight");
+				Float height = rs.getFloat("height");
+				String status = rs.getString("status");
+				Integer urgency = rs.getInt("urgency");
+				String sex = rs.getString("sex");
+				Date birthDate = rs.getDate("birthdate");
+				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
+				patients.add(newPatient);
+			}
+			return patients; 
+		} catch (SQLException e) {
+			System.out.println("Error retrieving patients from box "+box.getId());
+			e.printStackTrace();
+		} 
+		return null;
+	}
 
-
-
-
+	@Override
+	public void createRandomBoxes() {
+		//Specialities should be created before the boxes
+		String sql = "SELECT COUNT(*) FROM Boxes"; 
+		try {
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery(sql); 
+			rs.next(); 
+			int numBoxes = rs.getInt(1); 
+			rs.close();
+			if(numBoxes == 0) {
+				List<String> specs = conManager.getSpecialityManager().getSpecialities();
+				for (String spec : specs) {
+					addBox(new Box(false, new Speciality(spec)));
+				}
+				System.out.println("Random Boxes created");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 }

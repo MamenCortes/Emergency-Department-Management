@@ -11,5 +11,5 @@ public interface SpecialityManager {
 	public void assignBoxSpeciality(int Box_id, String Speciality_type); 
 	public List<String> getSpecialities(); 
 	public void addSpeciality(Speciality speciality); 
-	
+	public void addRandomSpecialities(); 	
 }

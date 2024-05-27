@@ -2,8 +2,6 @@ package urgency.xml.utils;
 
 import java.io.File;
 import java.util.List;
-
-import javax.persistence.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -16,19 +14,31 @@ import urgency.db.pojos.Patient;
 
 public class XmlManager {
 	
-	public XmlManager() {
+	ConnectionManager conMan; 
+	
+	public XmlManager(ConnectionManager conMan) {
 		super();
+		this.conMan = conMan; 
 	}
 
 	public Boolean Java2Xml (Doctor doctor) {
 		JAXBContext jaxbContext;
+		List<Box> boxes = conMan.getBoxManager().getDoctorBoxes(doctor);
+		doctor.setBoxes(boxes);
+		for (Box box : boxes) {
+			List<Patient> patients = conMan.getBoxManager().getPatientsFromBox(box); 
+			System.out.println("Patients: "+patients);
+			box.setPatientList(patients);
+			
+		}
+		
 		try {
 			jaxbContext = JAXBContext.newInstance(Doctor.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE); //display
 			
-			File file = new File ("./xmls/"+doctor.getName()+".xml"); //we create a file object
+			File file = new File ("./xmls/"+doctor.getName()+doctor.getSurname()+".xml"); //we create a file object
 			marshaller.marshal(doctor, file); //then we provide the doctor object and the file we want to save it in
 			marshaller.marshal(doctor, System.out);
 			return true;
@@ -47,6 +57,7 @@ public class XmlManager {
 				return null;
 			}else {
 				Doctor doctor = (Doctor) unmarshaller.unmarshal(file);
+				System.out.println("New doctor: "+doctor);
 				return doctor;
 			}
 			
@@ -55,7 +66,4 @@ public class XmlManager {
 			return null;
 		}
 	}
-	
-	public static void main(String[] args) {
-}
 }
