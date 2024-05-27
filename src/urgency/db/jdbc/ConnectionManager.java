@@ -1,6 +1,7 @@
 package urgency.db.jdbc;
 
 import urgency.db.interfaces.*;
+<<<<<<< HEAD
 import urgency.db.jpa.JPARoleManager;
 import urgency.db.jpa.JPAUserManager;
 import urgency.db.pojos.Doctor;
@@ -8,6 +9,8 @@ import urgency.db.pojos.Role;
 import urgency.db.pojos.Speciality;
 import urgency.db.pojos.User;
 import urgency.xml.utils.XmlManager;
+=======
+>>>>>>> branch 'main' of https://github.com/MamenCortes/Emergency-Department-Management
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;

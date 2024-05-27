@@ -9,7 +9,7 @@ IDs that start with a number-->
     height CDATA #IMPLIED
     urgency CDATA #IMPLIED
 	> 
-<!ELEMENT Doctor (id, name, surname, username, email, speciality, in_box, box)> <!-- he cambiado speciality_type por speciality para escribir menos-->
+<!ELEMENT Doctor (id, name, surname, email, speciality, in_box, box)> <!-- he cambiado speciality_type por speciality para escribir menos-->
 	<!ATTLIST Doctor 
 	id CDATA #REQUIRED
 	in_box CDATA > 
@@ -21,13 +21,13 @@ IDs that start with a number-->
 	
 	<!ELEMENT name (#PCDATA)>
 	<!ELEMENT surname (#PCDATA)>
-	<!ELEMENT username (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
 	<!ELEMENT status (#PCDATA)>
 	<!ELEMENT sex (#PCDATA)>
 	<!ELEMENT birthDate (#PCDATA)>
 	
 	<!ELEMENT speciality (#PCDATA)>
-	<!ELEMENT username (#PCDATA)>
+	<!ELEMENT email (#PCDATA)>
 	<!ELEMENT patients (Patient+)>
 	<!ELEMENT box (Box+)>
 ]>

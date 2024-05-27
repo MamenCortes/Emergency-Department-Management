@@ -1,12 +1,10 @@
 package urgency.db.jpa;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.persistence.*;
 
 import urgency.db.interfaces.UserManager;
-import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Role;
 import urgency.db.pojos.User;
 
@@ -58,8 +56,8 @@ public class JPAUserManager implements UserManager {
 			em.getTransaction().begin();
 
 			String password = u.getPassword();
-			String passwordCodificada = MD5Cypher.encrypt(password);
-			u.setPassword(passwordCodificada);
+			String passwordEncrypted = MD5Cypher.encrypt(password);
+			u.setPassword(passwordEncrypted);
 			em.persist(u);
 			em.getTransaction().commit();
 			return true;
@@ -99,8 +97,8 @@ public class JPAUserManager implements UserManager {
 		try {
 		Query q = em.createNativeQuery("SELECT * FROM users WHERE email = ? AND password = ?", User.class);
 		q.setParameter(1, email);
-		String passwordCodificada = MD5Cypher.encrypt(password);
-		q.setParameter(2, passwordCodificada);
+		String passwordEncrypted = MD5Cypher.encrypt(password);
+		q.setParameter(2, passwordEncrypted);
 
 		u = (User) q.getSingleResult();
 		} catch (NoResultException | NoSuchAlgorithmException e) {
