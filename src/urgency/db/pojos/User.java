@@ -23,7 +23,7 @@ public class User implements Serializable {
 	private String email; // validar xq el username tiene q ser un email corporativo del email.
 	@Column(name="password")
 	private String password;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
 	
 	public User() {

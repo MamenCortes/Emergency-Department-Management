@@ -62,8 +62,10 @@ public class JDBCDoctorManager implements DoctorManager {
 
 	@Override
 	public void deleteDoctor(int id) { //WORKS CORRECTLY
-		//Doctor d = conMan.getDocMan().getDoctor(id);
 		try {
+		Doctor d = conMan.getDocMan().getDoctor(id); 
+		User u = conMan.getUserMan().getUserByEmail(d.getEmail());
+		conMan.getUserMan().deleteUser(u);
 		String template = "DELETE FROM Doctors WHERE id = ? ";
 		PreparedStatement pstmt;
 		pstmt = connection.prepareStatement(template);
@@ -71,6 +73,7 @@ public class JDBCDoctorManager implements DoctorManager {
 		pstmt.executeUpdate();
 		System.out.println("Doctor deleted");
 		pstmt.close();
+
 	} catch (SQLException e) {
 		System.out.println("Error in deleting the doctor.");
 		e.printStackTrace();
