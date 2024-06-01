@@ -15,6 +15,8 @@ import urgency.db.jdbc.ConnectionManager;
 import urgency.db.pojos.Box;
 import urgency.db.pojos.Doctor;
 import urgency.db.pojos.Patient;
+import urgency.db.pojos.Speciality;
+import urgency.ui.Application;
 
 public class XmlManager {
 	
@@ -45,6 +47,9 @@ public class XmlManager {
 			File file = new File ("./xmls/"+doctor.getName()+doctor.getSurname()+".xml"); //we create a file object
 			marshaller.marshal(doctor, file); //then we provide the doctor object and the file we want to save it in
 			marshaller.marshal(doctor, System.out);
+			
+			simpleTransform("./xmls/"+doctor.getName()+doctor.getSurname()+".xml");
+			
 			return true;
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -82,5 +87,14 @@ public class XmlManager {
 			return false;
 		}
 	}
+	
+
+	public static void main(String[] args) {
+		ConnectionManager conMan = new ConnectionManager();
+		XmlManager xmlman = new XmlManager(conMan);
+		Doctor d5 = new Doctor(2,"Alex", "Karev", new Speciality("Pediatrics"), true, "alex.karev@hospital.com");
+		xmlman.Java2Xml(d5);
+	}
+
 
 }

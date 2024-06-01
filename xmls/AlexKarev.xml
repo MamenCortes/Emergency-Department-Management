@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Doctor id="2" inBox="true">
+    <name>Alex</name>
+    <surname>Karev</surname>
+    <speciality>
+        <type>Pediatrics</type>
+    </speciality>
+    <Boxes/>
+</Doctor>
