@@ -6,6 +6,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import urgency.db.jdbc.ConnectionManager;
 import urgency.db.pojos.Box;
@@ -66,4 +70,17 @@ public class XmlManager {
 			return null;
 		}
 	}
+	
+	public Boolean simpleTransform(String sourcePath) {
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		try {
+			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Doctor-Style.xslt")));
+			transformer.transform(new StreamSource(new File(sourcePath)),new StreamResult(new File("./xmls/Doctor.html")));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
