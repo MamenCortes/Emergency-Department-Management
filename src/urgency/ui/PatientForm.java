@@ -113,7 +113,7 @@ public class PatientForm extends FormTemplate{
 		super.actionPerformed(e);
 		if(e.getSource() == goBackButton) {
 			if(form3 == null) { //nurse patient form
-				appMain.changeToNurseView();
+				appMain.changeToPreviousNurseView();
 			}else { //doctor patient form
 				appMain.changeToDoctorView();
 			}
