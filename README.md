@@ -1,15 +1,20 @@
 # Emergency Department Management
 ## Project User Manual
 An emergency department management software developed as a group proyect for the Database University Course.
+The system will have 4 main actors: 
+- Manager
+- Recepcionist
+- Nurse
+- Doctor
 
 ## Table of Contents
 1. [How to Download and Run the Project](#how-to-download-and-run-the-project)
 2. [Initial Conditions of the Program](#initial-conditions-of-the-program)
 3. [User Interface Views](#user-interface-views)
-    - [Actor 1: Admin](#actor-1-admin)
-    - [Actor 2: Manager](#actor-2-manager)
-    - [Actor 3: Employee](#actor-3-employee)
-    - [Actor 4: Guest](#actor-4-guest)
+    - [Actor 1: Manager](#actor-1-manager)
+    - [Actor 2: Recepcionist](#actor-2-recepcionist)
+    - [Actor 3: Triage Nurse](#actor-3-triage-nurse)
+    - [Actor 4: Doctor](#actor-4-doctor)
 
 ## How to Download and Run the Project
 
@@ -39,52 +44,106 @@ Upon executing the system for the first time, the following users will be automa
 
 ## User Interface Views
 ### LogIn and Register
+##### Log In
+<img src="images/logIn.png" width="500">
 
+- Upon running the Application class, the first view will be the LogIn Panel. Here, the actors can log In into the system using their respective emails and passwords.
+- By clicking the *Register* button, the LogIn panel changes into the Create Account panel.
 
-### Actor 1: Admin
+##### Register
+<img src="images/register.png" width="500">
 
-#### Dashboard
-![Admin Dashboard](path/to/admin_dashboard_image.png)
+- Here recepcionists, nurses and managers can be registered.
+- New doctors can only be created by the manager. 
+- Only emails ending in *@hospital.com* will be able to register.
+  
+##### Change Password
+<img src="images/changePasword.png" width="500">
 
-- **Description**: The Admin Dashboard provides an overview of system metrics, user activities, and system health.
+- Passwords can be changed by clicking the *Forgot your password?* button. The user must introduce the email before. If the email introduced belongs to a user, the Change Password panel pops up.
+- The passwords must contain at least one number and a minimum of 8 characters.
+  
+### Actor 1: Manager
+##### Menu
+<img src="images/managerMenu.png" width="500">
 
-#### User Management
-![User Management](path/to/user_management_image.png)
+##### Add Doctor
+<img src="images/addDoctor.png" width="500">
 
-- **Description**: The User Management view allows the Admin to add, edit, and remove users, as well as assign roles.
+##### Search Doctor
+<div>
+    <img src="images/searchDoctor.png" style="float: left; margin-right: 10px;" width="550"/>
+    <img src="images/modifyDoctor.png" style="float: left;" width="400"/>
+</div>
 
-### Actor 2: Manager
+##### Add Speciality
+<img src="images/addSpec.png" width="500">
 
-#### Dashboard
-![Manager Dashboard](path/to/manager_dashboard_image.png)
+##### Add Room
+<img src="images/addRoom.png" width="500">
 
-- **Description**: The Manager Dashboard displays project statuses, team performance, and pending approvals.
+##### Search Room
+<div>
+    <img src="images/searchRoom.png" style="float: left; margin-right: 10px;" width="500"/>
+    <img src="images/modifyRoom.png" style="float: left;" width="500"/>
+</div>
 
-#### Team Management
-![Team Management](path/to/team_management_image.png)
+##### General View
+<img src="images/generalView.png" width="700">
 
-- **Description**: The Team Management view enables the Manager to assign tasks, monitor team progress, and set deadlines.
+### Actor 2: Recepcionist
 
-### Actor 3: Employee
+#### Menu
+<img src="images/recepView.png" width="500">
 
-#### Task List
-![Employee Task List](path/to/employee_task_list_image.png)
+- **Description**: 
 
-- **Description**: The Task List shows the employee their assigned tasks, deadlines, and progress tracking.
+#### Add Patient
+<img src="images/addPatient.png" width="500">
 
-#### Time Tracking
-![Time Tracking](path/to/time_tracking_image.png)
+- **Description**:
 
-- **Description**: The Time Tracking view allows employees to log their work hours and view their time reports.
+#### Search and Admit Patient
+<div>
+    <img src="images/searchPatient.png" style="float: left; margin-right: 10px;" width="500"/>
+    <img src="images/admitPatient.png" style="float: left;" width="500"/>
+</div>
 
-### Actor 4: Guest
+- **Description**: 
 
-#### Home Page
-![Guest Home Page](path/to/guest_home_page_image.png)
+### Actor 3: Triage Nurse
 
-- **Description**: The Home Page provides guests with general information about the project and allows them to request access or contact support.
+##### Select triage
+<img src="images/selectTriage.png" width="500">
 
-#### Contact Form
-![Contact Form](path/to/contact_form_image.png)
+- **Description**: 
 
-- **Description**: The Contact Form enables guests to send inquiries or support requests directly to the team.
+#### Nurse View
+<img src="images/nurseView.png" width="500">
+
+- **Description**: 
+
+#### Patient Form
+<div>
+    <img src="images/nursePatForm1.png" style="float: left; margin-right: 10px;" width="500"/>
+    <img src="images/nursePatForm2.png" style="float: left;" width="500"/>
+</div>
+
+- **Description**: 
+
+### Actor 4: Doctor
+
+#### Doctor View
+<img src="images/doctorView.png" width="500">
+
+- **Description**:
+
+#### Patient Form
+<div>
+    <img src="images/docPatForm1.png" style="float: left; margin-right: 10px;" width="300"/>
+    <img src="images/docPatForm2.png" style="float: left;" width="300"/>
+    <img src="images/docPatForm3.png" style="float: left;" width="300"/>
+</div>
+
+- **Description**: 
+
