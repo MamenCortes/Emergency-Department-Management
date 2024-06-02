@@ -95,7 +95,7 @@
                 </table>
               </xsl:for-each>
               
-             <xsl:for-each select="Boxes/box/Patients/patients">
+             
                 <table border="2" class="center-align">
                   <tr>
                     <th>Patient ID</th>
@@ -108,6 +108,7 @@
                     <th>Sex</th>
                     <th>BirthDate</th>
                   </tr>
+                  <xsl:for-each select="Boxes/box/Patients/patients">
                   <tr>
                     <td><xsl:value-of select="@id"/></td>
                     <td><xsl:value-of select="name"/></td>
@@ -119,8 +120,8 @@
                     <td><xsl:value-of select="sex"/></td>
                     <td><xsl:value-of select="birthDate"/></td>
                   </tr>
+                   </xsl:for-each>
                 </table>
-              </xsl:for-each>
           </div>
           </div>
         </xsl:for-each>

@@ -43,12 +43,12 @@ public class XmlManager {
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE); //display
-			
-			File file = new File ("./xmls/"+doctor.getName()+doctor.getSurname()+".xml"); //we create a file object
+			String fileName = doctor.getName()+doctor.getSurname(); 
+			File file = new File ("./xmls/"+fileName+".xml"); //we create a file object
 			marshaller.marshal(doctor, file); //then we provide the doctor object and the file we want to save it in
 			marshaller.marshal(doctor, System.out);
 			
-			simpleTransform("./xmls/"+doctor.getName()+doctor.getSurname()+".xml");
+			simpleTransform("./xmls/"+fileName+".xml", fileName);
 			
 			return true;
 		} catch (JAXBException e) {
@@ -76,11 +76,11 @@ public class XmlManager {
 		}
 	}
 	
-	public Boolean simpleTransform(String sourcePath) {
+	public Boolean simpleTransform(String sourcePath, String fileName) {
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		try {
 			Transformer transformer = tFactory.newTransformer(new StreamSource(new File("./xmls/Doctor-Style.xslt")));
-			transformer.transform(new StreamSource(new File(sourcePath)),new StreamResult(new File("./xmls/Doctor.html")));
+			transformer.transform(new StreamSource(new File(sourcePath)),new StreamResult(new File("./xmls/"+fileName+".html")));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

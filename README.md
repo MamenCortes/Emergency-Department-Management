@@ -77,6 +77,8 @@ Upon executing the system for the first time, the following users will be automa
 - The doctor's user and password must be decided by the manager and given to the doctor. They will later be able to change their password.
 - When importing the data from an xml file, first the information will be shown in the text fields. Then, the manager will have to check the data and decide the user's password. To create the doctor and their user, click *Apply*. 
 
+*NOTE: The file "/xmls/EmmaWatson.xml" can be used as an example to try the latest functionality*
+
 ##### Search Doctor
 <div>
     <img src="images/searchDoctor.png" style="float: left; margin-right: 10px;" width="550"/>
@@ -180,7 +182,7 @@ Upon executing the system for the first time, the following users will be automa
 - The doctor will also be able to see a preview of the previous times the patient has been in the hospital's emergency department.
 - Click the *Open Form* button to see the entire patient's information.
 - Click the *Next patient* button to discharge the current patient and be assigned a new one.
-- Click the *Into XML* button to generate an **XML** file containing the doctor's information. The file will be saved at the path *"/xmls/NameSurname.xml"* using the doctor's name and surname. Additionally, an **HTML** file will be generated at the path *"/xmls/Doctor.html"*.
+- Click the *Into XML* button to generate an **XML** file containing the doctor's information. The file will be saved at the path *"/xmls/NameSurname.xml"* using the doctor's name and surname. Additionally, an **HTML** file will be generated at the path *"/xmls/NameSurname.html"*.
 
 #### Patient Form
 <div>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Doctor id="1" inBox="true">
+    <name>Sam</name>
+    <surname>Bennett</surname>
+    <email>sam.bennett@hospital.com</email>
+    <speciality>
+        <type>Family medicine</type>
+    </speciality>
+    <Boxes>
+        <box id="2" available="true">
+            <speciality>
+                <type>Family medicine</type>
+            </speciality>
+            <Patients>
+                <patients id="1" weight="0.0" height="0.0" urgency="1">
+                    <name>Paula</name>
+                    <surname>Blanco</surname>
+                    <status>discharged</status>
+                    <sex>Woman</sex>
+                    <birthDate>2004-11-24</birthDate>
+                </patients>
+                <patients id="2" weight="0.0" height="0.0" urgency="1">
+                    <name>Luis</name>
+                    <surname>Blanco</surname>
+                    <status>discharged</status>
+                    <sex>Man</sex>
+                    <birthDate>2007-09-15</birthDate>
+                </patients>
+                <patients id="3" weight="0.0" height="0.0" urgency="1">
+                    <name>María</name>
+                    <surname>De Los Montes</surname>
+                    <status>discharged</status>
+                    <sex>Woman</sex>
+                    <birthDate>2000-01-11</birthDate>
+                </patients>
+                <patients id="4" weight="0.0" height="0.0" urgency="1">
+                    <name>Pepe</name>
+                    <surname>Federico</surname>
+                    <status>discharged</status>
+                    <sex>Man</sex>
+                    <birthDate>1990-04-10</birthDate>
+                </patients>
+            </Patients>
+        </box>
+    </Boxes>
+</Doctor>
