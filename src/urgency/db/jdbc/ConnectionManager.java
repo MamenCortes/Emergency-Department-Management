@@ -38,7 +38,7 @@ public class ConnectionManager {
 	public ConnectionManager() {
 		this.createConnection();
 		createTables();
-		this.specialityManager = new JDBCSpecialityManager(this); //se tiene q crear antes sino da error
+		this.specialityManager = new JDBCSpecialityManager(this); 
 	    this.patientMan = new JDBCPatientManager(this); 
 		this.boxManager = new JDBCBoxManager(this); 
 		this.docMan = new JDBCDoctorManager(this);
@@ -140,7 +140,6 @@ public class ConnectionManager {
 			}
 		} catch (RollbackException | NoSuchAlgorithmException |SQLException e) {
 			System.out.println("Error adding random Doctor users");
-			//e.printStackTrace();
 		} 
 
 	}
