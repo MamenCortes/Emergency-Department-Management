@@ -95,6 +95,4 @@ public class XmlManager {
 		Doctor d5 = new Doctor(2,"Alex", "Karev", new Speciality("Pediatrics"), true, "alex.karev@hospital.com");
 		xmlman.Java2Xml(d5);
 	}
-
-
 }

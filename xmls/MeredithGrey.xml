@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Doctor id="2" inBox="true">
+<Doctor id="2" inBox="false">
     <name>Meredith</name>
     <surname>Grey</surname>
     <email>meredith.grey@hospital.com</email>
     <speciality>
         <type>Internal medicine</type>
     </speciality>
-    <Boxes>
-        <box id="1" available="true">
-            <speciality>
-                <type>Internal medicine</type>
-            </speciality>
-            <Patients/>
-        </box>
-    </Boxes>
+    <Boxes/>
 </Doctor>
