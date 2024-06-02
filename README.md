@@ -179,7 +179,8 @@ Upon executing the system for the first time, the following users will be automa
 - As well as the nurse, the doctor will be able to see a preview of the patient assigned to their box.
 - The doctor will also be able to see a preview of the previous times the patient has been in the hospital's emergency department.
 - Click the *Open Form* button to see the entire patient's information.
-- Click the *Next patient* button to discharge the current patient and be assigned a new one. 
+- Click the *Next patient* button to discharge the current patient and be assigned a new one.
+- Click the *Into XML* button to generate an **XML** file containing the doctor's information. The file will be saved at the path *"/xmls/NameSurname.xml"* using the doctor's name and surname. Additionally, an **HTML** file will be generated at the path *"/xmls/Doctor.html"*.
 
 #### Patient Form
 <div>
