@@ -61,7 +61,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void deleteDoctor(int id) { //WORKS CORRECTLY
+	public void deleteDoctor(int id) { 
 		try {
 		Doctor d = conMan.getDocMan().getDoctor(id); 
 		User u = conMan.getUserMan().getUserByEmail(d.getEmail());
@@ -82,8 +82,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void changeStatus(int id, boolean in_box) { //WORKS CORRECTLY
-		//Doctor d = conMan.getDocMan().getDoctor(id);
+	public void changeStatus(int id, boolean in_box) { 
 		try{
 		String template = "UPDATE Doctors SET in_box = ? WHERE id = ?";
 		PreparedStatement pstmt;
@@ -102,7 +101,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	
 
 	@Override
-	public void addDoctor(Doctor doctor) { //WORKS CORRECTLY
+	public void addDoctor(Doctor doctor) { 
 		try {
 			String template = "INSERT INTO Doctors (name, surname, email, speciality_type, in_box) VALUES "
 					+ "(?,?,?,?,?)";
@@ -124,7 +123,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> searchDoctorsBySurname(String surname) { //WORKS CORRECTLY
+	public List<Doctor> searchDoctorsBySurname(String surname) { 
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		try {
 			String sql = "SELECT * FROM Doctors WHERE surname LIKE ?";
@@ -152,7 +151,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public Doctor getDoctor(int id) { //WORKS CORRECTLY
+	public Doctor getDoctor(int id) { 
 		try {
 			String sql = "SELECT * FROM Doctors WHERE id = " + id; 
 			Statement st;
@@ -172,7 +171,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public void updateDoctor(Doctor doctor) { //WORKS CORRECTLY
+	public void updateDoctor(Doctor doctor) { 
 		try {
 			String sql = "UPDATE Doctors SET name=?, surname=?, email=?, speciality_type=?, in_box=? WHERE id = ?";
 			PreparedStatement pstmt;
@@ -194,7 +193,7 @@ public class JDBCDoctorManager implements DoctorManager {
 	}
 
 	@Override
-	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ //WORKS CORRECTLY
+	public List<Doctor> getDoctorsBySpeciality(String speciality_type){ 
 		List<Doctor> doctors = new ArrayList<Doctor> ();
 		try {
 			String sql = "SELECT * FROM Doctors WHERE speciality_type LIKE ?";

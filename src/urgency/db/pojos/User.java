@@ -20,7 +20,7 @@ public class User implements Serializable {
 		pkColumnName = "name", valueColumnName = "seq", pkColumnValue = "users")
 	private Integer id;
 	@Column(nullable = false, unique = true, name = "email")
-	private String email; // validar xq el username tiene q ser un email corporativo del email.
+	private String email; 
 	@Column(name="password")
 	private String password;
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -46,23 +46,6 @@ public class User implements Serializable {
 		return email.endsWith("@hospital.com");
 		
 	}
-
-    /*	
-	private void validatePassword(String password) throws IllegalArgumentException {
-		boolean passwordVacia = (Objects.isNull(password)) || password.isEmpty();
-		boolean goodPassword=false;
-		if(passwordVacia || password.length() < 8) {
-			for(int i=0; i<8; i++) {
-			if(Character.isDigit(password.charAt(i))) {
-			goodPassword = true;
-			}if(i == 8 && !goodPassword) {
-				throw new IllegalArgumentException("The password must have at least one number as well as characters with a lenght of 8 characters.");
-			}
-		 throw new IllegalArgumentException("Password is empty");
-		 }
-	   }
-	 }
-	 */
 
 	public Integer getId() {
 		return id;
