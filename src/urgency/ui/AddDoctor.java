@@ -158,7 +158,7 @@ public class AddDoctor extends FormTemplate {
         panel.setBackground(Color.white);
         panel.setPreferredSize(new Dimension(400, 300));
 
-        // Crear el JDialog para contener el panel personalizado
+        
         JDialog dialog = new JDialog(parentFrame, "Change Password", true);
         dialog.getContentPane().add(panel);
         dialog.getContentPane().setBackground(Color.white);
@@ -166,7 +166,7 @@ public class AddDoctor extends FormTemplate {
         dialog.setLocationRelativeTo(parentFrame);
         //dialog.setSize(400, 200);
 
-        // Añadir acción a los botones
+        
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,7 +255,7 @@ public class AddDoctor extends FormTemplate {
         		return true; 
         	}
     	}
-    	//System.out.println("Valid email? "+validEmail);
+    	
     	showErrorMessage("Invalid Email");
     	return false; 
     }

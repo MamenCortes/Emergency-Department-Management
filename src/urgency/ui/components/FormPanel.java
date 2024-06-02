@@ -23,8 +23,8 @@ public class FormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final Font titleFont = new Font("sansserif", 3, 15);
 	private final Font contentFont = new Font("sansserif", 1, 12);
-	private final Color contentColor = new Color(24, 116, 67); //Verde oscuro
-	private final Color titleColor = new Color(7, 164, 121); //Más azulado
+	private final Color contentColor = new Color(24, 116, 67); 
+	private final Color titleColor = new Color(7, 164, 121); 
     private Color textFieldBg = new Color(230, 245, 241); 
 	
 	private MyTextField name; 

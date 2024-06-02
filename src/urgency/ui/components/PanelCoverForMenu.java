@@ -28,7 +28,6 @@ public class PanelCoverForMenu extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        //Pintar un degradado verde
         GradientPaint gra = new GradientPaint(0, 0, new Color(35, 166, 97), 0, getHeight(), new Color(22, 116, 66));
         g2.setPaint(gra);
         g2.fillRect(0, 0, getWidth(), getHeight());

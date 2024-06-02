@@ -45,7 +45,7 @@ public class PanelMenu extends JPanel {
 	private void setLayout() {
 		
 		
-		if(numButtons%3 == 0) { //numero de botones múltiplo de 3
+		if(numButtons%3 == 0) { 
 			for(int i = 0; i<numButtons/3; i++) {
 				stringRows = stringRows+"[]"; 
 				numRows++; 
@@ -53,22 +53,22 @@ public class PanelMenu extends JPanel {
 			stringColumns = stringColumns + "[][]";
 			numColumns = numColumns +2; 
 			
-		}else if(numButtons%3 == 1) { //número de botones múltiplo de 3+1
+		}else if(numButtons%3 == 1) { 
 			for(int i = 0; i<1+numButtons/3; i++) {
 				stringRows = stringRows+"[]"; 
 				numRows++; 
 			}
-			if(numButtons/3 != 0) { //si el número de botones es mayor que 3
+			if(numButtons/3 != 0) { 
 				stringColumns = stringColumns + "[][]";
 				numColumns = numColumns + 2; 
 			}
-		} else { //número de botones múltiplo de 3+2
+		} else { 
 			for(int i = 0; i<numButtons/3; i++) {
 				stringRows = stringRows+"[]"; 
 				numRows++; 
 			}
 
-			if(numButtons/3 != 0) { //Si el número de botones es mayor que 3
+			if(numButtons/3 != 0) { 
 				stringColumns = stringColumns + "[][]";
 				numColumns = numColumns + 2; 
 				stringRows = stringRows+"[]"; 
@@ -86,11 +86,11 @@ public class PanelMenu extends JPanel {
 	
 	private void initComponents() {
 		
-		//Botones múltiplo de 3
+		
 		int buttonOut = 0; 
-		if(numButtons%3 == 0) { //numero de botones múltiplo de 3
+		if(numButtons%3 == 0) { 
 			for(int i = 0; i<numRows-2; i++) {
-				for(int j = 0; j<3; j++) { //Añadir 3 botones en cada fila
+				for(int j = 0; j<3; j++) { 
 					this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 					buttonOut++; 
 					//System.out.println(buttons.get(0).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
@@ -99,12 +99,12 @@ public class PanelMenu extends JPanel {
 		}else if(numButtons%3 == 1) {
 			for(int i = 0; i<numRows-2; i++) { 
 				int j = 0; 
-				if(buttons.get(buttonOut) == buttons.get(numButtons-1)){ //Colocar el último botón centrado
+				if(buttons.get(buttonOut) == buttons.get(numButtons-1)){ 
 					this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", span "+(numColumns-2)+", split 3, center, grow");
 					buttonOut++; 
 				}else if(buttonOut < numButtons-1) {
 					for(j = 0; j<3; j++) {
-					 //Añadir 3 botones en cada fila
+					 
 						this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 						buttonOut++; 
 						//System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));
@@ -112,10 +112,10 @@ public class PanelMenu extends JPanel {
 				}
 		}
 			
-		}else {//número de botones múltiplo de 3+2
+		}else {
 			for(int i = 0; i<numRows-2; i++) { 
 				int j = 0; 
-				if(buttons.get(buttonOut) == buttons.get(numButtons-2)){ //Colocar el último botón centrado
+				if(buttons.get(buttonOut) == buttons.get(numButtons-2)){ 
 					this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", span "+(numColumns-2)+", split 3, center, grow");
 					buttonOut++; 
 					
@@ -123,7 +123,6 @@ public class PanelMenu extends JPanel {
 					buttonOut++;
 				}else if(buttonOut < numButtons-3) {
 					for(j = 0; j<3; j++) {
-					 //Añadir 3 botones en cada fila
 						this.add(buttons.get(buttonOut), "cell "+(j+1)+" "+(i+1)+", grow");
 						buttonOut++; 
 						//System.out.println(buttons.get(buttonOut).getName()+" in Column: "+(j+1)+" in Row: "+(i+1));

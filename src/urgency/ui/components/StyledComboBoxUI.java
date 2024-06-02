@@ -69,18 +69,16 @@ public class StyledComboBoxUI extends BasicComboBoxUI{
 
     }
 
-
-    //El desplegable con opciones
     @Override
     protected ComboPopup createPopup() {
         BasicComboPopup pop = new BasicComboPopup(comboBox) {
             @Override
             protected JScrollPane createScroller() {
                 list.setFixedCellHeight(30);
-                //La zona para deslizar
+                
                 JScrollPane scroll = new JScrollPane(list);
                 //scroll.setBackground(Color.WHITE);
-                //La barra para deslizar
+                
                 JScrollBar sb = new JScrollBar();
                 sb.setUnitIncrement(30);
                 sb.setForeground(new Color(180, 180, 180));
@@ -92,7 +90,7 @@ public class StyledComboBoxUI extends BasicComboBoxUI{
         return pop;
     }
 
-    //La línea de sombra bajo el comboBox
+    
     @Override
     public void paint(Graphics grphcs, JComponent jc) {
         super.paint(grphcs, jc);

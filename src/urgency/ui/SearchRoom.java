@@ -104,14 +104,13 @@ public class SearchRoom extends SearchTemplate {
 				
 				//Check if the person wants to filter the data
 				String idText = searchByTextField.getText(); 
-				if(!idText.equals("")) {//Si se ha introducido un filtro
+				if(!idText.equals("")) {
 					List<Triage> triages = new ArrayList<Triage>(); 
 					Triage triage = appMain.conMan.getTriageManager().getTriage(Integer.parseInt(idText));
-					if(triage == null) {//no existe ningún triage con ese id
+					if(triage == null) {
 						triageDefListModel.removeAllElements();
 						showErrorMessage("No Triages with such Id");
 					}else {
-						//Renderiza de nuevo la vista
 						triages.add(triage);
 						showTriages(triages);
 					}

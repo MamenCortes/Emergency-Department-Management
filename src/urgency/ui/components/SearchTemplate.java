@@ -140,10 +140,8 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         patientList.addMouseListener(this);
         scrollPane1.setViewportView(patientList);
 
-        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
         scrollPane1.setPreferredSize(this.getPreferredSize());
 
-        //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
     }
     
@@ -156,33 +154,7 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
     		}
         }
     }
-    
-    /*
-    protected void showDoctors(List<Doctor> doctors) {
-        JScrollPane scrollPane1 = new JScrollPane();
-        scrollPane1.setOpaque(false);
-        scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        
-        doctorDefListModel = new DefaultListModel<>(); 
-        if(doctors != null) {
-            for (Doctor doctor : doctors) { 
-                doctorDefListModel.addElement(doctor);
-                
-    		}
-        }
-        
-        doctorList = new JList<Doctor>(doctorDefListModel);
-        doctorList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        doctorList.setCellRenderer(new DoctorCell());
-        doctorList.addMouseListener(this);
-        scrollPane1.setViewportView(doctorList);
-
-        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
-        //scrollPane1.setPreferredSize(this.getPreferredSize());
-
-        //Mostrar el panel en una ventana emergente
-        add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
-    }*/
+  
     
     protected void showDoctors(List<DoctorBox> doctors) {
         JScrollPane scrollPane1 = new JScrollPane();
@@ -203,10 +175,6 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         doctorList.addMouseListener(this);
         scrollPane1.setViewportView(doctorList);
 
-        //Ajustar el ScrollView para que no se amplíe al añadir muchos elementos
-        //scrollPane1.setPreferredSize(this.getPreferredSize());
-
-        //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 2 1 2 6, grow, gap 10");
     }
     
@@ -226,7 +194,6 @@ public class SearchTemplate extends JPanel implements ActionListener, MouseListe
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane1.setPreferredSize(this.getPreferredSize());
 
-        //Mostrar el panel en una ventana emergente
         add(scrollPane1,  "cell 2 1 2 8, grow, gap 10");
     }
     

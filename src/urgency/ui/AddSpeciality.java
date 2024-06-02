@@ -48,8 +48,6 @@ public class AddSpeciality extends FormTemplate {
 			else {
 				showErrorMessage("Insert a Speciality Type");
 			}
-			
-			//showErrorMessage(errorMessage); 
 		}
 	}
 	

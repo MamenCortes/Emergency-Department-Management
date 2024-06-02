@@ -58,7 +58,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void setStatus(int id, String status) { //FUNCIONA
+	public void setStatus(int id, String status) { 
 		try {
 			String sql = "UPDATE Patients SET status = ? WHERE id = ?";
 			PreparedStatement pstmt;
@@ -75,7 +75,7 @@ public class JDBCPatientManager implements PatientManager {
 
 	
 	@Override
-	public void addComments(int Patient_id, int Box_id, String comments) { //FUNCIONA
+	public void addComments(int Patient_id, int Box_id, String comments) { 
 		try {
 			String template = "UPDATE PatientBox SET comments = ? WHERE patient_id = ? AND box_id = ?"; 
 			PreparedStatement pstmt = connection.prepareStatement(template);
@@ -95,7 +95,7 @@ public class JDBCPatientManager implements PatientManager {
 	
 
 	@Override
-	public List<PatientBox> getPatientRecords(Patient patient) { //FUNCIONA
+	public List<PatientBox> getPatientRecords(Patient patient) { 
 		List<PatientBox> boxesOfPatient = new ArrayList<PatientBox>();
 		try {
 			String template = "SELECT box_id, date, comments FROM PatientBox WHERE patient_id = ? ORDER BY date DESC";
@@ -108,8 +108,6 @@ public class JDBCPatientManager implements PatientManager {
 				Box box = conMan.getBoxManager().getBox(box_id); 
 				String comments = rs.getString("comments"); 
 				Timestamp date = rs.getTimestamp("date"); 
-				/*java.util.Date sdfDate1 = dateTimeFormat.parse(rs.getString("date"));
-				Timestamp date = new Timestamp(sdfDate1.getTime());*/
 				PatientBox patientBox = new PatientBox(patient, box, date, comments);
 				boxesOfPatient.add(patientBox);
 			}
@@ -125,7 +123,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void addPatient(Patient patient) { //FUNCIONA
+	public void addPatient(Patient patient) { 
 		try {
 			String template = "INSERT INTO Patients (name, surname, weight, height, status, urgency, sex, birthdate) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt;
@@ -147,7 +145,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public List<Patient> searchPatientsBySurname(String surname) { //FUNCIONA
+	public List<Patient> searchPatientsBySurname(String surname) { 
 		List<Patient> patients = new ArrayList<Patient>();
 		try {
 			String sql = "SELECT * FROM Patients WHERE surname LIKE ?";
@@ -164,7 +162,6 @@ public class JDBCPatientManager implements PatientManager {
 				Integer urgency = rs.getInt("urgency");
 				String sex = rs.getString("sex");
 				Date birthDate = rs.getDate("birthdate");
-				//Patient p = conMan.getPatientMan().getPatient(id);
 				Patient newPatient = new Patient(id, namePatient, surnamePatient, weight, height, status, urgency, sex, birthDate);
 				patients.add(newPatient);
 			}
@@ -179,7 +176,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public Patient getPatient(int id) { //FUNCIONA
+	public Patient getPatient(int id) { 
 		try {
 			String sql = "SELECT * FROM Patients WHERE id = " + id;
 			Statement st;
@@ -199,7 +196,7 @@ public class JDBCPatientManager implements PatientManager {
 	}
 
 	@Override
-	public void updatePatient(Patient patient) { //Funciona
+	public void updatePatient(Patient patient) {
 		try {
 			String template = "UPDATE Patients SET name = ?, surname = ?, weight = ?, height = ?, status = ?, "
 					+ "urgency = ?, sex = ?, birthdate = ? "

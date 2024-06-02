@@ -20,7 +20,6 @@
                     <birthDate/>
                 </patients>
             </Patients>
->
         </box>
-    </Doctor>
+     </Boxes>
 </Doctor>

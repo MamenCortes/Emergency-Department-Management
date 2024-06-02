@@ -57,8 +57,7 @@ public class DoctorView extends SearchTemplate {
 		
 		this.doctor = doctor; 
 		DoctorBox boxDoctor = appMain.conMan.getBoxManager().getLastBoxAssignedToDoctor(doctor); 
-		System.out.println(boxDoctor);
-		//box = appMain.conMan.getBoxManager().getBox(2); 
+		System.out.println(boxDoctor); 
 		box = boxDoctor.getBox(); 
 		
         errorMessage = new JLabel(); 
@@ -71,7 +70,6 @@ public class DoctorView extends SearchTemplate {
 		mainPanel = new JPanel(); 
 		mainPanel.setLayout(new MigLayout("fill, wrap 3", "[10%][80%][10%]", "[][][][][][]"));
 		add(mainPanel, "cell 0 1 0 11, grow");
-		//cover.setTitle("Doctor "+doctor.getName()+" "+doctor.getSurname()+": BOX "+box.getId());
 		cover.setTitle("Doctor "+doctor.getName()+" "+doctor.getSurname());
 		
 		title = new JLabel("PATIENT PREVIEW");

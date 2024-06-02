@@ -61,7 +61,6 @@ public class GeneralView extends SearchTemplate{
         scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane1.setPreferredSize(this.getPreferredSize());
         scrollPane1.addMouseListener(this);
-        //System.out.println(appMain.conMan.getBoxManager().getBoxes());
         showBoxes(appMain.conMan.getBoxManager().getBoxes());
         
 		JLabel explanationText = new JLabel("Select A Box"); 

@@ -104,10 +104,6 @@ public class NurseView extends SearchTemplate{
 			patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
 		}
 		
-		//System.out.println("Triage :"+triage.getId());
-		//patient = appMain.conMan.getPatientMan().getPatient(1);
-		//System.out.println("Patient in triage "+triage.getId()+": "+patient);
-		
 		
 		cover.setTitle("TRIAGE "+triage.getId()); 
 		
@@ -239,7 +235,7 @@ public class NurseView extends SearchTemplate{
 				pLife.assignNewPatient2Triage(triage);
 				patient = appMain.conMan.getTriageManager().getPatientInTriage(triage.getId());
 			}
-			//System.out.println("Patient in triage "+triage.getId()+": "+patient);
+			
 			
 			if(patient != null) {
 				List<Patient> patientInTriage = new ArrayList<Patient>(); 

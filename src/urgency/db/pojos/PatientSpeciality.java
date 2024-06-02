@@ -6,6 +6,10 @@ import java.util.Objects;
 
 public class PatientSpeciality implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id_patient;
 	private Speciality id_speciality;
 	private Date date;

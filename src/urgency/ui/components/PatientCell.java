@@ -18,7 +18,7 @@ public class PatientCell implements ListCellRenderer<Patient>{
 	private final Color titleColor = new Color(7, 164, 121); //Bluish
 	private final Font titleFont = new Font("sansserif", 3, 12);
 	private final Font contentFont = new Font("sansserif", 1, 12);
-	private final Color contentColor = new Color(122, 140, 141); //Gris
+	private final Color contentColor = new Color(122, 140, 141); 
     private Color backgroundColor = new Color(230, 245, 241); 
     private final Color darkGreen = new Color(24, 116, 67);
 

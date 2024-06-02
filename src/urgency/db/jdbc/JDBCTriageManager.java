@@ -41,12 +41,12 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public void deleteTriage(int id) { // FUNCIONA
+	public void deleteTriage(int id) { 
 		try {
 			String template = "DELETE FROM Triages WHERE id = ?";
 			PreparedStatement pstmt;
 			pstmt = connection.prepareStatement(template);
-			pstmt.setInt(1, id); // creates in java what we want to delete in sql
+			pstmt.setInt(1, id); 
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
@@ -56,7 +56,7 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public void addTriage(Triage triage) { // FUNCIONA
+	public void addTriage(Triage triage) { 
 		try {
 			String template = "INSERT INTO Triages (available) VALUES (?)";
 			PreparedStatement pstmt;
@@ -71,12 +71,12 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public List<Triage> getTriages() { // FUNCIONA
+	public List<Triage> getTriages() { 
 		List<Triage> triages = new ArrayList<Triage>();
 		try {
 			String sql = "SELECT * FROM Triages";
 			Statement st;
-			st = connection.createStatement(); // se puede hacer con prepared statement
+			st = connection.createStatement(); 
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
 				Triage t = new Triage(rs.getInt("id"), rs.getBoolean("available"));
@@ -93,7 +93,7 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public void assingPatientToTriage(int patient_id, int triage_id) { // FUNCIONA
+	public void assingPatientToTriage(int patient_id, int triage_id) { 
 		try {
 			String sql = "INSERT INTO PatientTriage (patient_id, triage_id, date) VALUES (?,?,?)";
 			PreparedStatement pstmt;
@@ -110,7 +110,7 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public Patient getPatientInTriage(int triage_id) { // FUNCIONA
+	public Patient getPatientInTriage(int triage_id) { 
 		Patient patient = null;
 		try {
 			String sql = "SELECT * "
@@ -141,13 +141,12 @@ public class JDBCTriageManager implements TriageManager {
 			return patient;
 		} catch (SQLException e) {
 			System.out.println("No patient assigned to triage");
-			//e.printStackTrace();
 			return null; 
 		}
 	}
 
 	@Override
-	public Triage getTriage(int id) { // FUNCIONA
+	public Triage getTriage(int id) { 
 		try {
 			String sql = "SELECT * FROM Triages WHERE id =" + id;
 			Statement st;
@@ -166,7 +165,7 @@ public class JDBCTriageManager implements TriageManager {
 	}
 
 	@Override
-	public void changeAvailability(boolean available, int id) { // FUNCIONA
+	public void changeAvailability(boolean available, int id) { 
 		try {
 			String sql = "UPDATE Triages SET available = ? WHERE id = ?";
 			PreparedStatement pstmt;

@@ -67,7 +67,6 @@ public class ModifyDoctor extends FormTemplate {
 			name.setText("Jane");
 			surname.setText("Doe");
 			speciality.setSelectedItem("None");
-			//boxes.setSelectedItem(null);
 			boxes.getModel().setSelectedItem("None");
 			boxes.setEnabled(false);
 		}

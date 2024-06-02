@@ -7,6 +7,10 @@ import java.util.Objects;
 
 public class PatientTriage implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Patient patient;
 	private Triage triage;
 	private Timestamp time;

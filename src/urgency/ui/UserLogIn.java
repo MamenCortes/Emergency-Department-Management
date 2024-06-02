@@ -78,7 +78,6 @@ public class UserLogIn extends JPanel implements ActionListener{
 		panelCoverLogIn = new PanelCoverLogIn(changePanels); 
 		panelLogIn = new PanelLoginAndRegister(applyLogIn, applyRegister, changePassword,
 				emailTxF, passwordTxF, roleCB, emailTxFLogIn, passwordTxFLogIn); 
-		//Dimensiones del panel.
 		
 		this.add(panelCoverLogIn, "grow"); 
 		this.add(panelLogIn, "grow"); 
@@ -138,7 +137,6 @@ public class UserLogIn extends JPanel implements ActionListener{
         panel.setBackground(Color.white);
         panel.setPreferredSize(new Dimension(400, 300));
 
-        // Crear el JDialog para contener el panel personalizado
         JDialog dialog = new JDialog(parentFrame, "Change Password", true);
         dialog.getContentPane().add(panel);
         dialog.getContentPane().setBackground(Color.white);
@@ -146,7 +144,6 @@ public class UserLogIn extends JPanel implements ActionListener{
         dialog.setLocationRelativeTo(parentFrame);
         //dialog.setSize(400, 200);
 
-        // Añadir acción a los botones
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

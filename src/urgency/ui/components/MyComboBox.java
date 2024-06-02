@@ -51,7 +51,6 @@ public class MyComboBox<E> extends JComboBox<E> {
                 Component com = super.getListCellRendererComponent(jlist, o, i, bln, bln1);
                 setBorder(new EmptyBorder(5, 5, 5, 5));
                 if (bln) {
-                	//color de selección de las celdas
                 	com.setBackground(new Color(240, 240, 240));
                 	com.setBackground(backgroundColor.darker());
                 	

@@ -37,7 +37,6 @@ public class PatientLifeCycle {
 			}
 		} catch (SQLException e) {
 			System.out.println("Unable to assign a new patient to Triage");
-			//e.printStackTrace();
 		} 
 	}
 	
@@ -48,7 +47,7 @@ public class PatientLifeCycle {
 		String select = "SELECT p.id, p.name, p.surname, speciality_type"
 				+ "	FROM Patients AS p "
 				+ "	LEFT JOIN PatientSpeciality AS ps ON ps.patient_id = p.id"
-				+ "	WHERE status = 'waitingInLine' AND speciality_type = ?" // AND pt.date = ps.date AND speciality_type = ?
+				+ "	WHERE status = 'waitingInLine' AND speciality_type = ?"
 				+ "	ORDER BY p.urgency DESC";
 		
 		try {
@@ -72,7 +71,6 @@ public class PatientLifeCycle {
 			
 		} catch (SQLException e) {
 			System.out.println("No patient assigned to box");
-			//e.printStackTrace();
 		} 
 		
 	}
